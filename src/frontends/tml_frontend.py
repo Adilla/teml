@@ -168,7 +168,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
     #     R_ARRAYS.append(array)
         
 
-
     if asstype == "transpose":
         parent = params[0].dumps()
         ranks = params[1].find("list").value
@@ -220,8 +219,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
         R_ARRAYS.append(tensor)
 
-
-
+        
     if asstype == "outerproduct":
         ts = params[0].find("list").value
 
@@ -257,71 +255,72 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         R_ARRAYS.append(tensor)
 
 
-        
-        
-    if asstype == "vtranspose":
-        parentname = params[0].dumps()
-        rank1 = params[1].dumps()
-        rank2 = params[2].dumps()
-        parent = None
-        for par in R_ARRAYS + V_ARRAYS:
-            if par.name == parentname:
-                parent = par
 
 
-        ### Update 08/11/17. I need to generate variants with 
-        ### transpositions. One way of doing it is to 
-        ### transform "vtranspose" instances into "transpose" instances.
-        ### Here, the corresponding "build" is not systematically added to 
-        ### the list of loops for a simple reason: LOOPS are normally not 
-        ### including in the parameters of this function, so I don't want to 
-        ### mess up with the function specification, and thus the entire code 
-        ### in this file. Instead, I retrieve this loop elsewhere (the loop is 
-        ### store in the self.loop attribute).
-        ###
-        ### This should not be done systematically. But for the immediate
-        ### urge, I am doing it this way even if its hacky. 
-        ### The following should be commented whenever desired.
         
-        ### ------ Begin hack ------
-        ## Creation of explicit copy
-        array_ = IvieArrayTranspose(name, parent, rank1, rank2)
-        
-        ## Creation of iterators for transposition loop.
-        sizes = parent.sizes
-        nbdim = len(sizes)
-        iterators = []
-        for i in range(0, nbdim):
-            tmpname = "i_"+name+"_"+str(i)
-            it = IvieIteratorIterator(tmpname, str(0), sizes[i], str(1))
-            iterators.append(it)
-            ITERATORS.append(it)
+    # if asstype == "vtranspose":
+    #     parentname = params[0].dumps()
+    #     rank1 = params[1].dumps()
+    #     rank2 = params[2].dumps()
+    #     parent = None
+    #     for par in R_ARRAYS + V_ARRAYS:
+    #         if par.name == parentname:
+    #             parent = par
 
-        ## Creation of a build instruction
-        ## DEPS and V_ARRAYS are useless here.
-        ## I just let them in the parameters to avoid bugs.
-        array_.build(iterators, [], V_ARRAYS)
-        R_ARRAYS.append(array_)
-        ### ------- End hack -------
 
-        ### Uncomment the following to generate code with 
-        ### vtransposes.
-        #array = IvieArrayVtranspose(name, parent, rank1, rank2)
-        #V_ARRAYS.append(array)
+    #     ### Update 08/11/17. I need to generate variants with 
+    #     ### transpositions. One way of doing it is to 
+    #     ### transform "vtranspose" instances into "transpose" instances.
+    #     ### Here, the corresponding "build" is not systematically added to 
+    #     ### the list of loops for a simple reason: LOOPS are normally not 
+    #     ### including in the parameters of this function, so I don't want to 
+    #     ### mess up with the function specification, and thus the entire code 
+    #     ### in this file. Instead, I retrieve this loop elsewhere (the loop is 
+    #     ### store in the self.loop attribute).
+    #     ###
+    #     ### This should not be done systematically. But for the immediate
+    #     ### urge, I am doing it this way even if its hacky. 
+    #     ### The following should be commented whenever desired.
         
-    if asstype == "select": 
-        pairs = []
-        for cond in params:
-            pair = cond.find("list").value
-            condition = pair[0].dumps()
-            array_ = pair[1].dumps()
-            parent = None
-            for par in R_ARRAYS + V_ARRAYS:
-                if par.name == array_:
-                    parent = par
-                    pairs.append([condition, parent])
-                    array = IvieArraySelect(name, pairs)
-                    V_ARRAYS.append(array)
+    #     ### ------ Begin hack ------
+    #     ## Creation of explicit copy
+    #     array_ = IvieArrayTranspose(name, parent, rank1, rank2)
+        
+    #     ## Creation of iterators for transposition loop.
+    #     sizes = parent.sizes
+    #     nbdim = len(sizes)
+    #     iterators = []
+    #     for i in range(0, nbdim):
+    #         tmpname = "i_"+name+"_"+str(i)
+    #         it = IvieIteratorIterator(tmpname, str(0), sizes[i], str(1))
+    #         iterators.append(it)
+    #         ITERATORS.append(it)
+
+    #     ## Creation of a build instruction
+    #     ## DEPS and V_ARRAYS are useless here.
+    #     ## I just let them in the parameters to avoid bugs.
+    #     array_.build(iterators, [], V_ARRAYS)
+    #     R_ARRAYS.append(array_)
+    #     ### ------- End hack -------
+
+    #     ### Uncomment the following to generate code with 
+    #     ### vtransposes.
+    #     #array = IvieArrayVtranspose(name, parent, rank1, rank2)
+    #     #V_ARRAYS.append(array)
+        
+    # if asstype == "select": 
+    #     pairs = []
+    #     for cond in params:
+    #         pair = cond.find("list").value
+    #         condition = pair[0].dumps()
+    #         array_ = pair[1].dumps()
+    #         parent = None
+    #         for par in R_ARRAYS + V_ARRAYS:
+    #             if par.name == array_:
+    #                 parent = par
+    #                 pairs.append([condition, parent])
+    #                 array = IvieArraySelect(name, pairs)
+    #                 V_ARRAYS.append(array)
 
 
 
@@ -343,7 +342,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
     if asstype == "contract":
         ### Tensor contraction
         ### T[i,j] = A[i,k] * B[j,k]
-        
         parent1 = params[0].dumps()
         parent2 = params[1].dumps()
         _axes = params[2].find("list")
@@ -354,6 +352,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             if array.name == parent2:
                 parent2 = array
 
+        dtype = parent1.dtype
+                
         axes1 = []
         axes2 = []
         if _axes[0].find("list") == None and _axes[1].find("list") == None:
@@ -369,10 +369,26 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         # print axes1
         # print axes2
 
-        array = Contract(name, parent1, parent2, axes1, axes2)
+        t1shape = []
+        t2shape = []
+
+
+        for i in range(0, len(parent1.shape)):
+            if str(i+1) not in axes1:
+                t1shape.append(parent1.shape[i])
+
+
+        for i in range(0, len(parent2.shape)):
+            if str(i+1) not in axes2:
+                t2shape.append(parent2.shape[i])
+
+        shape = t1shape + t2shape
+            
+        tensor = Tensor(name, dtype, shape, None, None, asstype)
+        #array = Contract(name, parent1, parent2, axes1, axes2)
         # if name in ["u", "v"] or "tmp" in name:
         #     array.cfdmesh = True
-        R_ARRAYS.append(array)
+        #R_ARRAYS.append(array)
 
 
     if asstype == "scalar_mul":
@@ -393,79 +409,43 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         R_ARRAYS.append(array)
         
 
-    # if asstype == "entrywise_mul":
-    #     ### Entry wise multiplication
-    #     ### T[i,j] = A[i,j] * B[i, j]
-
-    #     parent1 = params[0].dumps()
-    #     parent2 = params[1].dumps()
-    #     for array in R_ARRAYS + V_ARRAYS:
-    #         if array.name == parent1:
-    #             parent1 = array
-    #         if array.name == parent2:
-    #             parent2 = array
-
-    #     array = IvieArrayEntrywise(name, parent1, parent2, "mul")
-    #     if name in ["u", "v"] or "tmp" in name:
-    #         array.cfdmesh = True
-    #     R_ARRAYS.append(array)
-
-
-    # if asstype == "entrywise_add":
-    #     ### Entry wise multiplication
-    #     ### T[i,j] = A[i,j] + B[i, j]
-
-    #     parent1 = params[0].dumps()
-    #     parent2 = params[1].dumps()
-    #     for array in R_ARRAYS + V_ARRAYS:
-    #         if array.name == parent1:
-    #             parent1 = array
-    #         if array.name == parent2:
-    #             parent2 = array
-
-    #     array = IvieArrayEntrywise(name, parent1, parent2, "add")
-    #     if name in ["u", "v"] or "tmp" in name:
-    #         array.cfdmesh = True
-    #     R_ARRAYS.append(array)
-
-
     ## Test: Replicate for both iterators and arrays.
     ## Depending on the input of replicate, it will 
     ## either generate an array or an iterator.
     ## This will not change internal data structure. 
 
-    if asstype == "replicate":
-        parentname = params[0].dumps()
-        parent = None
-        # Parent must exist
-        # TODO: must clarify if we can replicate virtual arrays
-        for par in R_ARRAYS + V_ARRAYS:
-            if par.name == parentname:
-                parent = par
+    # if asstype == "replicate":
+    #     parentname = params[0].dumps()
+    #     parent = None
+    #     # Parent must exist
+    #     # TODO: must clarify if we can replicate virtual arrays
+    #     for par in R_ARRAYS + V_ARRAYS:
+    #         if par.name == parentname:
+    #             parent = par
 
-        ## If parent is not NULL at this stage,
-        ## then parent is an array. 
-        if parent != None:
-            array = IvieArrayReplicate(name, parent)
-            R_ARRAYS.append(array)
-        else:
-            ## Otherwise, it is an iterator
-            for it in ITERATORS:
-                if it.name == parentname:
-                    parent = it
+    #     ## If parent is not NULL at this stage,
+    #     ## then parent is an array. 
+    #     if parent != None:
+    #         array = IvieArrayReplicate(name, parent)
+    #         R_ARRAYS.append(array)
+    #     else:
+    #         ## Otherwise, it is an iterator
+    #         for it in ITERATORS:
+    #             if it.name == parentname:
+    #                 parent = it
 
-            iterator = IvieIteratorReplicate(name, parent)
-            ITERATORS.append(iterator)
+    #         iterator = IvieIteratorReplicate(name, parent)
+    #         ITERATORS.append(iterator)
 
 
-    # Handling iterators
-    if asstype == "iterator":
-        minbound = params[0].dumps()
-        maxbound = params[1].dumps()
-        stride = params[2].dumps()
+    # # Handling iterators
+    # if asstype == "iterator":
+    #     minbound = params[0].dumps()
+    #     maxbound = params[1].dumps()
+    #     stride = params[2].dumps()
 
-        iterator = IvieIteratorIterator(name, minbound, maxbound, stride)
-        ITERATORS.append(iterator)
+    #     iterator = IvieIteratorIterator(name, minbound, maxbound, stride)
+    #     ITERATORS.append(iterator)
 
 
 
