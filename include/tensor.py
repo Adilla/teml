@@ -12,9 +12,9 @@ class Subscript():
         self.access = access
 
     def debug_print(self):
-        string = self.tensor.name + "[" + self.access[0]
+        string = self.tensor.name + "[" + str(self.access[0])
         for data in self.access[1:]:
-            string += ', ' + data
+            string += ', ' + str(data)
         string += ']'
         return string
 
@@ -35,8 +35,14 @@ class Expression():
         #     debugleft = self.left.debug_print()
         # if self.right != None:
         #     debugright = self.right.debug_print()
-        #return "(" + self.op + ", " + debugleft + ", " + debugright + ")"
-        return (self.op, self.left.debug_print(), self.right.debug_print())
+        # return "(" + self.op + ", " + debugleft + ", " + debugright + ")"
+        tleft = None
+        tright = None
+        if self.left != None:
+            tleft = self.left.debug_print()
+        if self.right != None:
+            tright = self.right.debug_print()
+        return (self.op, tleft, tright)
 
 class Tensor():
     dtype = None
@@ -54,10 +60,11 @@ class Tensor():
         self.expr = expr
         self.parent = parent
         self.construct = construct
-       
-        print (self.dtype, self.name, self.shape,\
-               lambda: self.expr.debug_print() if self.expr != None else None,\
-               self.parent, self.construct)
+
+
+        if self.expr != None:
+            print (self.dtype, self.name, self.shape, self.expr.debug_print(),\
+                   self.parent, self.construct)
 
         
         def debug_print(self):

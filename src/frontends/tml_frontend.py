@@ -189,18 +189,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         tshape = deepcopy(parent.shape)
         tshape = swap_rec(tshape, nranks, 0, len(nranks))
         
-      
-        #print swap_rec(tshape, nranks, 0, len(nranks))
-        #print shape
         sub = range(1, len(parent.shape)+1)
 
-        print sub
-        print swap_rec(sub, nranks, 0, len(nranks))
         insub = Subscript(parent, swap_rec(sub, nranks, 0, len(nranks)))
         outsub = Subscript(name, sub)
     
-        # print insub.access
-        # print outsub.access
         expr = Expression(None, insub, None)
         
         tensor = Tensor(name, parent.dtype, tshape, expr, parent, asstype)
@@ -221,8 +214,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
                 t2 = t
                 
         op = asstype.replace("entrywise_", "")
-        aft1 = Subscript(t1, range(1, len(t1.shape)))
-        aft2 = Subscript(t2, range(1, len(t2.shape)))
+        aft1 = Subscript(t1, range(1, len(t1.shape)+1))
+        aft2 = Subscript(t2, range(1, len(t2.shape)+1))
         expr = Expression(op, aft1, aft2)
         tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
         R_ARRAYS.append(tensor)
