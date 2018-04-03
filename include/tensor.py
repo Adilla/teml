@@ -22,8 +22,6 @@ class Expression():
         self.left = left
         self.right = right
  
-    
-    
 
 class Tensor():
     dtype = None
@@ -35,6 +33,11 @@ class Tensor():
     def debug_print(self):
         return debug_str
 
+
+    def build(self):
+        # infer ranges
+        # create and return loop
+        pass
     
 class Array(Tensor):
     
@@ -81,4 +84,37 @@ class Entrywise(Tensor):
         self.dtype = parent1.dtype
         self.shape = parent1.shape
         self.expr = expr
+        
+
+class Outerproduct(Tensor):
+
+    def __init__(self, name, dtype, shape, expr):
+        self.name = name
+        self.dtype = dtype
+        self.shape = shape
+        self.expr = expr
+
+
+class Contract(Tensor):
+
+        def __init__(self, name, parent1, parent2, axes1, axes2):
+        self.name = name
+        self.axes1 = axes1
+        self.axes2 = axes2
+        self.dtype = parent1.dtype
+
+        self.shape = parent1.shape 
+        
+        self.dimension = str(int(self.parent1.dimension) + int(self.parent2.dimension) - len(axes1) - len(axes2))
+        self.reduction = True
+       
+        for i in range(0, len(self.parent1.sizes)):
+            if str(i+1) not in self.axes1:
+                self.sizes.append(parent1.sizes[i])
+        
+        
+        for i in range(0, len(self.parent2.sizes)):
+            if str(i+1) not in self.axes2:
+                self.sizes.append(parent2.sizes[i])
+  
         

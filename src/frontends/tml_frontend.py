@@ -217,7 +217,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
                 if t == tens.name:
                     inputs.append(tens)
 
-        print inputs
         subscripts = []
         outaccess = []
         offset = 1
@@ -228,11 +227,21 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             outaccess += subscript.access
 
         innerexpr = Expression("mul", subscripts[-2], subscripts[-1])
-        
+
+        expr = None
         for i in range(len(subscripts) - 3, -1, -1):
             expr = Expression("mul", subscripts[i], innerexpr)
+            innerexpr = expr
 
-        print outaccess
+        dtype = inputs[0].dtype
+        shape = []
+        for inp in inputs:
+            shape += inp.shape
+
+        tensor = Outerproduct(name, dtype, shape, innerexpr)
+        R_ARRAYS.append(tensor)
+
+
         
         
     if asstype == "vtranspose":
@@ -345,9 +354,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         # print axes1
         # print axes2
 
-        array = IvieArrayContraction(name, parent1, parent2, axes1, axes2)
-        if name in ["u", "v"] or "tmp" in name:
-            array.cfdmesh = True
+        array = Contract(name, parent1, parent2, axes1, axes2)
+        # if name in ["u", "v"] or "tmp" in name:
+        #     array.cfdmesh = True
         R_ARRAYS.append(array)
 
 
