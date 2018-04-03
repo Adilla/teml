@@ -23,9 +23,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
 
 
     if asstype == "scalar":
-        ## Scalars are stored as arrays with dimension 0 and sizes == []
-        dtype = params[0].dumps()
-        scal = Scalar(name, dtype)
+        dtype = params[0].dumps()    
+        scal = Tensor(name, dtype, None, None, None, asstype)
         R_ARRAYS.append(scal)
 
         
@@ -36,7 +35,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             if t.name == tmpparent:
                 parent = t
 
-        tensor = Tensorize(name, parent)
+        tensor = Tensor(name, parent.dtype, ['1'], None, parent, asstype)
         R_ARRAYS.append(tensor)
         
 
@@ -51,13 +50,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         for data in tmpshape:
             shape.append(data.dumps())
 
-        tensor = Array(name, dtype, shape)
+        tensor = Tensor(name, dtype, shape, None, None, asstype)
         R_ARRAYS.append(tensor)
-
-
-        # if name in ["u", "v"] or "tmp" in name:
-        #     array.cfdmesh = True
-    # Experiemntal
 
 
     if asstype == "add" or \
@@ -77,19 +71,29 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
                 t2 = t
 
         dtype = t1.dtype
-        
-        for i in range(0, len(afin[0])):
-            afin[0][i] = afin[0][i].dumps()
 
-        for i in range(0, len(afin[1])):
-            afin[1][i] = afin[1][i].dumps()
+
+        nafin = []
         
-        af1 = Subscript(t1, afin[0])
-        af2 = Subscript(t2, afin[1])
+
+        tmp1 = []
+        for i in range(0, len(afin[0])):
+            tmp1.append(afin[0][i].dumps())
+        nafin.append(tmp1)
+
+        tmp2 = []
+        for i in range(0, len(afin[1])):
+            tmp2.append(afin[1][i].dumps())
+        nafin.append(tmp2)
+        
+        af1 = Subscript(t1, nafin[0])
+        af2 = Subscript(t2, nafin[1])
 
         expr = Expression(asstype, af1, af2)
 
-        tensor = Op(name, expr)
+        print expr.debug_print()
+        ## Shape not yet fully determine, will set to None
+        tensor = Tensor(name, dtype, None, expr, None, asstype)
         R_ARRAYS.append(tensor)
 
         
@@ -180,8 +184,20 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         for t in R_ARRAYS:
             if t.name == parent:
                 parent = t
-                
-        tensor = Transpose(name, parent, nranks)
+
+        tshape = deepcopy(parent.shape)
+        shape = swap_rec(tshape, nranks, 0, len(nranks))
+        
+
+        sub = range(1, len(parent.shape))
+       
+        insub = Subscript(parent, swap_rec(sub, nranks, 0, len(nranks)))
+        outsub = Subscript(name, sub)
+        print insub.access
+        print outsub.access
+        expr = Expression(None, subscript, None)
+        
+        tensor = Transpose(name, parent.dtype, shape, expr, parent, asstype)
         R_ARRAYS.append(tensor)
 
 
@@ -202,7 +218,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         aft1 = Subscript(t1, range(1, len(t1.shape)))
         aft2 = Subscript(t2, range(1, len(t2.shape)))
         expr = Expression(op, aft1, aft2)
-        tensor = Entrywise(name, t1, t2, expr)
+        tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
         R_ARRAYS.append(tensor)
 
 
@@ -238,7 +254,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         for inp in inputs:
             shape += inp.shape
 
-        tensor = Outerproduct(name, dtype, shape, innerexpr)
+        tensor = Tensor(name, dtype, shape, innerexpr, None, asstype)
         R_ARRAYS.append(tensor)
 
 

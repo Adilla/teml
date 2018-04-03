@@ -6,8 +6,3 @@ p = tensorize(s)
 
 t = mul(C, D, [[1, 2], [2, 3]] -> [1, 3])
 
-Bt = transpose(B, [[1, 2], [1, 3]])
-
-
-C = outerproduct([B, C, D])
-
