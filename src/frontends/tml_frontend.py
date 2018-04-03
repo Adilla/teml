@@ -383,8 +383,38 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
                 t2shape.append(parent2.shape[i])
 
         shape = t1shape + t2shape
+
+
+        outsub = range(1, len(shape)+1)
+        red_axes = range(len(shape)+1, len(shape)+1 + len(_axes))
+
+        sub1 = [0] * len(parent1.shape)
+        sub2 = [0] * len(parent2.shape)
+
+        
+        inc1 = 0
+        for i in range(0, len(sub1)):
+            if str(i+1) not in axes1:
+                sub1[i] = outsub[inc1]
+                inc1 += 1
+    
+        for i in range(0, len(sub2)):
+            if str(i+1) not in axes2:
+                sub2[i] = outsub[inc1]
+                inc1 += 1
+
+        inc1 = 0
+        for red in red_axes:
+            sub1[int(axes1[inc1])-1] = red
+            sub2[int(axes2[inc1])-1] = red
+            inc1 += 1
+                
+
+        s1 = Subscript(parent1, sub1)
+        s2 = Subscript(parent2, sub2)
+        expr = Expression("mul", s1, s2)
             
-        tensor = Tensor(name, dtype, shape, None, None, asstype)
+        tensor = Tensor(name, dtype, shape, expr, None, asstype)
         #array = Contract(name, parent1, parent2, axes1, axes2)
         # if name in ["u", "v"] or "tmp" in name:
         #     array.cfdmesh = True
