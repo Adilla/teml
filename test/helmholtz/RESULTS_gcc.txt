@@ -1,0 +1,263 @@
+8
+3
+Sequential Helmholtz
+Time: 0.000007 ms
+Parallel helmholtz outermost
+Time: 0.003959 ms
+Parallel helmholtz outermost + inner
+Time: 0.004006 ms
+Parallel helmholtz comp1
+Time: 0.003934 ms
+Parallel helmholtz comp2 outermost
+Time: 0.004012 ms
+Parallel helmholtz comp2 outermost + inner
+Time: 0.003930 ms
+Parallel helmholtz comp3
+Time: 0.002077 ms
+Parallel Pluto
+Time: 0.007760 ms
+Parallel Pluto no fuse
+Time: 0.007867 ms
+Parallel Pluto smart fuse
+Time: 0.003977 ms
+Parallel Pluto max fuse
+Time: 0.002078 ms
+Parallel Pluto tile no fuse
+Time: 0.005853 ms
+Parallel Pluto tile smart fuse
+Time: 0.002099 ms
+Parallel Pluto tile max fuse
+Time: 0.003955 ms
+17
+Sequential Helmholtz
+Time: 0.003362 ms
+Parallel helmholtz outermost
+Time: 0.003911 ms
+Parallel helmholtz outermost + inner
+Time: 0.002814 ms
+Parallel helmholtz comp1
+Time: 0.003964 ms
+Parallel helmholtz comp2 outermost
+Time: 0.004338 ms
+Parallel helmholtz comp2 outermost + inner
+Time: 0.003930 ms
+Parallel helmholtz comp3
+Time: 0.003951 ms
+Parallel Pluto
+Time: 0.002578 ms
+Parallel Pluto no fuse
+Time: 0.002542 ms
+Parallel Pluto smart fuse
+Time: 0.004441 ms
+Parallel Pluto max fuse
+Time: 0.002524 ms
+Parallel Pluto tile no fuse
+Time: 0.015291 ms
+Parallel Pluto tile smart fuse
+Time: 0.009909 ms
+Parallel Pluto tile max fuse
+Time: 0.008089 ms
+33
+Sequential Helmholtz
+Time: 0.045385 ms
+Parallel helmholtz outermost
+Time: 0.007062 ms
+Parallel helmholtz outermost + inner
+Time: 0.008783 ms
+Parallel helmholtz comp1
+Time: 0.008903 ms
+Parallel helmholtz comp2 outermost
+Time: 0.009336 ms
+Parallel helmholtz comp2 outermost + inner
+Time: 0.007714 ms
+Parallel helmholtz comp3
+Time: 0.008582 ms
+Parallel Pluto
+Time: 0.014348 ms
+Parallel Pluto no fuse
+Time: 0.009492 ms
+Parallel Pluto smart fuse
+Time: 0.010480 ms
+Parallel Pluto max fuse
+Time: 0.008509 ms
+Parallel Pluto tile no fuse
+Time: 0.078193 ms
+Parallel Pluto tile smart fuse
+Time: 0.099364 ms
+Parallel Pluto tile max fuse
+Time: 0.098237 ms
+750
+3
+Sequential Helmholtz
+Time: 0.000444 ms
+Parallel helmholtz outermost
+Time: 0.003972 ms
+Parallel helmholtz outermost + inner
+Time: 0.004693 ms
+Parallel helmholtz comp1
+Time: 0.003910 ms
+Parallel helmholtz comp2 outermost
+Time: 0.005692 ms
+Parallel helmholtz comp2 outermost + inner
+Time: 0.003961 ms
+Parallel helmholtz comp3
+Time: 0.003959 ms
+Parallel Pluto
+Time: 0.003983 ms
+Parallel Pluto no fuse
+Time: 0.015582 ms
+Parallel Pluto smart fuse
+Time: 0.007869 ms
+Parallel Pluto max fuse
+Time: 0.003976 ms
+Parallel Pluto tile no fuse
+Time: 0.004062 ms
+Parallel Pluto tile smart fuse
+Time: 0.002113 ms
+Parallel Pluto tile max fuse
+Time: 0.004024 ms
+17
+Sequential Helmholtz
+Time: 0.292448 ms
+Parallel helmholtz outermost
+Time: 0.016499 ms
+Parallel helmholtz outermost + inner
+Time: 0.027801 ms
+Parallel helmholtz comp1
+Time: 0.021028 ms
+Parallel helmholtz comp2 outermost
+Time: 0.019474 ms
+Parallel helmholtz comp2 outermost + inner
+Time: 0.020120 ms
+Parallel helmholtz comp3
+Time: 0.026584 ms
+Parallel Pluto
+Time: 0.020879 ms
+Parallel Pluto no fuse
+Time: 0.019412 ms
+Parallel Pluto smart fuse
+Time: 0.021192 ms
+Parallel Pluto max fuse
+Time: 0.018591 ms
+Parallel Pluto tile no fuse
+Time: 0.043887 ms
+Parallel Pluto tile smart fuse
+Time: 0.028408 ms
+Parallel Pluto tile max fuse
+Time: 0.036757 ms
+33
+Sequential Helmholtz
+Time: 4.014743 ms
+Parallel helmholtz outermost
+Time: 0.250217 ms
+Parallel helmholtz outermost + inner
+Time: 0.254981 ms
+Parallel helmholtz comp1
+Time: 0.301704 ms
+Parallel helmholtz comp2 outermost
+Time: 0.167804 ms
+Parallel helmholtz comp2 outermost + inner
+Time: 0.205184 ms
+Parallel helmholtz comp3
+Time: 0.208889 ms
+Parallel Pluto
+Time: 0.243817 ms
+Parallel Pluto no fuse
+Time: 0.201300 ms
+Parallel Pluto smart fuse
+Time: 0.246072 ms
+Parallel Pluto max fuse
+Time: 0.300639 ms
+Parallel Pluto tile no fuse
+Time: 0.418553 ms
+Parallel Pluto tile smart fuse
+Time: 0.500085 ms
+Parallel Pluto tile max fuse
+Time: 0.530640 ms
+7500
+3
+Sequential Helmholtz
+Time: 0.004453 ms
+Parallel helmholtz outermost
+Time: 0.006257 ms
+Parallel helmholtz outermost + inner
+Time: 0.011450 ms
+Parallel helmholtz comp1
+Time: 0.004308 ms
+Parallel helmholtz comp2 outermost
+Time: 0.018372 ms
+Parallel helmholtz comp2 outermost + inner
+Time: 0.006383 ms
+Parallel helmholtz comp3
+Time: 0.004372 ms
+Parallel Pluto
+Time: 0.006124 ms
+Parallel Pluto no fuse
+Time: 0.006265 ms
+Parallel Pluto smart fuse
+Time: 0.002589 ms
+Parallel Pluto max fuse
+Time: 0.004317 ms
+Parallel Pluto tile no fuse
+Time: 0.006560 ms
+Parallel Pluto tile smart fuse
+Time: 0.010285 ms
+Parallel Pluto tile max fuse
+Time: 0.004532 ms
+17
+Sequential Helmholtz
+Time: 2.905892 ms
+Parallel helmholtz outermost
+Time: 0.138584 ms
+Parallel helmholtz outermost + inner
+Time: 0.206522 ms
+Parallel helmholtz comp1
+Time: 0.130459 ms
+Parallel helmholtz comp2 outermost
+Time: 0.184441 ms
+Parallel helmholtz comp2 outermost + inner
+Time: 0.121049 ms
+Parallel helmholtz comp3
+Time: 0.210654 ms
+Parallel Pluto
+Time: 0.176026 ms
+Parallel Pluto no fuse
+Time: 0.151887 ms
+Parallel Pluto smart fuse
+Time: 0.168660 ms
+Parallel Pluto max fuse
+Time: 0.138667 ms
+Parallel Pluto tile no fuse
+Time: 0.233753 ms
+Parallel Pluto tile smart fuse
+Time: 0.267590 ms
+Parallel Pluto tile max fuse
+Time: 0.255457 ms
+33
+Sequential Helmholtz
+Parallel helmholtz outermost
+Time: 2.560919 ms
+Parallel helmholtz outermost + inner
+Time: 2.572949 ms
+Parallel helmholtz comp1
+Time: 2.277441 ms
+Parallel helmholtz comp2 outermost
+Time: 2.267230 ms
+Parallel helmholtz comp2 outermost + inner
+Time: 2.133299 ms
+Parallel helmholtz comp3
+Time: 2.178986 ms
+Parallel Pluto
+Time: 2.375241 ms
+Parallel Pluto no fuse
+Time: 1.944737 ms
+Parallel Pluto smart fuse
+Time: 2.455025 ms
+Parallel Pluto max fuse
+Time: 2.143272 ms
+Parallel Pluto tile no fuse
+Time: 4.058513 ms
+Parallel Pluto tile smart fuse
+Time: 4.891588 ms
+Parallel Pluto tile max fuse
+Time: 5.061886 ms

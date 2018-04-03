@@ -1,0 +1,139 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.4.196 Build 20170411
+
+Compiler options: -O3 -qopenmp -qopt-report=5 -qopt-report-phase=vec,loop -qopt-report-file=vectorization_study/all/11/haswell_all_11.5.log -o vectorization_study/all/11/interpolation_all_11
+
+Begin optimization report for: main()
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(19,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(21,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(23,1)
+         remark #25420: Collapsed with loop at line 25 
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(28,1)
+            remark #15389: vectorization support: reference A[i1][i4] has unaligned access   [ vectorization_study/all/11/interpolation_all_11.c(29,28) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 121   [ vectorization_study/all/11/interpolation_all_11.c(29,40) ]
+            remark #15305: vectorization support: vector length 2
+            remark #15399: vectorization support: unroll factor set to 5
+            remark #15309: vectorization support: normalized vectorization overhead 0.055
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15450: unmasked unaligned unit stride loads: 1 
+            remark #15452: unmasked strided loads: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 5.500 
+            remark #15478: estimated potential speedup: 1.470 
+            remark #15488: --- end vector cost summary ---
+            remark #25015: Estimate of max trip count of loop=1
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(25,1)
+            remark #25421: Loop eliminated in Collapsing 
+
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(28,1)
+         <Remainder loop for vectorization>
+            remark #25436: completely unrolled by 1  
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(19,1)
+<Distributed chunk2>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(35,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(37,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(39,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(42,1)
+               remark #15389: vectorization support: reference A[j1][j4] has unaligned access   [ vectorization_study/all/11/interpolation_all_11.c(43,28) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 11   [ vectorization_study/all/11/interpolation_all_11.c(43,40) ]
+               remark #15305: vectorization support: vector length 2
+               remark #15399: vectorization support: unroll factor set to 5
+               remark #15309: vectorization support: normalized vectorization overhead 0.055
+               remark #15300: LOOP WAS VECTORIZED
+               remark #15450: unmasked unaligned unit stride loads: 1 
+               remark #15452: unmasked strided loads: 1 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 5.500 
+               remark #15478: estimated potential speedup: 1.470 
+               remark #15488: --- end vector cost summary ---
+               remark #25015: Estimate of max trip count of loop=1
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(42,1)
+            <Remainder loop for vectorization>
+               remark #25436: completely unrolled by 1  
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(19,1)
+<Distributed chunk3>
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(49,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(51,1)
+         remark #25420: Collapsed with loop at line 53 
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(56,1)
+            remark #15389: vectorization support: reference A[k1][k4] has unaligned access   [ vectorization_study/all/11/interpolation_all_11.c(57,25) ]
+            remark #15389: vectorization support: reference tmp2[e][k2][k3][k4] has unaligned access   [ vectorization_study/all/11/interpolation_all_11.c(57,37) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15305: vectorization support: vector length 2
+            remark #15399: vectorization support: unroll factor set to 5
+            remark #15309: vectorization support: normalized vectorization overhead 0.120
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15450: unmasked unaligned unit stride loads: 2 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 5.000 
+            remark #15478: estimated potential speedup: 1.520 
+            remark #15488: --- end vector cost summary ---
+            remark #25015: Estimate of max trip count of loop=1
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(53,1)
+            remark #25421: Loop eliminated in Collapsing 
+
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/all/11/interpolation_all_11.c(56,1)
+         <Remainder loop for vectorization>
+            remark #25436: completely unrolled by 1  
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================

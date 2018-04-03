@@ -1,0 +1,754 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: main()
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(17,1)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #25436: completely unrolled by 12  
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25436: completely unrolled by 12  
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(21,1)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(22,3)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(23,5)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+         remark #25436: completely unrolled by 12  
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(24,7)
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #25440: unrolled and jammed by 4   (pre-vector) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(34,1)
+      remark #25440: unrolled and jammed by 4   (pre-vector) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(36,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(38,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(40,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 24
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(34,1)
+   <Remainder>
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(36,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(38,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(40,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 3
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Remainder, Distributed chunk1>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(34,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(36,1)
+         remark #15301: OUTER LOOP WAS VECTORIZED
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(38,1)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(40,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Distributed chunk2>
+   remark #25440: unrolled and jammed by 4   (pre-vector) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(47,1)
+      remark #25440: unrolled and jammed by 4   (pre-vector) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(49,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(51,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(53,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 24
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(47,1)
+   <Remainder>
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(49,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(51,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(53,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 3
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Remainder, Distributed chunk2>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(47,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(49,1)
+         remark #15301: OUTER LOOP WAS VECTORIZED
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(51,1)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(53,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Distributed chunk3>
+   remark #25440: unrolled and jammed by 8   (pre-vector) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(60,1)
+      remark #25440: unrolled and jammed by 4   (pre-vector) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(62,1)
+         remark #25420: Collapsed with loop at line 64 
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(66,1)
+            remark #15300: LOOP WAS VECTORIZED
+            remark #25456: Number of Array Refs Scalar Replaced In Loop: 28
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(64,1)
+            remark #25421: Loop eliminated in Collapsing 
+
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(60,1)
+   <Remainder>
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(62,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(66,1)
+            remark #15300: LOOP WAS VECTORIZED
+            remark #25456: Number of Array Refs Scalar Replaced In Loop: 7
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Remainder, Distributed chunk3>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(60,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(62,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(66,1)
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: main() [haswell]
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(17,1)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #25436: completely unrolled by 12  
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25436: completely unrolled by 12  
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(21,1)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(22,3)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(23,5)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+         remark #25436: completely unrolled by 12  
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(24,7)
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #25440: unrolled and jammed by 4   (pre-vector) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(34,1)
+      remark #25440: unrolled and jammed by 4   (pre-vector) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(36,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(38,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(40,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 24
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(34,1)
+   <Remainder>
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(36,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(38,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(40,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 3
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Remainder, Distributed chunk1>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(34,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(36,1)
+         remark #15301: OUTER LOOP WAS VECTORIZED
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(38,1)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(40,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Distributed chunk2>
+   remark #25440: unrolled and jammed by 4   (pre-vector) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(47,1)
+      remark #25440: unrolled and jammed by 4   (pre-vector) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(49,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(51,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(53,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 24
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(47,1)
+   <Remainder>
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(49,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(51,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(53,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 3
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Remainder, Distributed chunk2>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(47,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(49,1)
+         remark #15301: OUTER LOOP WAS VECTORIZED
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(51,1)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(53,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Distributed chunk3>
+   remark #25440: unrolled and jammed by 8   (pre-vector) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(60,1)
+      remark #25440: unrolled and jammed by 4   (pre-vector) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(62,1)
+         remark #25420: Collapsed with loop at line 64 
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(66,1)
+            remark #15300: LOOP WAS VECTORIZED
+            remark #25456: Number of Array Refs Scalar Replaced In Loop: 28
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(64,1)
+            remark #25421: Loop eliminated in Collapsing 
+
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(60,1)
+   <Remainder>
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(62,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(66,1)
+            remark #15300: LOOP WAS VECTORIZED
+            remark #25456: Number of Array Refs Scalar Replaced In Loop: 7
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Remainder, Distributed chunk3>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(60,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(62,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(66,1)
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: main() [generic]
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(17,1)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #25436: completely unrolled by 12  
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25436: completely unrolled by 12  
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(18,3)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(21,1)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(22,3)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(23,5)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+         remark #25436: completely unrolled by 12  
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(24,7)
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #25440: unrolled and jammed by 4   (pre-vector) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(34,1)
+      remark #25440: unrolled and jammed by 4   (pre-vector) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(36,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(38,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(40,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 24
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(34,1)
+   <Remainder>
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(36,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(38,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(40,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 3
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Remainder, Distributed chunk1>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(34,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(36,1)
+         remark #15301: OUTER LOOP WAS VECTORIZED
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(38,1)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(40,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Distributed chunk2>
+   remark #25440: unrolled and jammed by 4   (pre-vector) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(47,1)
+      remark #25440: unrolled and jammed by 4   (pre-vector) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(49,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(51,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(53,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 24
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(47,1)
+   <Remainder>
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(49,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(51,1)
+            remark #15542: loop was not vectorized: inner loop was already vectorized
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(53,1)
+               remark #15300: LOOP WAS VECTORIZED
+               remark #25456: Number of Array Refs Scalar Replaced In Loop: 3
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Remainder, Distributed chunk2>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(47,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(49,1)
+         remark #15301: OUTER LOOP WAS VECTORIZED
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(51,1)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+            LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(53,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Distributed chunk3>
+   remark #25440: unrolled and jammed by 8   (pre-vector) 
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(60,1)
+      remark #25440: unrolled and jammed by 4   (pre-vector) 
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(62,1)
+         remark #25420: Collapsed with loop at line 64 
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(66,1)
+            remark #15300: LOOP WAS VECTORIZED
+            remark #25456: Number of Array Refs Scalar Replaced In Loop: 28
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(64,1)
+            remark #25421: Loop eliminated in Collapsing 
+
+         LOOP END
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(60,1)
+   <Remainder>
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(62,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(66,1)
+            remark #15300: LOOP WAS VECTORIZED
+            remark #25456: Number of Array Refs Scalar Replaced In Loop: 7
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(32,1)
+<Remainder, Distributed chunk3>
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(60,1)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(62,1)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+
+         LOOP BEGIN at vectorization_study/all/12/interpolation_all_12.c(66,1)
+            remark #15300: LOOP WAS VECTORIZED
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================

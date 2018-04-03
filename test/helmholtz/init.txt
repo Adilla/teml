@@ -1,0 +1,15 @@
+int i, j, k, l;
+
+for (i = 0; i < N; i++) {
+    w[i] = i + 15;
+    for (j = 0; j < N; j++) {
+    	L[i][j] = i + j +1;
+	for (k = 0; k < N; k++) { 
+	    	rt[i][j][k] = 0;
+		ut[i][j][k] = i*j+10;
+	}		
+	
+}
+}
+
+

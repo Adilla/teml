@@ -1,0 +1,43 @@
+rt = array(3, double, [N, N, N])
+w = array(1, double, [N])
+ut = array(3, double, [N, N, N])
+L = array(2, double, [N, N, N])
+
+i1_0 = iterator(0, N, 1)
+i2_1 = iterator(0, N, 1)
+i3_2 = iterator(0, N, 1)
+j1_3 = iterator(0, N, 1)
+j2_4 = iterator(0, N, 1)
+j3_5 = iterator(0, N, 1)
+j4_6 = iterator(0, N, 1)
+i1_7 = iterator(0, N, 1)
+i2_8 = iterator(0, N, 1)
+i3_9 = iterator(0, N, 1)
+j1_10 = iterator(0, N, 1)
+j2_11 = iterator(0, N, 1)
+j3_12 = iterator(0, N, 1)
+j4_13 = iterator(0, N, 1)
+
+
+with i1_0 as piter<level(THRD), private(i2, i3)>:
+  with i2_1 as siter:
+    with i3_2 as siter:
+      rt[i1_0 * (N + (i2_1 * (N + i3_2)))] = f(w[i1_0], w[i2_1], w[i3_2], ut[i1_0 * (N + (i2_1 * (N + i3_2)))])
+
+with j1_3 as siter:
+  with j2_4 as siter:
+    with j3_5 as siter:
+      with j4_6 as siter:
+        rt[j1_3 * (N + (j2_4 * (N + j3_5)))] = f(rt[j1_3 * (N + (j2_4 * (N + j3_5)))], L[(j1_3 * N) + j4_6], w[j2_4], w[j3_5], ut[j4_6 * (N + (j2_4 * (N + j3_5)))])
+
+with i1_7 as siter:
+  with i2_8 as siter:
+    with i3_9 as siter:
+      rt[i1_7][i2_8][i3_9] = f(w[i1_7], w[i2_8], w[i3_9], ut[i1_7][i2_8][i3_9])
+
+with j1_10 as siter:
+  with j2_11 as siter:
+    with j3_12 as siter:
+      with j4_13 as siter:
+        rt[j1_10][j2_11][j3_12] = f(rt[j1_10][j2_11][j3_12], L[j1_10][j4_13], w[j2_11], w[j3_12], ut[j4_13][j2_11][j3_12])
+

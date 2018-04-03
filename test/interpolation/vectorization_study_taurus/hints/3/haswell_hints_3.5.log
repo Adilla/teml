@@ -1,0 +1,2119 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.1.163 Build 20171018
+
+Compiler options: -axCORE-AVX2 -msse4.2 -O3 -qopenmp -qopt-report=5 -qopt-report-phase=vec,loop -qopt-report-file=vectorization_study/hints/3/haswell_hints_3.5.log -o vectorization_study/hints/3/interpolation_hints_3
+
+Begin optimization report for: main()
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(17,1)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <A[tt1][tt2]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(19,5) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.250
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 6 
+   remark #15477: vector cost: 6.000 
+   remark #15478: estimated potential speedup: 0.850 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+   remark #25436: completely unrolled by 3  
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(18,3)
+      remark #15389: vectorization support: reference A[tt1][tt2] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(19,5) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.667
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 6 
+      remark #15477: vector cost: 3.000 
+      remark #15478: estimated potential speedup: 1.120 
+      remark #15487: type converts: 1 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(18,3)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(21,1)
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <u[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 0.042
+   remark #15301: OUTER LOOP WAS VECTORIZED
+   remark #15453: unmasked strided stores: 4 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 16 
+   remark #15477: vector cost: 11.870 
+   remark #15478: estimated potential speedup: 1.340 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=27
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(22,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <u[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.091
+      remark #15453: unmasked strided stores: 4 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 17 
+      remark #15477: vector cost: 16.500 
+      remark #15478: estimated potential speedup: 0.960 
+      remark #15487: type converts: 1 
+      remark #15488: --- end vector cost summary ---
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(23,5)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <u[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.094
+         remark #15453: unmasked strided stores: 4 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 17 
+         remark #15477: vector cost: 16.000 
+         remark #15478: estimated potential speedup: 0.980 
+         remark #15487: type converts: 1 
+         remark #15488: --- end vector cost summary ---
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(24,7)
+            remark #15389: vectorization support: reference u[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+            remark #15389: vectorization support: reference v[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+            remark #15389: vectorization support: reference tmp1[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+            remark #15389: vectorization support: reference tmp2[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 0.700
+            remark #15451: unmasked unaligned unit stride stores: 4 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 17 
+            remark #15477: vector cost: 10.000 
+            remark #15478: estimated potential speedup: 1.000 
+            remark #15488: --- end vector cost summary ---
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(32,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.222
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.990 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(34,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <A[i1][i4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,28) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.235
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 9 
+      remark #15477: vector cost: 8.500 
+      remark #15478: estimated potential speedup: 0.900 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(36,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.250
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 9 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 0.930 
+         remark #15488: --- end vector cost summary ---
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+            remark #15389: vectorization support: reference tmp1[e][i1][i2][i3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+            remark #15389: vectorization support: reference tmp1[e][i1][i2][i3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+            remark #15389: vectorization support: reference u[e][i4][i2][i3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 1.000
+            remark #15450: unmasked unaligned unit stride loads: 2 
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 6.500 
+            remark #15478: estimated potential speedup: 0.770 
+            remark #15488: --- end vector cost summary ---
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+               remark #15389: vectorization support: reference A[i1][i4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,28) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+               remark #15305: vectorization support: vector length 2
+               remark #15309: vectorization support: normalized vectorization overhead 0.300
+               remark #15450: unmasked unaligned unit stride loads: 1 
+               remark #15452: unmasked strided loads: 1 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 5.000 
+               remark #15478: estimated potential speedup: 1.220 
+               remark #15488: --- end vector cost summary ---
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(36,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(36,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(32,1)
+<Distributed chunk2>
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.222
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.990 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(47,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <A[j1][j4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,28) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.235
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 9 
+      remark #15477: vector cost: 8.500 
+      remark #15478: estimated potential speedup: 0.900 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(49,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.250
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 9 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 0.930 
+         remark #15488: --- end vector cost summary ---
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+            remark #15389: vectorization support: reference tmp2[e][j1][j2][j3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+            remark #15389: vectorization support: reference tmp2[e][j1][j2][j3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+            remark #15389: vectorization support: reference tmp1[e][j2][j4][j3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 1.000
+            remark #15450: unmasked unaligned unit stride loads: 2 
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 6.500 
+            remark #15478: estimated potential speedup: 0.770 
+            remark #15488: --- end vector cost summary ---
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+               remark #15389: vectorization support: reference A[j1][j4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,28) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+               remark #15305: vectorization support: vector length 2
+               remark #15309: vectorization support: normalized vectorization overhead 0.300
+               remark #15450: unmasked unaligned unit stride loads: 1 
+               remark #15452: unmasked strided loads: 1 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 5.000 
+               remark #15478: estimated potential speedup: 1.220 
+               remark #15488: --- end vector cost summary ---
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(49,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(49,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(32,1)
+<Distributed chunk3>
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][k1][k2][k3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <v[e][k1][k2][k3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][k2][k3][k4]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.222
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.990 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(60,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][k1][k2][k3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <v[e][k1][k2][k3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <A[k1][k4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,25) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.235
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 9 
+      remark #15477: vector cost: 8.500 
+      remark #15478: estimated potential speedup: 0.900 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(62,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][k1][k2][k3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <v[e][k1][k2][k3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][k2][k3][k4]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.250
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 9 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 0.930 
+         remark #15488: --- end vector cost summary ---
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+            remark #15389: vectorization support: reference v[e][k1][k2][k3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+            remark #15389: vectorization support: reference v[e][k1][k2][k3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][k2][k3][k4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 0.769
+            remark #15450: unmasked unaligned unit stride loads: 1 
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15452: unmasked strided loads: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 6.500 
+            remark #15478: estimated potential speedup: 0.840 
+            remark #15488: --- end vector cost summary ---
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+               remark #15389: vectorization support: reference A[k1][k4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,25) ]
+               remark #15389: vectorization support: reference tmp2[e][k2][k3][k4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #15305: vectorization support: vector length 2
+               remark #15309: vectorization support: normalized vectorization overhead 0.667
+               remark #15450: unmasked unaligned unit stride loads: 2 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 4.500 
+               remark #15478: estimated potential speedup: 1.120 
+               remark #15488: --- end vector cost summary ---
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: main() [haswell]
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(17,1)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <A[tt1][tt2]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(19,5) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.250
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 6 
+   remark #15477: vector cost: 6.000 
+   remark #15478: estimated potential speedup: 0.850 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+   remark #25436: completely unrolled by 3  
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(18,3)
+      remark #15389: vectorization support: reference A[tt1][tt2] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(19,5) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.667
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 6 
+      remark #15477: vector cost: 3.000 
+      remark #15478: estimated potential speedup: 1.120 
+      remark #15487: type converts: 1 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(18,3)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(21,1)
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <u[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 0.042
+   remark #15301: OUTER LOOP WAS VECTORIZED
+   remark #15453: unmasked strided stores: 4 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 16 
+   remark #15477: vector cost: 11.870 
+   remark #15478: estimated potential speedup: 1.340 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=27
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(22,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <u[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.097
+      remark #15453: unmasked strided stores: 4 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 16 
+      remark #15477: vector cost: 15.500 
+      remark #15478: estimated potential speedup: 0.960 
+      remark #15487: type converts: 1 
+      remark #15488: --- end vector cost summary ---
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(23,5)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <u[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.067
+         remark #15453: unmasked strided stores: 4 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 16 
+         remark #15477: vector cost: 15.000 
+         remark #15478: estimated potential speedup: 1.000 
+         remark #15487: type converts: 1 
+         remark #15488: --- end vector cost summary ---
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(24,7)
+            remark #15389: vectorization support: reference u[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+            remark #15389: vectorization support: reference v[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+            remark #15389: vectorization support: reference tmp1[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+            remark #15389: vectorization support: reference tmp2[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 0.650
+            remark #15451: unmasked unaligned unit stride stores: 4 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 16 
+            remark #15477: vector cost: 10.000 
+            remark #15478: estimated potential speedup: 0.970 
+            remark #15488: --- end vector cost summary ---
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(32,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.222
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.990 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(34,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <A[i1][i4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,28) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.235
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 9 
+      remark #15477: vector cost: 8.500 
+      remark #15478: estimated potential speedup: 0.900 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(36,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.250
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 9 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 0.930 
+         remark #15488: --- end vector cost summary ---
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+            remark #15389: vectorization support: reference tmp1[e][i1][i2][i3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+            remark #15389: vectorization support: reference tmp1[e][i1][i2][i3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+            remark #15389: vectorization support: reference u[e][i4][i2][i3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 1.000
+            remark #15450: unmasked unaligned unit stride loads: 2 
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 6.500 
+            remark #15478: estimated potential speedup: 0.770 
+            remark #15488: --- end vector cost summary ---
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+               remark #15389: vectorization support: reference A[i1][i4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,28) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+               remark #15305: vectorization support: vector length 2
+               remark #15309: vectorization support: normalized vectorization overhead 0.300
+               remark #15450: unmasked unaligned unit stride loads: 1 
+               remark #15452: unmasked strided loads: 1 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 5.000 
+               remark #15478: estimated potential speedup: 1.220 
+               remark #15488: --- end vector cost summary ---
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(36,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(36,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(32,1)
+<Distributed chunk2>
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.222
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.990 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(47,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <A[j1][j4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,28) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.235
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 9 
+      remark #15477: vector cost: 8.500 
+      remark #15478: estimated potential speedup: 0.900 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(49,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.250
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 9 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 0.930 
+         remark #15488: --- end vector cost summary ---
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+            remark #15389: vectorization support: reference tmp2[e][j1][j2][j3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+            remark #15389: vectorization support: reference tmp2[e][j1][j2][j3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+            remark #15389: vectorization support: reference tmp1[e][j2][j4][j3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 1.000
+            remark #15450: unmasked unaligned unit stride loads: 2 
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 6.500 
+            remark #15478: estimated potential speedup: 0.770 
+            remark #15488: --- end vector cost summary ---
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+               remark #15389: vectorization support: reference A[j1][j4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,28) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+               remark #15305: vectorization support: vector length 2
+               remark #15309: vectorization support: normalized vectorization overhead 0.300
+               remark #15450: unmasked unaligned unit stride loads: 1 
+               remark #15452: unmasked strided loads: 1 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 5.000 
+               remark #15478: estimated potential speedup: 1.220 
+               remark #15488: --- end vector cost summary ---
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(49,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(49,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(32,1)
+<Distributed chunk3>
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][k1][k2][k3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <v[e][k1][k2][k3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][k2][k3][k4]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.222
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.990 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(60,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][k1][k2][k3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <v[e][k1][k2][k3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <A[k1][k4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,25) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.235
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 9 
+      remark #15477: vector cost: 8.500 
+      remark #15478: estimated potential speedup: 0.900 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(62,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][k1][k2][k3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <v[e][k1][k2][k3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][k2][k3][k4]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.250
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 9 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 0.930 
+         remark #15488: --- end vector cost summary ---
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+            remark #15389: vectorization support: reference v[e][k1][k2][k3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+            remark #15389: vectorization support: reference v[e][k1][k2][k3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][k2][k3][k4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 0.769
+            remark #15450: unmasked unaligned unit stride loads: 1 
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15452: unmasked strided loads: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 6.500 
+            remark #15478: estimated potential speedup: 0.840 
+            remark #15488: --- end vector cost summary ---
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+               remark #15389: vectorization support: reference A[k1][k4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,25) ]
+               remark #15389: vectorization support: reference tmp2[e][k2][k3][k4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #15305: vectorization support: vector length 2
+               remark #15309: vectorization support: normalized vectorization overhead 0.667
+               remark #15450: unmasked unaligned unit stride loads: 2 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 4.500 
+               remark #15478: estimated potential speedup: 1.120 
+               remark #15488: --- end vector cost summary ---
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: main() [generic]
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(17,1)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <A[tt1][tt2]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(19,5) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.250
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 6 
+   remark #15477: vector cost: 6.000 
+   remark #15478: estimated potential speedup: 0.850 
+   remark #15487: type converts: 1 
+   remark #15488: --- end vector cost summary ---
+   remark #25436: completely unrolled by 3  
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(18,3)
+      remark #15389: vectorization support: reference A[tt1][tt2] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(19,5) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.667
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 6 
+      remark #15477: vector cost: 3.000 
+      remark #15478: estimated potential speedup: 1.120 
+      remark #15487: type converts: 1 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(18,3)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(21,1)
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <u[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][tt1][tt2][tt3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.148
+   remark #15301: OUTER LOOP WAS VECTORIZED
+   remark #15453: unmasked strided stores: 4 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 17 
+   remark #15477: vector cost: 13.500 
+   remark #15478: estimated potential speedup: 1.250 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=108
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(22,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <u[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][tt1][tt2][tt3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.097
+      remark #15453: unmasked strided stores: 4 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 17 
+      remark #15477: vector cost: 15.500 
+      remark #15478: estimated potential speedup: 1.000 
+      remark #15487: type converts: 1 
+      remark #15488: --- end vector cost summary ---
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(23,5)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <u[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][tt1][tt2][tt3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.100
+         remark #15453: unmasked strided stores: 4 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 17 
+         remark #15477: vector cost: 15.000 
+         remark #15478: estimated potential speedup: 1.020 
+         remark #15487: type converts: 1 
+         remark #15488: --- end vector cost summary ---
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(24,7)
+            remark #15389: vectorization support: reference u[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(25,9) ]
+            remark #15389: vectorization support: reference v[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(26,9) ]
+            remark #15389: vectorization support: reference tmp1[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(27,9) ]
+            remark #15389: vectorization support: reference tmp2[e][tt1][tt2][tt3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(28,9) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 0.700
+            remark #15451: unmasked unaligned unit stride stores: 4 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 17 
+            remark #15477: vector cost: 10.000 
+            remark #15478: estimated potential speedup: 1.000 
+            remark #15488: --- end vector cost summary ---
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(32,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.222
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.990 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(34,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <A[i1][i4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,28) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.235
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 9 
+      remark #15477: vector cost: 8.500 
+      remark #15478: estimated potential speedup: 0.900 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(36,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][i1][i2][i3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.250
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 9 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 0.930 
+         remark #15488: --- end vector cost summary ---
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+            remark #15389: vectorization support: reference tmp1[e][i1][i2][i3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+            remark #15389: vectorization support: reference tmp1[e][i1][i2][i3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,5) ]
+            remark #15389: vectorization support: reference u[e][i4][i2][i3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 1.000
+            remark #15450: unmasked unaligned unit stride loads: 2 
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 6.500 
+            remark #15478: estimated potential speedup: 0.770 
+            remark #15488: --- end vector cost summary ---
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+               remark #15389: vectorization support: reference A[i1][i4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(41,28) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #15328: vectorization support: non-unit strided load was emulated for the variable <u[e][i4][i2][i3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(41,40) ]
+               remark #15305: vectorization support: vector length 2
+               remark #15309: vectorization support: normalized vectorization overhead 0.300
+               remark #15450: unmasked unaligned unit stride loads: 1 
+               remark #15452: unmasked strided loads: 1 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 5.000 
+               remark #15478: estimated potential speedup: 1.220 
+               remark #15488: --- end vector cost summary ---
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(36,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(36,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(38,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(40,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(32,1)
+<Distributed chunk2>
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.222
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.990 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(47,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <A[j1][j4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,28) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.235
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 9 
+      remark #15477: vector cost: 8.500 
+      remark #15478: estimated potential speedup: 0.900 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(49,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][j1][j2][j3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.250
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 9 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 0.930 
+         remark #15488: --- end vector cost summary ---
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+            remark #15389: vectorization support: reference tmp2[e][j1][j2][j3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+            remark #15389: vectorization support: reference tmp2[e][j1][j2][j3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,5) ]
+            remark #15389: vectorization support: reference tmp1[e][j2][j4][j3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 1.000
+            remark #15450: unmasked unaligned unit stride loads: 2 
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 6.500 
+            remark #15478: estimated potential speedup: 0.770 
+            remark #15488: --- end vector cost summary ---
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+               remark #15389: vectorization support: reference A[j1][j4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(54,28) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp1[e][j2][j4][j3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(54,40) ]
+               remark #15305: vectorization support: vector length 2
+               remark #15309: vectorization support: normalized vectorization overhead 0.300
+               remark #15450: unmasked unaligned unit stride loads: 1 
+               remark #15452: unmasked strided loads: 1 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 5.000 
+               remark #15478: estimated potential speedup: 1.220 
+               remark #15488: --- end vector cost summary ---
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(49,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(49,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(51,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(32,1)
+<Distributed chunk3>
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][k1][k2][k3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <v[e][k1][k2][k3]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][k2][k3][k4]>, stride is 27   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.222
+   remark #15452: unmasked strided loads: 2 
+   remark #15453: unmasked strided stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.990 
+   remark #15488: --- end vector cost summary ---
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(60,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][k1][k2][k3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <v[e][k1][k2][k3]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <A[k1][k4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,25) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.235
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 9 
+      remark #15477: vector cost: 8.500 
+      remark #15478: estimated potential speedup: 0.900 
+      remark #15488: --- end vector cost summary ---
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(62,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <v[e][k1][k2][k3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <v[e][k1][k2][k3]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][k2][k3][k4]>, stride is 9   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15309: vectorization support: normalized vectorization overhead 0.250
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 9 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 0.930 
+         remark #15488: --- end vector cost summary ---
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+            remark #15389: vectorization support: reference v[e][k1][k2][k3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+            remark #15389: vectorization support: reference v[e][k1][k2][k3] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,5) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #15328: vectorization support: non-unit strided load was emulated for the variable <tmp2[e][k2][k3][k4]>, stride is 3   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+            remark #15305: vectorization support: vector length 2
+            remark #15309: vectorization support: normalized vectorization overhead 0.769
+            remark #15450: unmasked unaligned unit stride loads: 1 
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15452: unmasked strided loads: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 9 
+            remark #15477: vector cost: 6.500 
+            remark #15478: estimated potential speedup: 0.840 
+            remark #15488: --- end vector cost summary ---
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+               remark #15389: vectorization support: reference A[k1][k4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,25) ]
+               remark #15389: vectorization support: reference tmp2[e][k2][k3][k4] has unaligned access   [ vectorization_study/hints/3/interpolation_hints_3.c(67,37) ]
+               remark #15381: vectorization support: unaligned access used inside loop body
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #15305: vectorization support: vector length 2
+               remark #15309: vectorization support: normalized vectorization overhead 0.667
+               remark #15450: unmasked unaligned unit stride loads: 2 
+               remark #15475: --- begin vector cost summary ---
+               remark #15476: scalar cost: 9 
+               remark #15477: vector cost: 4.500 
+               remark #15478: estimated potential speedup: 1.120 
+               remark #15488: --- end vector cost summary ---
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/hints/3/interpolation_hints_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================

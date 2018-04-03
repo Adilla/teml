@@ -1,0 +1,7 @@
+unroll_and_fuse(i1, 2)
+unroll_and_fuse(j1, 2)
+unroll_and_fuse(k1, 2)
+unroll_and_fuse(l1, 2)
+unroll_and_fuse(i12, 2)
+unroll_and_fuse(j12, 2)
+unroll_and_fuse(k12, 2)

@@ -1,0 +1,22 @@
+for (tt1 = 0; tt1 < 10; tt1++) 
+    for (tt2 = 0; tt2 < 10; tt2++) 
+    	A[tt1][tt2] = tt1 + tt2 + 5;
+	for (tt3 = 0; tt3 < 10; tt3++)
+	    D[tt1][tt2][tt3] = tt1+tt2+tt3;
+
+
+for (e = 0; e < 512; e++) 
+    for (tt1 = 0; tt1 < 10; tt1++) 
+    for (tt2 = 0; tt2 < 10; tt2++) 	
+ 	for (tt3 = 0; tt3 < 10; tt3++) {
+	    u[e][tt1][tt2][tt3] = tt1 * tt2 + 5;
+	    v[e][tt1][tt2][tt3] = 0;
+ 	    tmp1[e][tt1][tt2][tt3] = 0;
+	    tmp2[e][tt1][tt2][tt3] = 0;	
+ 	    tmp3[e][tt1][tt2][tt3] = 0;
+	    tmp4[e][tt1][tt2][tt3] = 0;	
+ 	    tmp5[e][tt1][tt2][tt3] = 0;
+	    tmp6[e][tt1][tt2][tt3] = 0;	
+	    }
+
+

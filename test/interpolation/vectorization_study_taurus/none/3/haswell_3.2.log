@@ -1,0 +1,874 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: main()
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(17,1)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #25436: completely unrolled by 3  
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(18,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25436: completely unrolled by 3  
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(18,3)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(21,1)
+   remark #15301: OUTER LOOP WAS VECTORIZED
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(22,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(23,5)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(24,7)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(32,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #25444: Loopnest Interchanged: ( 1 2 3 4 5 ) --> ( 1 2 3 5 4 )
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(34,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 60
+      remark #25038: Assignment chain collapsed as single sum in loop
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(36,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(40,1)
+            remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+            remark #15346: vector dependence: assumed OUTPUT dependence between tmp1[e][i1][i2][i3] (41:5) and tmp1[e][i1][i2][i3] (41:5)
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(40,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(40,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(32,1)
+<Distributed chunk2>
+   remark #25444: Loopnest Interchanged: ( 1 2 3 4 5 ) --> ( 1 2 3 5 4 )
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(47,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 60
+      remark #25038: Assignment chain collapsed as single sum in loop
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(49,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(53,1)
+            remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+            remark #15346: vector dependence: assumed OUTPUT dependence between tmp2[e][j1][j2][j3] (54:5) and tmp2[e][j1][j2][j3] (54:5)
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(53,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(53,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(32,1)
+<Distributed chunk3>
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(60,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(62,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: main() [haswell]
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(17,1)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #25436: completely unrolled by 3  
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(18,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25436: completely unrolled by 3  
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(18,3)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(21,1)
+   remark #15301: OUTER LOOP WAS VECTORIZED
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(22,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(23,5)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(24,7)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(32,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #25444: Loopnest Interchanged: ( 1 2 3 4 5 ) --> ( 1 2 3 5 4 )
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(34,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 60
+      remark #25038: Assignment chain collapsed as single sum in loop
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(36,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(40,1)
+            remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+            remark #15346: vector dependence: assumed OUTPUT dependence between tmp1[e][i1][i2][i3] (41:5) and tmp1[e][i1][i2][i3] (41:5)
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(40,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(40,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(32,1)
+<Distributed chunk2>
+   remark #25444: Loopnest Interchanged: ( 1 2 3 4 5 ) --> ( 1 2 3 5 4 )
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(47,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 60
+      remark #25038: Assignment chain collapsed as single sum in loop
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(49,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(53,1)
+            remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+            remark #15346: vector dependence: assumed OUTPUT dependence between tmp2[e][j1][j2][j3] (54:5) and tmp2[e][j1][j2][j3] (54:5)
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(53,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(53,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(32,1)
+<Distributed chunk3>
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(60,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(62,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: main() [generic]
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(17,1)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #25436: completely unrolled by 3  
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(18,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25436: completely unrolled by 3  
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(18,3)
+   LOOP END
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(18,3)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(21,1)
+   remark #15301: OUTER LOOP WAS VECTORIZED
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(22,3)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(23,5)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(24,7)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(32,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #25444: Loopnest Interchanged: ( 1 2 3 4 5 ) --> ( 1 2 3 5 4 )
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(34,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 60
+      remark #25038: Assignment chain collapsed as single sum in loop
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(36,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(40,1)
+            remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+            remark #15346: vector dependence: assumed OUTPUT dependence between tmp1[e][i1][i2][i3] (41:5) and tmp1[e][i1][i2][i3] (41:5)
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(40,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(40,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(38,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(32,1)
+<Distributed chunk2>
+   remark #25444: Loopnest Interchanged: ( 1 2 3 4 5 ) --> ( 1 2 3 5 4 )
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(47,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 60
+      remark #25038: Assignment chain collapsed as single sum in loop
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(49,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(53,1)
+            remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+            remark #15346: vector dependence: assumed OUTPUT dependence between tmp2[e][j1][j2][j3] (54:5) and tmp2[e][j1][j2][j3] (54:5)
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(53,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(53,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(51,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(32,1)
+<Distributed chunk3>
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 162
+   remark #25038: Assignment chain collapsed as single sum in loop
+
+   LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(60,1)
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #25436: completely unrolled by 3  
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(62,1)
+         remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+         remark #25436: completely unrolled by 3  
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+            remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+            remark #25436: completely unrolled by 3  
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+               remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+               remark #25436: completely unrolled by 3  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+
+      LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(62,1)
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(64,1)
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/none/3/interpolation_3.c(66,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================

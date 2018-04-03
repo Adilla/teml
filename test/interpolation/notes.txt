@@ -1,0 +1,219 @@
+
+
+
+Useful Links:
+https://software.intel.com/en-us/get-started-with-advisor-vectorization-advisor
+https://software.intel.com/en-us/advisor-help-win-data-gflops
+https://scicomp.stackexchange.com/questions/11306/how-to-determine-the-amount-of-flops-my-computer-is-capable-of
+http://www.bnikolic.co.uk/blog/hpc-howto-measure-flops.html
+
+
+Principle of vectorization in Intel
+https://software.intel.com/sites/default/files/8c/a9/CompilerAutovectorizationGuide.pdf
+
+
+09/02/2018
+
+Study protocol
+
+    Evaluate original version with different data sizes from 2 to 10; For each data size:
+
+        Compile :    icc -O3 -qopenmp -qopt-report=5 -qopt-report-phase=vec -qopt-report-file=vectorization_study/$k/interpolation_vec_haswell_$k.log vectorization_study/$k/interpolation_vec_$k.c -o vectorization_study/$k/interpolation_vec_$k
+	        Log report (Mark with machine used and date)
+		        Understand where vectorization has been performed and when not and why not and what should have been done.
+
+What has been done in ivie:
+Deactivated generation of multiple variants (commented huge section)
+Removed attribute align 64 in C_backend
+Created bash file to generate original code for each data size
+Remark: do not interrrupt generation script otherwise it will corrupt interpolation.ivie file (with improper data sizes). Let execution finish, then restart if necessary.
+Changed 512 to 216 because my machine cannot handle 512 element above po=9.  Moreover, this size is in CFDlang paper. (uhm, still does not work with 216 anyway)
+Removed align instructions
+
+I also set /proc/sys/kernel/yama/ptrace_scop to 0 (old value was 1) for Intel debugger
+
+
+One could expect the following optimizations:
+L1 : interchange (1 2 3 4 5) -> (1 2 5 3 4), collapse i2 - i3, vectorize (??)
+L2 : interchange (1 2 3 4 5) -> (1 2 3 5 4),  vectorize (??)
+L3 : collapse i2-i3, vectorize (??)
+(I don't know when to vectorize and/or unroll)
+
+What intel does (Mesh size= 512, still with align instructions):
+
+For n = 2, 3, 5, 6, 7
+Auto-vectorization:
+Permutation (1 2 3 4 5) -> (1 2 3 5 4) in L1, L2
+Does not vectorize L1 L2 L3 generally because assume inefficiency of vectorization
+Assumes a output dependency on reduction loop in L1 and L2 only
+Unrolls all dimensions per n
+
+For n=4
+Idem as previous but no more assuming of output dependency anywhere
+
+For n=8, 12
+No loop interchange in L1
+Vectorizes L1.i2, L2.i2, L3.i4
+No unrolling
+Collapse in L3
+
+For n=9, 11
+No loop interchange in L1
+Vectorizes L1.i2, L2.i2, L3.i4
+Generates remainder loop, fully unrolled across all dimensions in L1 and L2
+Loop pre-peeling in L3.i4, then vectorization. Remainder loop generated from vectorization.
+Collapse in L3
+
+For n=10
+L1: vectorizes i2
+L2: Loop interchange, vectorizes i2, assumes dependency on i4 (after permutation)
+L3: vectorizes i4, collapses i2-i3
+
+For n=13
+L1: vectorizes i4, remainder loop completely unrolled (only 1 iteration)
+L2: interchange, vectorizes permuted loop after peeling
+L3: collapsing, vectorization of inner loop after peeling.
+
+
+
+
+Check what is "Alternate Alignment Vectorized loop", "Assignment chain collapsed as single sum in loop"
+
+Maybe try to profile with Intel Advisor.
+I tried to profile with Amplxe but it says "collected data is not sufficient"
+Actually, Advisor crashes, maybe due to some kind of PIN problem (https://software.intel.com/en-us/articles/pin-errors-in-2017-update-3-and-4-analysis-tools). Need to try update my current version to see if I can go further.
+
+
+
+12/03/2018
+
+
+Finally able to compile on Taurus.
+Modification made compared to the last time:
+
+    I don't think it's necessary to search with None. If we argue that, even if the compiler does not do anything in the presence of inductive variable, we can still say that they at least provide #ivdep so it's my responsibility to provide this.
+        I removed the vector always instruction. In fact, this enforces the vectorization, thing that I don't want.
+
+Recapitulatif des opportunites de transformations:
+
+    L1:
+            Permutation: 1 2 3 4 5 --> 1 2 5 3 4
+	            Collapsing: 3 -- 4
+		            Vectorization: inner given ivdep
+			            unrolling: any
+				        L2:
+					        Permutation: 1 2 3 4 5 --> 1 2 3 5 4
+						        Vectorization: inner given ivdep
+							        unrolling: any
+								    L3:
+								            Collapsing: 3 -- 4
+									            Vectorization: inner given ivdep
+										            unrolling: any.
+
+
+Results
+
+With HINTS
+
+It looks like icc systematically distributes all loops.
+Instead of having one mesh loop, each inner loop has its own mesh loop.
+
+The reason why there is no difference between hints and align is simply because there is already aligned access (see log of verbosity 5).
+
+Sizes 2, 3:
+Completely unrolls every dimension in all loops.
+
+Size 4:
+Unroll_and_jam(e1, 4) + full unroll of each dimension in remainder.
+Unroll(i3, 4)
+vectorize(i4)
+[same for e2, j3, j4 and e3, k3, k4]
+
+Size 5, 6, 7:
+Unroll_and_jam(e1, 4), apparently, there is a remainder chunk, fully unrolled.
+Peel_end(i1, 1)
+Unroll_and_jam(i1, 4), in remainder, full unrolling of every dimension
+Peel_end(i4, 1)
+vectorize(i4)
+Completely unrolls every dimension in peeled iteration of i1.
+[Same for rest]
+
+Size 8:
+Unroll_and_jam(e1, 4), in remainder, vectorizes dimension 3
+unroll_and_jam(i1, 4), in remainder, fully unroll inner
+vectorize(i4)
+[same for L2]
+Unroll_and_jam(e1, 8), in remainder, unrolls by 2 avant-derniere dimension and vectorizes inner loop.
+Unroll_and_jam(k1, 4), in remainder, vectorizes inner loop.
+Collapse(k2, k3)
+vectorize(k4)
+
+Size 9, 11:
+Unroll_and_jam(e1, 4), in remainder vectorizes dimension 3 after peeling one iteration (which itself is fully unrolled at each dimension)
+Peel_end(i1, 1)
+Unroll_and_jam(i1, 4), in remainder, vectorizes inner dimension after peeling necessary iteration.
+Peel_end(i4, 1)
+vectorize(i4)
+[Same for L2]
+Unroll_and_jam(e3, 8), in remainder, vectorizes inner loop after peeling necessary iteration.
+Unroll_and_jam(k1, 4), in remainder, vectorizes inner dimension after peeling necessary iteration.
+Collapse(k2, k3)
+vectorizes(k4) after peeling one iteration.
+
+Size 10, 12:
+Same as 9, except that some of the vectorization applied (in remainder included, do not necessary involve peeling first).
+
+Size 13:
+Unroll_and_jam(e1, 4), in remainder vectorizes innermost dimension after peeling whats necessary
+Peel_end(i1, 1)
+Unroll_and_jam(i1, 4), in remainder, vectorizes inner dimension after peeling necessary iteration.
+Peel_end(i4, 1)
+vectorize(i4)
+[Same for L2]
+Unroll_and_jam(e3, 8), in remainder, vectorizes inner loop after peeling necessary iteration.
+Unroll_and_jam(k1, 4), in remainder, vectorizes inner dimension after peeling necessary iteration.
+Collapse(k2, k3)
+vectorizes(k4) after peeling one iteration.
+
+
+Size 14:
+Unroll_and_jam(e1, 4), in remainder vectorizes innermost dimension, says to completely unroll previous one (i don't understand how this is possible).
+Peel_end(i1, 1)
+Unroll_and_jam(i1, 4), in remainder, vectorizes inner dimension after peeling necessary iteration.
+Peel_end(i4, 1)
+vectorize(i4)
+[Same for L2]
+Unroll_and_jam(e3, 8), in remainder, vectorizes inner loop
+Unroll_and_jam(k1, 4), in remainder, vectorizes inner dimension after peeling whats necessary
+Collapse(k2, k3)
+vectorizes(k4) after peeling one iteration after peeling whats necessary
+
+
+Bilan.
+
+We can identify (at least a bit) how intel does some choices.
+First of all, it relies of doing cost models.
+For vectorization, it first tries to vectorize innermost dimension, unless the cost model reveals it will not be sufficient. It will successively try to vectorize a given dimension, then a previous one, until it finds something to vectorize.
+I think if vectorization is completely inefficietn, it will just unroll everything. That is what happens in data size below 4.
+At 4, it starts vectorizing inner dimensions.
+The only places where it does not systematically vectorize inner loops, even if there are at least 4 element is in remainder loops. I think that in fact, the cost models computes the impact of vectorization in the entire loop, including the mesh loop. In remainder loops, of the mesh loop especially, there are too few iteration. I guess that's why it will have to find other dimensiosn than the innermost to vectorize.
+It is not clear if in these cases, unrolling on the non-efficient inner loops is done before vectorizing.
+That's what I am assuming, otherwise, I don't know.
+
+Another observation is that it never interchanges anything, unlike the variants with no hints at all.
+One hypothesis (to be confirmed with experimenting on output with actual initialization) is that the hints help the compiler to understand that the dependency its assuming is safe for vectorization.
+Without these hints, the compiler does not even try (most of the time) to vectorize. So it will now seek for other opportunities, including interchanging.
+
+It only collapses in the last loop, while it still had the opportunity to do it in the first loop (for sizes above 4, where it stops fully unrolling everything).
+
+
+WITHOUT HINTS
+
+It looks like without ivdep, it's less predictable when icc will consider reduction as output dependencies.
+Also, it does some interchanging, but not always.
+Actually, it looks like its the same output as what has already been observed in the first experimentation on None.
+
+One thing that I think is that, icc really needs hints.
+As soon has it has the insurance that there is no dependency, there is kind of a pattern in what is going the be vectorized or unrolled. And loop interchanges does not seem to be a priority.
+
+

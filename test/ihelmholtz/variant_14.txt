@@ -1,0 +1,7 @@
+parallelize(i2, VEC, None, None)
+parallelize(j2, VEC, None, None)
+parallelize(k2, VEC, None, None)
+parallelize(l2, VEC, None, None)
+parallelize(i22, VEC, None, None)
+parallelize(j22, VEC, None, None)
+parallelize(k22, VEC, None, None)

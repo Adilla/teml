@@ -1,0 +1,64 @@
+u = array(3, double, [4, 8, 8])
+M123 = array(3, double, [4, 8, 8])
+Lh = array(2, double, [4, 8])
+d1 = scalar(double)
+d2 = scalar(double)
+d3 = scalar(double)
+
+Mu = entrywise_mul(M123, u)
+cr1 = contract(Lh, Mu, [2, 1])
+r1 = scalar_mul(d1, cr1)
+cr2 = contract(Lh, Mu, [2, 2])
+r2 = scalar_mul(d2, cr2)
+cr3 = contract(Lh, Mu, [2, 3])
+r3 = scalar_mul(d3, cr3)
+
+
+
+i1 = iterator(0, 8, 1)
+i2 = iterator(0, 8, 1)
+i3 = iterator(0, 8, 1)
+
+j1 = iterator(0, 8, 1)
+j2 = iterator(0, 8, 1)
+j3 = iterator(0, 8, 1)
+j4 = iterator(0, 8, 1)
+
+j11 = iterator(0, 8, 1)
+j22 = iterator(0, 8, 1)
+j33 = iterator(0, 8, 1)
+
+k1 = iterator(0, 8, 1)
+k2 = iterator(0, 8, 1)
+k3 = iterator(0, 8, 1)
+k4 = iterator(0, 8, 1)
+
+l1 = iterator(0, 8, 1)
+l2 = iterator(0, 8, 1)
+l3 = iterator(0, 8, 1)
+l4 = iterator(0, 8, 1)
+
+k11 = iterator(0, 8, 1)
+k22 = iterator(0, 8, 1)
+k33 = iterator(0, 8, 1)
+
+l11 = iterator(0, 8, 1)
+l22 = iterator(0, 8, 1)
+l33 = iterator(0, 8, 1)
+
+
+build(Mu, [i1, i2, i3])
+build(cr1, [j1, j2, j3, j4])
+build(r1, [j11, j22, j33])
+build(cr2, [k1, k2, k3, k4])
+build(r2, [k11, k22, k33])
+build(cr3, [l1, l2, l3, l4])
+build(r3, [l11, l22, l33])
+parallelize(i2, VEC, None, None)
+unroll(i3, 8)
+parallelize(j3, VEC, None, None)
+unroll(j4, 8)
+parallelize(k3, VEC, None, None)
+unroll(k4, 8)
+parallelize(l3, VEC, None, None)
+unroll(l4, 8)

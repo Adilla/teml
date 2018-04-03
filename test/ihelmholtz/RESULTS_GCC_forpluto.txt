@@ -1,0 +1,84 @@
+8
+3
+Parallel Pluto
+Time: 0.009826 ms
+Parallel Pluto tile no fuse
+Time: 0.004259 ms
+Parallel Pluto tile smart fuse
+Time: 0.004242 ms
+Parallel Pluto tile max fuse
+Time: 0.004299 ms
+17
+Parallel Pluto
+Time: 0.021891 ms
+Parallel Pluto tile no fuse
+Time: 0.010227 ms
+Parallel Pluto tile smart fuse
+Time: 0.011704 ms
+Parallel Pluto tile max fuse
+Time: 0.011869 ms
+33
+Parallel Pluto
+Time: 0.095776 ms
+Parallel Pluto tile no fuse
+Time: 0.113126 ms
+Parallel Pluto tile smart fuse
+Time: 0.140872 ms
+Parallel Pluto tile max fuse
+Time: 0.135746 ms
+750
+3
+Parallel Pluto
+Time: 0.020539 ms
+Parallel Pluto tile no fuse
+Time: 0.009168 ms
+Parallel Pluto tile smart fuse
+Time: 0.007394 ms
+Parallel Pluto tile max fuse
+Time: 0.007431 ms
+17
+Parallel Pluto
+Time: 0.515230 ms
+Parallel Pluto tile no fuse
+Time: 0.670971 ms
+Parallel Pluto tile smart fuse
+Time: 0.754174 ms
+Parallel Pluto tile max fuse
+Time: 0.742884 ms
+33
+Parallel Pluto
+Time: 2.246308 ms
+Parallel Pluto tile no fuse
+Time: 8.857816 ms
+Parallel Pluto tile smart fuse
+Time: 11.406805 ms
+Parallel Pluto tile max fuse
+Time: 10.732040 ms
+7500
+3
+Parallel Pluto
+Time: 0.105064 ms
+Parallel Pluto tile no fuse
+Time: 0.024712 ms
+Parallel Pluto tile smart fuse
+Time: 0.023698 ms
+Parallel Pluto tile max fuse
+Time: 0.027254 ms
+17
+Parallel Pluto
+Time: 4.591155 ms
+Parallel Pluto tile no fuse
+Time: 6.348649 ms
+Parallel Pluto tile smart fuse
+Time: 7.362608 ms
+Parallel Pluto tile max fuse
+Time: 7.244767 ms
+33
+Parallel Pluto
+Time: 22.441515 ms
+Parallel Pluto tile no fuse
+Time: 89.320552 ms
+Parallel Pluto tile smart fuse
+Time: 112.759288 ms
+Parallel Pluto tile max fuse
+Time: 109.997522 ms

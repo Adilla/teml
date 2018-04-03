@@ -1,0 +1,74 @@
+rt = array(3, double, [N, N, N])
+ut = operand(3, double, [N, N, N])
+L  = array(2, double, [N, N])
+w  = array(1, double, [N])
+
+
+
+i1 = iterator(0, N, 1)
+i2 = iterator(0, N, 1)
+i3 = iterator(0, N, 1)
+
+j1 = iterator(0, N, 1)
+j2 = iterator(0, N, 1)
+j3 = iterator(0, N, 1)
+j4 = iterator(0, N, 1)
+
+k1 = iterator(0, N, 1)
+k2 = iterator(0, N, 1)
+k3 = iterator(0, N, 1)
+k4 = iterator(0, N, 1)
+
+l1 = iterator(0, N, 1)
+l2 = iterator(0, N, 1)
+l3 = iterator(0, N, 1)
+l4 = iterator(0, N, 1)
+
+
+
+    with perm i1 as siter:
+        with perm i2 as siter:
+            with perm i3 as siter:
+                rt[i1][i2][i3] = f1(rt[i1][i2][i3], w[i1], w[i2], w[i3], ut[i1][i2][i3])
+
+    with perm j1 as siter:
+        with perm j2 as siter:
+            with perm j3 as siter:
+                with perm j4 as siter:
+                    rt[j1][j2][j3] = f2(rt[j1][j2][j3], L[j1][j4], w[j2], w[j3], ut[j4][j2][j3])
+
+
+    with perm k1 as siter:
+        with perm k2 as siter:
+            with perm k3 as siter:
+                with perm k4 as siter:
+                    rt[k1][k2][k3] = f3(rt[k1][k2][k3], w[k1], L[k2][k4], w[k3], ut[k1][k4][k3])
+
+    with perm l1 as siter:
+        with perm l2 as siter:
+            with perm l3 as siter:
+                with perm l4 as siter:
+                    rt[l1][l2][l3] = f4(rt[l1][l2][l3], w[l1], w[l2], L[l3][l4], ut[l1][l2][l4])
+
+
+interchange(j2, j4) 
+interchange(j3, j2) 
+interchange(k3, k4) 
+fuse(j1, k1) 
+fuse(j4, k2) 
+fuse(j2, k4) 
+fuse(j3, k3) 
+fuse(j1, l1) 
+fuse(j4, l2) 
+fuse(j2, l3) 
+fuse(j3, l4) 
+fuse(i1, j1) 
+fuse(i2, j4) 
+fuse(i3, j2) 
+ti1 = tile_iterator(i1, 8)
+ti2 = tile_iterator(i2, 8)
+ti3 = tile_iterator(i3, 8)
+tj3 = tile_iterator(j3, 8)
+tile(i1, i2, i3)
+stripmine(j3)
+parallelize(ti1, THRD, None, [ti2, ti3, tj3, i1, i2, i3, j3])

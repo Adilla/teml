@@ -1,0 +1,559 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: main()
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(19,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+   remark #25444: Loopnest Interchanged: ( 1 2 3 4 5 ) --> ( 1 2 3 5 4 )
+
+   LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(21,1)
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 588
+
+      LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(23,1)
+         remark #25436: completely unrolled by 7  
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(27,1)
+            remark #25436: completely unrolled by 7  
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+               remark #25436: completely unrolled by 7  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(27,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(27,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(27,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(27,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(27,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(27,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(25,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(19,1)
+<Distributed chunk2>
+   remark #25444: Loopnest Interchanged: ( 1 2 3 4 5 ) --> ( 1 2 3 5 4 )
+
+   LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(34,1)
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 588
+
+      LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(36,1)
+         remark #25436: completely unrolled by 7  
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(40,1)
+            remark #25436: completely unrolled by 7  
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+               remark #25436: completely unrolled by 7  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(40,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(40,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(40,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(40,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(40,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(40,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(38,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(19,1)
+<Distributed chunk3>
+
+   LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(47,1)
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 588
+
+      LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(49,1)
+         remark #25436: completely unrolled by 7  
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(51,1)
+            remark #25436: completely unrolled by 7  
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+               remark #25436: completely unrolled by 7  
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(51,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(51,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(51,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(51,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(51,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+         LOOP END
+
+         LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(51,1)
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/align/7/interpolation_align_7.c(53,1)
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================

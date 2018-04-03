@@ -1,0 +1,7 @@
+parallelize(i3, VEC, None, None)
+parallelize(j3, VEC, None, None)
+parallelize(k3, VEC, None, None)
+parallelize(l3, VEC, None, None)
+parallelize(i32, VEC, None, None)
+parallelize(j32, VEC, None, None)
+parallelize(k32, VEC, None, None)

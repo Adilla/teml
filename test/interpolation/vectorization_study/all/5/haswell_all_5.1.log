@@ -1,0 +1,86 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: main()
+
+    Report from: Loop nest & Vector optimizations [loop, vec]
+
+
+LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(19,1)
+<Distributed chunk1>
+   remark #25426: Loop Distributed (3 way) 
+
+   LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(21,1)
+      remark #25460: No loop optimizations reported
+
+      LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(23,1)
+         remark #25460: No loop optimizations reported
+
+         LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(25,1)
+            remark #25460: No loop optimizations reported
+
+            LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(28,1)
+               remark #15300: LOOP WAS VECTORIZED
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(28,1)
+            <Remainder loop for vectorization>
+               remark #25436: completely unrolled by 1  
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(19,1)
+<Distributed chunk2>
+
+   LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(35,1)
+      remark #25460: No loop optimizations reported
+
+      LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(37,1)
+         remark #25460: No loop optimizations reported
+
+         LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(39,1)
+            remark #25460: No loop optimizations reported
+
+            LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(42,1)
+               remark #15300: LOOP WAS VECTORIZED
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(42,1)
+            <Remainder loop for vectorization>
+               remark #25436: completely unrolled by 1  
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(19,1)
+<Distributed chunk3>
+
+   LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(49,1)
+      remark #25460: No loop optimizations reported
+
+      LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(51,1)
+         remark #25460: No loop optimizations reported
+
+         LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(53,1)
+            remark #25460: No loop optimizations reported
+
+            LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(56,1)
+               remark #15300: LOOP WAS VECTORIZED
+            LOOP END
+
+            LOOP BEGIN at vectorization_study/all/5/interpolation_all_5.c(56,1)
+            <Remainder loop for vectorization>
+               remark #25436: completely unrolled by 1  
+            LOOP END
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
