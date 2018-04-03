@@ -418,10 +418,12 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         #array = Contract(name, parent1, parent2, axes1, axes2)
         # if name in ["u", "v"] or "tmp" in name:
         #     array.cfdmesh = True
-        #R_ARRAYS.append(array)
+        R_ARRAYS.append(tensor)
 
-
-    if asstype == "scalar_mul":
+    if asstype == "scalar_add" or\
+       asstype == "scalar_sub" or\
+       asstype == "scalar_mul" or\
+       asstype == "scalar_div":
         ### Scalar multiplication 
         ### T[i, j] = u * B[i, j]
 
@@ -433,9 +435,18 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             if array.name == parent2:
                 parent2 = array
 
-        array = IvieArrayScalarMul(name, parent1, parent2)
-        if name in ["u", "v"] or "tmp" in name:
-            array.cfdmesh = True
+        sub1 = ["scalar"]            
+        sub2 = range(1, len(parent2.shape)+1)
+
+        s1 = Subscript(parent1, sub1)
+        s2 = Subscript(parent2, sub2)
+        op = asstype.replace("scalar_", "")
+        expr = Expression(op, s1, s2)
+            
+
+                
+        tensor = Tensor(name, parent2.dtype, parent2.shape, expr, None, asstype)
+
         R_ARRAYS.append(array)
         
 

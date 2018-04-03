@@ -18,3 +18,8 @@ T2 = outerproduct([Dt, Bt])
 
 Q = contract(D, A, [[2, 1], [1, 3]])
 Q2 = contract(D, A, [[2, 1]])
+
+V = scalar_mul(s, Q)
+V1 = scalar_add(s, Q)
+V2 = scalar_div(s, Q)
+V3 = scalar_sub(s, Q)
