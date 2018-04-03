@@ -184,7 +184,57 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         tensor = Transpose(name, parent, nranks)
         R_ARRAYS.append(tensor)
 
-    
+
+    if asstype == "entrywise_add" or\
+       asstype == "entrywise_sub" or\
+       asstype == "entrywise_mul" or\
+       asstype == "entrywise_div":
+        t1 = params[0].dumps()
+        t2 = params[1].dumps()
+
+        for t in R_ARRAYS:
+            if t.name == t1:
+                t1 = t
+            if t.name == t2:
+                t2 = t
+                
+        op = asstype.replace("entrywise_", "")
+        aft1 = Subscript(t1, range(1, len(t1.shape)))
+        aft2 = Subscript(t2, range(1, len(t2.shape)))
+        expr = Expression(op, aft1, aft2)
+        tensor = Entrywise(name, t1, t2, expr)
+        R_ARRAYS.append(tensor)
+
+
+
+    if asstype == "outerproduct":
+        ts = params[0].find("list").value
+
+        inputs = []
+        for data in ts:
+            t = data.find("name").value
+            for tens in R_ARRAYS:
+                if t == tens.name:
+                    inputs.append(tens)
+
+        print inputs
+        subscripts = []
+        outaccess = []
+        offset = 1
+        for inp in inputs:
+            subscript = Subscript(inp, range(offset, offset + len(inp.shape)))
+            subscripts.append(subscript)
+            offset = offset + len(inp.shape)
+            outaccess += subscript.access
+
+        innerexpr = Expression("mul", subscripts[-2], subscripts[-1])
+        
+        for i in range(len(subscripts) - 3, -1, -1):
+            expr = Expression("mul", subscripts[i], innerexpr)
+
+        print outaccess
+        
+        
     if asstype == "vtranspose":
         parentname = params[0].dumps()
         rank1 = params[1].dumps()
@@ -251,20 +301,20 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
 
 
 
-    if asstype == "outerproduct":
-        ### Tensor outer product
-        ### T[i,j] = A[i] * B[j]
+    # if asstype == "outerproduct":
+    #     ### Tensor outer product
+    #     ### T[i,j] = A[i] * B[j]
 
-        parent1 = params[0].dumps()
-        parent2 = params[1].dumps()
-        for array in R_ARRAYS + V_ARRAYS:
-            if array.name == parent1:
-                parent1 = array
-            if array.name == parent2:
-                parent2 = array
+    #     parent1 = params[0].dumps()
+    #     parent2 = params[1].dumps()
+    #     for array in R_ARRAYS + V_ARRAYS:
+    #         if array.name == parent1:
+    #             parent1 = array
+    #         if array.name == parent2:
+    #             parent2 = array
 
-        array = IvieArrayOuterproduct(name, parent1, parent2)
-        R_ARRAYS.append(array)
+    #     array = IvieArrayOuterproduct(name, parent1, parent2)
+    #     R_ARRAYS.append(array)
 
     if asstype == "contract":
         ### Tensor contraction
@@ -319,40 +369,40 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         R_ARRAYS.append(array)
         
 
-    if asstype == "entrywise_mul":
-        ### Entry wise multiplication
-        ### T[i,j] = A[i,j] * B[i, j]
+    # if asstype == "entrywise_mul":
+    #     ### Entry wise multiplication
+    #     ### T[i,j] = A[i,j] * B[i, j]
 
-        parent1 = params[0].dumps()
-        parent2 = params[1].dumps()
-        for array in R_ARRAYS + V_ARRAYS:
-            if array.name == parent1:
-                parent1 = array
-            if array.name == parent2:
-                parent2 = array
+    #     parent1 = params[0].dumps()
+    #     parent2 = params[1].dumps()
+    #     for array in R_ARRAYS + V_ARRAYS:
+    #         if array.name == parent1:
+    #             parent1 = array
+    #         if array.name == parent2:
+    #             parent2 = array
 
-        array = IvieArrayEntrywise(name, parent1, parent2, "mul")
-        if name in ["u", "v"] or "tmp" in name:
-            array.cfdmesh = True
-        R_ARRAYS.append(array)
+    #     array = IvieArrayEntrywise(name, parent1, parent2, "mul")
+    #     if name in ["u", "v"] or "tmp" in name:
+    #         array.cfdmesh = True
+    #     R_ARRAYS.append(array)
 
 
-    if asstype == "entrywise_add":
-        ### Entry wise multiplication
-        ### T[i,j] = A[i,j] + B[i, j]
+    # if asstype == "entrywise_add":
+    #     ### Entry wise multiplication
+    #     ### T[i,j] = A[i,j] + B[i, j]
 
-        parent1 = params[0].dumps()
-        parent2 = params[1].dumps()
-        for array in R_ARRAYS + V_ARRAYS:
-            if array.name == parent1:
-                parent1 = array
-            if array.name == parent2:
-                parent2 = array
+    #     parent1 = params[0].dumps()
+    #     parent2 = params[1].dumps()
+    #     for array in R_ARRAYS + V_ARRAYS:
+    #         if array.name == parent1:
+    #             parent1 = array
+    #         if array.name == parent2:
+    #             parent2 = array
 
-        array = IvieArrayEntrywise(name, parent1, parent2, "add")
-        if name in ["u", "v"] or "tmp" in name:
-            array.cfdmesh = True
-        R_ARRAYS.append(array)
+    #     array = IvieArrayEntrywise(name, parent1, parent2, "add")
+    #     if name in ["u", "v"] or "tmp" in name:
+    #         array.cfdmesh = True
+    #     R_ARRAYS.append(array)
 
 
     ## Test: Replicate for both iterators and arrays.

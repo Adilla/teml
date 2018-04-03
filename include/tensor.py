@@ -14,13 +14,14 @@ class Subscript():
 
 class Expression():
     op = None
-    subscript1 = None
-    subscript2 = None
+    left = None
+    right = None
 
-    def __init__(self, op, subscript1, subscript2):
+    def __init__(self, op, left, right):
         self.op = op
-        self.subscript1 = subscript1
-        self.subscript2 = subscript2
+        self.left = left
+        self.right = right
+ 
     
     
 
@@ -64,16 +65,20 @@ class Op(Tensor):
         self.expr = expr
 
 class Transpose(Tensor):
-
+    
     def __init__(self, name, parent, ranks):
         self.name = name
         self.parent = parent
         self.dtype = parent.dtype
-        self.expr = parent.expr
-
-          
         tmp_shape = deepcopy(parent.shape)
         self.shape = swap_rec(tmp_shape, ranks, 0, len(ranks))
 
-        print parent.shape
-        print self.shape
+
+class Entrywise(Tensor):
+
+    def __init__(self, name, parent1, parent2, expr):
+        self.name = name
+        self.dtype = parent1.dtype
+        self.shape = parent1.shape
+        self.expr = expr
+        
