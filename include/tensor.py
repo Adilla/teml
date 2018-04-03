@@ -1,5 +1,28 @@
 from copy import deepcopy, copy
 from termcolor import colored
+from utils import *
+
+
+
+class Subscript():
+    tensor = None
+    access = None
+
+    def __init__(self, tensor, access):
+        self.tensor = tensor
+        self.access = access
+
+class Expression():
+    op = None
+    subscript1 = None
+    subscript2 = None
+
+    def __init__(self, op, subscript1, subscript2):
+        self.op = op
+        self.subscript1 = subscript1
+        self.subscript2 = subscript2
+    
+    
 
 class Tensor():
     dtype = None
@@ -34,4 +57,23 @@ class Tensorize(Tensor):
         self.shape = ['1']
         self.parent = parent
 
+class Op(Tensor):
 
+    def __init__(self, name, expr):
+        self.name = name
+        self.expr = expr
+
+class Transpose(Tensor):
+
+    def __init__(self, name, parent, ranks):
+        self.name = name
+        self.parent = parent
+        self.dtype = parent.dtype
+        self.expr = parent.expr
+
+          
+        tmp_shape = deepcopy(parent.shape)
+        self.shape = swap_rec(tmp_shape, ranks, 0, len(ranks))
+
+        print parent.shape
+        print self.shape

@@ -4,6 +4,12 @@ from src.frontends.tml_frontend import *
 from redbaron import RedBaron
 import re
 
+def preprocess_source(src):
+    """ Removes all syntactic sugar for the sources to be fully Python-compliant """
+    
+    src = src.replace(" -> ", ",")
+
+    return src
 
 def parse_tml(src):
     """ Parses TeML source with RedBaron 
@@ -14,7 +20,8 @@ def parse_tml(src):
 
     prog = None
     with open(src, "r") as source:
-        prog = RedBaron(source.read())
+        tmp = preprocess_source(source.read())
+        prog = RedBaron(tmp)
 
     return prog
 

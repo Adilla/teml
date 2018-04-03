@@ -57,9 +57,85 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
 
         # if name in ["u", "v"] or "tmp" in name:
         #     array.cfdmesh = True
-
     # Experiemntal
+
+
+    if asstype == "add" or \
+       asstype == "sub" or \
+       asstype == "mul" or \
+       asstype == "div":
         
+        t1 = params[0].dumps()
+        t2 = params[1].dumps()
+        afin = params[2].find("list").value
+        afout = params[3].find("list").value
+
+        for t in R_ARRAYS:
+            if t1 == t.name:
+                t1 = t
+            if t2 == t.name:
+                t2 = t
+
+        dtype = t1.dtype
+        
+        for i in range(0, len(afin[0])):
+            afin[0][i] = afin[0][i].dumps()
+
+        for i in range(0, len(afin[1])):
+            afin[1][i] = afin[1][i].dumps()
+        
+        af1 = Subscript(t1, afin[0])
+        af2 = Subscript(t2, afin[1])
+
+        expr = Expression(asstype, af1, af2)
+
+        tensor = Op(name, expr)
+        R_ARRAYS.append(tensor)
+
+        
+    if asstype == "vadd" or \
+       asstype == "vsub" or \
+       asstype == "vmul" or \
+       asstype == "vdiv":
+        
+        t1 = params[0].dumps()
+        t2 = params[1].dumps()
+
+        
+        if len(params) > 2:
+            ## If there is some access function provided
+            pass
+        else:
+            pass
+
+            
+        
+        # afin = params[2].find("list").value
+    
+        # for t in R_ARRAYS:
+        #     if t1 == t.name:
+        #         t1 = t
+        #     if t2 == t.name:
+        #         t2 = t
+
+        # dtype = t1.dtype
+        
+        # for i in range(0, len(afin[0])):
+        #     afin[0][i] = afin[0][i].dumps()
+
+        # for i in range(0, len(afin[1])):
+        #     afin[1][i] = afin[1][i].dumps()
+        
+        # af1 = Subscript(t1, afin[0])
+        # af2 = Subscript(t2, afin[1])
+
+        # expr = Expression(asstype, af1, af2)
+
+        # tensor = Op(name, expr)
+        # R_ARRAYS.append(tensor)
+
+    
+    
     """
     if asstype == "replicate":
         parentname = params[0].dumps()
@@ -74,19 +150,41 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         R_ARRAYS.append(array)
     """
 
-    if asstype == "transpose":
-        parentname = params[0].dumps()
-        rank1 = params[1].dumps()
-        rank2 = params[2].dumps()
-        parent = None
-        for par in R_ARRAYS + V_ARRAYS:
-            if par.name == parentname:
-                parent = par
+    # if asstype == "transpose":
+    #     parentname = params[0].dumps()
+    #     rank1 = params[1].dumps()
+    #     rank2 = params[2].dumps()
+    #     parent = None
+    #     for par in R_ARRAYS + V_ARRAYS:
+    #         if par.name == parentname:
+    #             parent = par
 
-        array = IvieArrayTranspose(name, parent, rank1, rank2)
-        R_ARRAYS.append(array)
+    #     array = IvieArrayTranspose(name, parent, rank1, rank2)
+    #     R_ARRAYS.append(array)
         
 
+
+    if asstype == "transpose":
+        parent = params[0].dumps()
+        ranks = params[1].find("list").value
+
+        nranks = []
+        for i in range(0, len(ranks)):
+            tmp_ = []
+            tmp = ranks[i].find("list").value
+            for j in range(0, len(tmp)):
+                tmp_.append(tmp[j].find("int").dumps())
+            nranks.append(tmp_)
+
+
+        for t in R_ARRAYS:
+            if t.name == parent:
+                parent = t
+                
+        tensor = Transpose(name, parent, nranks)
+        R_ARRAYS.append(tensor)
+
+    
     if asstype == "vtranspose":
         parentname = params[0].dumps()
         rank1 = params[1].dumps()
@@ -151,31 +249,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
                     array = IvieArraySelect(name, pairs)
                     V_ARRAYS.append(array)
 
-
-
-    # Experimental
-    if asstype == "intermediate":
-        ### If tensor products for CFD, we need to 
-        ### handle intermediate arrays.  
-        ### An idea is at first, to consider intermediate
-        ### as virtual arrays. Then when analysing the 
-        ### program, we may determine the real number 
-        ### of intermediate arrays that are required.
-        ### Arrays that are required will be changed 
-        ### as physical arrays.
-        ### Intermerdiate arrays are useful for 
-        ### operands. 
-
-        origin = params[0].dumps()
-
-        for array in R_ARRAYS + V_ARRAYS:
-            if array.name == origin:
-                origin = array
-
-        array = IvieArrayIntermediate(name, origin)
-        array.set_forbid_purge(True)
-        #V_ARRAYS.append(array)
-        R_ARRAYS.append(array)
 
 
     if asstype == "outerproduct":
@@ -320,76 +393,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         iterator = IvieIteratorIterator(name, minbound, maxbound, stride)
         ITERATORS.append(iterator)
 
-
-    if asstype == "virtualize":
-        parent = params[0].dumps()
-        for iterator in ITERATORS:
-            if parent == iterator.name:
-                parent = iterator
-
-        iterator = IvieIteratorVirtualize(name, parent)
-        parent.add_virtualized(iterator)
-        ITERATORS.append(iterator)
-        #V_ITERATORS.append(iterator)
-
-    # Experimental
-    if asstype == "axetraversor":
-        ### CFD specfic
-        ### During these tensor products, 
-        ### some iterators are using for traversing
-        ### axes where the contraction is performed
-        ### with the operand. I need to know which one 
-        ### these are so that when "purging", array
-        ### references remaining that use one of the purged
-        ### axetraversor may be replaced by the parent of 
-        ### the axetraversor.
-
-        parent = params[0].dumps()
-        for iterator in ITERATORS:
-            if parent == iterator.name:
-                parent = iterator
-
-        iterator = IvieIteratorAxetraversor(name, parent)
-        iterator.set_axe_traversal(True)
-        ITERATORS.append(iterator)
-
-    """
-    if asstype == "replicate_iterator":
-        par = params[0].dumps()
-        parent = None
-        for it in ITERATORS:
-            if it.name == par:
-                parent = it
-
-        iterator = IvieIteratorReplicate(name, parent)
-        ITERATORS.append(iterator)
-
-    """
-
-    # Experimental
-    if asstype == "replicate_axetraversor":
-        parent = params[0].dumps()
-        parent2 = params[1].dumps()
-        for it in ITERATORS:
-            if it.name == parent:
-                parent = it
-                if it.name == parent2:
-                    parent2 = it
-                    iterator = IvieIteratorReplicateAxetraversor(name, parent, parent2)
-                    iterator.set_axe_traversal(True)
-                    ITERATORS.append(iterator)
-
-    if asstype == "tile_iterator":
-        child = params[0].dumps()
-        stride = params[1].dumps()
-        for iter_ in ITERATORS:
-            if iter_.name == child:
-                child = iter_
-                
-        iterator = IvieIteratorTile(name, child.minbound, child.maxbound, stride, child)
-        # Search for child to set tile_parent
-        child.set_tile_parent(iterator)
-        ITERATORS.append(iterator)
 
 
 # def process_withcontextitem(item, ITERATORS):
