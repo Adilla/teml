@@ -10,10 +10,11 @@ def parse_tml(src):
 
     Returns a Python full syntax tree (FST)
     """
-    
+
+
     prog = None
     with open(src, "r") as source:
-        prog = RedBaron(source)
+        prog = RedBaron(source.read())
 
     return prog
 
@@ -23,7 +24,7 @@ def main():
     fst = parse_tml(source)
     prog = process_FST(fst)
 
-    print prog.debug_print()
+    #print prog.debug_print()
 
 
 if __name__ == "__main__":

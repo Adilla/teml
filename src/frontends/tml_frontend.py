@@ -1,6 +1,6 @@
 import redbaron
 
-from include.arrays import *
+from include.tensor import *
 from include.iterators import *
 from include.loops import *
 from include.program import *
@@ -22,72 +22,43 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
     params = element.find("atomtrailers").find_all("callargument")
 
 
-    # Scalars 
     if asstype == "scalar":
         ## Scalars are stored as arrays with dimension 0 and sizes == []
-        datatype = params[0].dumps()
-        array = IvieArrayArray(name, "0", datatype, [])
-        R_ARRAYS.append(array)
+        dtype = params[0].dumps()
+        scal = Scalar(name, dtype)
+        R_ARRAYS.append(scal)
+
+        
+    if asstype == "tensorize":
+        tmpparent = params[0].dumps()
+        parent = None
+        for t in R_ARRAYS:
+            if t.name == tmpparent:
+                parent = t
+
+        tensor = Tensorize(name, parent)
+        R_ARRAYS.append(tensor)
         
 
-    # Handling arrays
     if asstype == "array":
-        dimension = params[0].dumps()
-        datatype = params[1].dumps()
-        sizes = []
-        tmp_ = params[2].find("list").value
-        for size in tmp_:
-            # Skipping commas
-            if not isinstance(size, redbaron.CommaNode):
-                sizes.append(size.dumps())
-
-        array = IvieArrayArray(name, dimension, datatype, sizes)
-        if name in ["u", "v"] or "tmp" in name:
-            array.cfdmesh = True
-
-        R_ARRAYS.append(array)
+        """ A = array(dtype, [N, .., N]) """
         
+        dtype = params[0].dumps()
+        tmpshape = params[1].find("list").value
+        shape = []
+
+        ## Converting ListNode elements into simple strings
+        for data in tmpshape:
+            shape.append(data.dumps())
+
+        tensor = Array(name, dtype, shape)
+        R_ARRAYS.append(tensor)
+
+
+        # if name in ["u", "v"] or "tmp" in name:
+        #     array.cfdmesh = True
+
     # Experiemntal
-    if asstype == "operand": 
-        ## for CFD. Operand is like array, but identified as such
-        ## to ease transformations.
-        ## The operand is the array that has all its axes contracted
-        ## with a given operand
-        dimension = params[0].dumps()
-        datatype = params[1].dumps()
-        sizes = []
-        tmp_ = params[2].find("list").value
-        for size in tmp_:
-            # Skipping commas
-            if not isinstance(size, redbaron.CommaNode):
-                sizes.append(size.dumps())
-
-        array = IvieArrayArray(name, dimension, datatype, sizes)
-        array.set_forbid_purge(True)
-        R_ARRAYS.append(array)
-        
-    # Experimetnal
-    if asstype == "operator":
-        ## for CFD. Operator is like array, but identify as such 
-        ## to ease transformations.
-        ## An operator is an array that has at least one of its 
-        ## axes contracted with an operand
-        dimension = params[0].dumps()
-        datatype = params[1].dumps()
-        sizes = []
-        tmp_ = params[2].find("list").value
-        for size in tmp_:
-            # Skipping commas
-            if not isinstance(size, redbaron.CommaNode):
-                sizes.append(size.dumps())
-
-        array = IvieArrayArray(name, dimension, datatype, sizes)
-        ## By default, forbid purge is False, but this 
-        ## is like a reminder..
-        array.set_forbid_purge(False)
-        R_ARRAYS.append(array)
-        
-        
         
     """
     if asstype == "replicate":
@@ -723,411 +694,405 @@ def process_argument(name, indexes, R_ARRAYS, V_ARRAYS, ITERATORS):
 #                     array.set_onnode(params[0].dumps())
 
 
-def process_build_outerproduct(array, iterators):
-    print "coucou"
+# def process_build_outerproduct(array, iterators):
+#     print "coucou"
 
-def process_build_transpose(array, iterators, V_ARRAYS):
-    ### At = transpose(A, 1, 2)                                                                                                                            
-    ### ...                                                                                                                                               
-    ### build(At, [ta_1, ta_2])                                                                                                                            
-    ###                                                                                                                                      
-    ### must generate on of the following loops                                                                                             
-    ###       
-    ### Av = vtranspose(A, 1, 2)        
-    ### with ta_1 as siter:          
-    ###   with ta_2 as siter:        
-    ###     At[ta_1][ta_2] = _tr(Av[ta_1][ta_2])   
-    ###         
-    ###   OOR  
-    ###       
-    ### Av = vtranspose(At, 1, 2)                    
-    ### with ta_1 as siter:                         
-    ###   with ta_2 as siter:                      
-    ###     Av[ta_1][ta_2] = _tr(A[ta_1][ta_2])   
-    ###                                          
-    ### For the moment, we handle regular reads (option 2)                     
-    ### By default, iterators are set as permutable and parallel
+# def process_build_transpose(array, iterators, V_ARRAYS):
+#     ### At = transpose(A, 1, 2)                                                                                                                            
+#     ### ...                                                                                                                                               
+#     ### build(At, [ta_1, ta_2])                                                                                                                            
+#     ###                                                                                                                                      
+#     ### must generate on of the following loops                                                                                             
+#     ###       
+#     ### Av = vtranspose(A, 1, 2)        
+#     ### with ta_1 as siter:          
+#     ###   with ta_2 as siter:        
+#     ###     At[ta_1][ta_2] = _tr(Av[ta_1][ta_2])   
+#     ###         
+#     ###   OOR  
+#     ###       
+#     ### Av = vtranspose(At, 1, 2)                    
+#     ### with ta_1 as siter:                         
+#     ###   with ta_2 as siter:                      
+#     ###     Av[ta_1][ta_2] = _tr(A[ta_1][ta_2])   
+#     ###                                          
+#     ### For the moment, we handle regular reads (option 2)                     
+#     ### By default, iterators are set as permutable and parallel
     
 
-    ### TODO: fix bug when build is within loop. 
+#     ### TODO: fix bug when build is within loop. 
     
-    ### Create statement and innermost loop                                       
+#     ### Create statement and innermost loop                                       
 
-    for iter_ in iterators:
-        iter_.set_kind("piter")
-        pos = iterators.index(iter_)
-        iter_.set_private_variables(iterators[pos:])
-        iter_.set_permutability(True)
+#     for iter_ in iterators:
+#         iter_.set_kind("piter")
+#         pos = iterators.index(iter_)
+#         iter_.set_private_variables(iterators[pos:])
+#         iter_.set_permutability(True)
         
-    source = array.parent
-    newvirt = IvieArrayVtranspose(array.name + "_t",  array, array.rank1, array.rank2)
-    V_ARRAYS.append(newvirt)
-    written = IvieArgument(newvirt, iterators, "")
-    ### Perte d'information pour les index complique!
-    read    = IvieArgument(array.parent, iterators, "")
-    statement = IvieStatement("_transpose" + array.name, written, [read])
+#     source = array.parent
+#     newvirt = IvieArrayVtranspose(array.name + "_t",  array, array.rank1, array.rank2)
+#     V_ARRAYS.append(newvirt)
+#     written = IvieArgument(newvirt, iterators, "")
+#     ### Perte d'information pour les index complique!
+#     read    = IvieArgument(array.parent, iterators, "")
+#     statement = IvieStatement("_transpose" + array.name, written, [read])
 
-    innermost = IvieLoop(iterators[-1], [statement])
+#     innermost = IvieLoop(iterators[-1], [statement])
     
-    ### Build loop from innermost to outermost dimension                   
-    for i in range(len(iterators)-2, -1, -1):
-        innermost = IvieLoop(iterators[i], [innermost])
+#     ### Build loop from innermost to outermost dimension                   
+#     for i in range(len(iterators)-2, -1, -1):
+#         innermost = IvieLoop(iterators[i], [innermost])
         
-    return innermost
+#     return innermost
 
 
-## Experimental. How we do transformation needs to be clarified. 
-def process_transformation_atomtrailersnode(element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS, R_ARRAYS, LOOPS, DEPS):
-    """ Adds each transformation in a scheduler. """
+# ## Experimental. How we do transformation needs to be clarified. 
+# def process_transformation_atomtrailersnode(element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS, R_ARRAYS, LOOPS, DEPS):
+#     """ Adds each transformation in a scheduler. """
     
-    name = element.value[0].dumps()
-    params = element.value[1].find_all("callargument")
+#     name = element.value[0].dumps()
+#     params = element.value[1].find_all("callargument")
 
-    #### Build is not a transformation, it just builds a loop
-    #### for intermediate array construction, so that we may 
-    #### be able to manipulate them afterwards. 
-    #### The only reason it is in this is function is 
-    #### because the syntax is basically the same as 
-    #### that of transformations
-    if name == "build":
-        array_ = params[0].dumps()
-        iters = params[1].find("list").value
+#     #### Build is not a transformation, it just builds a loop
+#     #### for intermediate array construction, so that we may 
+#     #### be able to manipulate them afterwards. 
+#     #### The only reason it is in this is function is 
+#     #### because the syntax is basically the same as 
+#     #### that of transformations
+#     if name == "build":
+#         array_ = params[0].dumps()
+#         iters = params[1].find("list").value
 
-        iterators = []
-        for array in V_ARRAYS + R_ARRAYS:
-            if array.name == array_:
-                array_ = array
+#         iterators = []
+#         for array in V_ARRAYS + R_ARRAYS:
+#             if array.name == array_:
+#                 array_ = array
 
-        for it in iters:
-            for iterator in ITERATORS:
-                if iterator.name == it.dumps():
-                    iterators.append(iterator)
+#         for it in iters:
+#             for iterator in ITERATORS:
+#                 if iterator.name == it.dumps():
+#                     iterators.append(iterator)
 
-        ## DEPS useless here
-        LOOPS.append(array_.build(iterators, DEPS, V_ARRAYS))
+#         ## DEPS useless here
+#         LOOPS.append(array_.build(iterators, DEPS, V_ARRAYS))
         
 
-    # if name == "build_outerproduct":
-    #     array_ = params[0].dumps()
-    #     iters = params[1].find("list").value
-    #     for array in R_ARRAYS + V_ARRAYS:
-    #         if array.name == array_:
-    #             array_ = array
+#     # if name == "build_outerproduct":
+#     #     array_ = params[0].dumps()
+#     #     iters = params[1].find("list").value
+#     #     for array in R_ARRAYS + V_ARRAYS:
+#     #         if array.name == array_:
+#     #             array_ = array
 
-    #     iterators = []
-    #     for it in iters:
-    #         for iterator in ITERATORS:              
-    #             if iterator.name == it.dumps():
-    #                 iterators.append(iterator)
+#     #     iterators = []
+#     #     for it in iters:
+#     #         for iterator in ITERATORS:              
+#     #             if iterator.name == it.dumps():
+#     #                 iterators.append(iterator)
                     
-    #     # V_ARRAYS useless here
-    #     LOOPS.append(array_.build(iterators, DEPS, V_ARRAYS))
+#     #     # V_ARRAYS useless here
+#     #     LOOPS.append(array_.build(iterators, DEPS, V_ARRAYS))
         
 
-    # if name == "build_contraction":
-    #     array_ = params[0].dumps()
-    #     iters = params[1].find("list").value
-    #     for array in R_ARRAYS:
-    #         if array.name == array_:
-    #             array_ = array
+#     # if name == "build_contraction":
+#     #     array_ = params[0].dumps()
+#     #     iters = params[1].find("list").value
+#     #     for array in R_ARRAYS:
+#     #         if array.name == array_:
+#     #             array_ = array
 
-    #     iterators = []
-    #     for it in iters:
-    #         for iterator in ITERATORS:              
-    #             if iterator.name == it.dumps():
-    #                 iterators.append(iterator)
+#     #     iterators = []
+#     #     for it in iters:
+#     #         for iterator in ITERATORS:              
+#     #             if iterator.name == it.dumps():
+#     #                 iterators.append(iterator)
 
-    #     LOOPS.append(array_.build(iterators, DEPS, V_ARRAYS))
+#     #     LOOPS.append(array_.build(iterators, DEPS, V_ARRAYS))
       
 
-    if name == "parallelize":
-        iterator = params[0].dumps()
-        type_ = params[1].dumps()
-        schedule = params[2].dumps()
-        private_vars = params[3].find("list")
+#     if name == "parallelize":
+#         iterator = params[0].dumps()
+#         type_ = params[1].dumps()
+#         schedule = params[2].dumps()
+#         private_vars = params[3].find("list")
 
-        privates = []
-        if private_vars != None:
-            for var in private_vars.value:
-                privates.append(var.dumps())
+#         privates = []
+#         if private_vars != None:
+#             for var in private_vars.value:
+#                 privates.append(var.dumps())
 
 
-        for it in ITERATORS:
-            if it.name == iterator:
-                iterator = it
+#         for it in ITERATORS:
+#             if it.name == iterator:
+#                 iterator = it
 
-        if type_ == "None":
-            type_ = None
+#         if type_ == "None":
+#             type_ = None
 
-        if schedule == "None":
-            schedule = None
+#         if schedule == "None":
+#             schedule = None
                 
-        transformation = IvieTransformationParallelize(iterator, type_, schedule, privates)
-        SCHEDULER.append(transformation)
+#         transformation = IvieTransformationParallelize(iterator, type_, schedule, privates)
+#         SCHEDULER.append(transformation)
 
 
 
-    if name == "reverse":
-        rev = params[0].dumps()
+#     if name == "reverse":
+#         rev = params[0].dumps()
         
-        for iterator in ITERATORS:
-            if iterator.name == rev:
-                rev = iterator
+#         for iterator in ITERATORS:
+#             if iterator.name == rev:
+#                 rev = iterator
 
-        transformation = IvieTransformationReverse(rev)
-        SCHEDULER.append(transformation)
+#         transformation = IvieTransformationReverse(rev)
+#         SCHEDULER.append(transformation)
 
-    if name == "peel":
-        peeled = params[0].dumps()
-        factor_begin = params[1].dumps()
-        factor_end = params[2].dumps()
+#     if name == "peel":
+#         peeled = params[0].dumps()
+#         factor_begin = params[1].dumps()
+#         factor_end = params[2].dumps()
 
-        for iterator in ITERATORS:
-            if iterator.name == peeled:
-                if factor_begin != "None":
-                    iterator.set_peel_begin_factor(factor_begin)
-                if factor_end != "None":
-                    iterator.set_peel_end_factor(factor_end)
+#         for iterator in ITERATORS:
+#             if iterator.name == peeled:
+#                 if factor_begin != "None":
+#                     iterator.set_peel_begin_factor(factor_begin)
+#                 if factor_end != "None":
+#                     iterator.set_peel_end_factor(factor_end)
                     
-                peeled = iterator
+#                 peeled = iterator
 
-        transformation = IvieTransformationPeel(peeled)
+#         transformation = IvieTransformationPeel(peeled)
         
-        SCHEDULER.append(transformation)
+#         SCHEDULER.append(transformation)
 
-    """
-    if name == "peel_begin" or name == "peel_end":
-        peeled = params[0].dumps()
-        factor = params[1].dumps()
+#     """
+#     if name == "peel_begin" or name == "peel_end":
+#         peeled = params[0].dumps()
+#         factor = params[1].dumps()
      
-        for iterator in ITERATORS:
-            if iterator.name == peeled:
-                print iterator.name
-                iterator.set_peel_factor(factor)
-                peeled = iterator
+#         for iterator in ITERATORS:
+#             if iterator.name == peeled:
+#                 print iterator.name
+#                 iterator.set_peel_factor(factor)
+#                 peeled = iterator
 
-        offset = ""
-        if "begin" in name:
-            offset = "begin"
-        else:
-            offset = "end"
+#         offset = ""
+#         if "begin" in name:
+#             offset = "begin"
+#         else:
+#             offset = "end"
 
-        transformation = IvieTransformationPeel(peeled, offset)
+#         transformation = IvieTransformationPeel(peeled, offset)
  
-        SCHEDULER.append(transformation)
+#         SCHEDULER.append(transformation)
 
-    """
+#     """
 
-    if name == "__align":
-        for arr in params:
-            for array in R_ARRAYS:
-                if array.name == arr.dumps():
-                    array.align = True
+#     if name == "__align":
+#         for arr in params:
+#             for array in R_ARRAYS:
+#                 if array.name == arr.dumps():
+#                     array.align = True
 
-    if name == "__simd_hints":
-        for iter_ in params:
-            for iterator in ITERATORS:
-                if iterator.name == iter_.dumps():
-                    iterator.vec_hints = True
+#     if name == "__simd_hints":
+#         for iter_ in params:
+#             for iterator in ITERATORS:
+#                 if iterator.name == iter_.dumps():
+#                     iterator.vec_hints = True
 
-    if name == "fuse":
-        remaining = params[0].dumps()
-        fused = params[1].dumps()
+#     if name == "fuse":
+#         remaining = params[0].dumps()
+#         fused = params[1].dumps()
 
-        remaining_iterator = None
-        fused_iterator = None
-        for iterator in ITERATORS:
-            if iterator.name == remaining:
-                remaining_iterator = iterator
-            if iterator.name == fused:
-                fused_iterator = iterator
+#         remaining_iterator = None
+#         fused_iterator = None
+#         for iterator in ITERATORS:
+#             if iterator.name == remaining:
+#                 remaining_iterator = iterator
+#             if iterator.name == fused:
+#                 fused_iterator = iterator
 
-        transformation = IvieTransformationFuse(remaining_iterator, fused_iterator)
-        SCHEDULER.append(transformation)
+#         transformation = IvieTransformationFuse(remaining_iterator, fused_iterator)
+#         SCHEDULER.append(transformation)
 
-    if name == "collapse": 
-        remaining = params[0].dumps()
-        collapsed = params[1].dumps()
+#     if name == "collapse": 
+#         remaining = params[0].dumps()
+#         collapsed = params[1].dumps()
         
-        for iterator in ITERATORS:
-            if iterator.name == remaining:
-                remaining = iterator
-            if iterator.name == collapsed:
-                collapsed = iterator
+#         for iterator in ITERATORS:
+#             if iterator.name == remaining:
+#                 remaining = iterator
+#             if iterator.name == collapsed:
+#                 collapsed = iterator
 
-        transformation = IvieTransformationCollapse(remaining, collapsed)
-        SCHEDULER.append(transformation)
+#         transformation = IvieTransformationCollapse(remaining, collapsed)
+#         SCHEDULER.append(transformation)
 
-    if name == "tile":
-        permutable_band = []
-        ## What I understand is if permutable, then tilable
-        ## If one of the iterators is not marked as permutable
-        ## an error should be raised. 
-        ## We collect the iterators, but we will raise legality
-        ## errors when applying transformation. For the moment
-        ## its just about building the data structure of the program
-        for iter_ in params:
-            for iterator in ITERATORS:
-                if iterator.name == iter_.dumps():
-                    permutable_band.append(iterator)
+#     if name == "tile":
+#         permutable_band = []
+#         ## What I understand is if permutable, then tilable
+#         ## If one of the iterators is not marked as permutable
+#         ## an error should be raised. 
+#         ## We collect the iterators, but we will raise legality
+#         ## errors when applying transformation. For the moment
+#         ## its just about building the data structure of the program
+#         for iter_ in params:
+#             for iterator in ITERATORS:
+#                 if iterator.name == iter_.dumps():
+#                     permutable_band.append(iterator)
 
         
-        transformation = IvieTransformationTile(permutable_band)
-        SCHEDULER.append(transformation)
+#         transformation = IvieTransformationTile(permutable_band)
+#         SCHEDULER.append(transformation)
 
 
-    if name == "stripmine":        
-        iter_ = params[0].dumps()
-        for iterator in ITERATORS:
-            if iter_ == iterator.name:
-                iter_ = iterator
+#     if name == "stripmine":        
+#         iter_ = params[0].dumps()
+#         for iterator in ITERATORS:
+#             if iter_ == iterator.name:
+#                 iter_ = iterator
 
 
-        transformation = IvieTransformationStripmine(iter_)
-        SCHEDULER.append(transformation)
+#         transformation = IvieTransformationStripmine(iter_)
+#         SCHEDULER.append(transformation)
         
-    if name == "interchange":
-        iter1 = params[0].dumps()
-        iter2 = params[1].dumps()
+#     if name == "interchange":
+#         iter1 = params[0].dumps()
+#         iter2 = params[1].dumps()
 
-        iterator1 = None
-        iterator2 = None
-        for iterator in ITERATORS:
-            if iter1 == iterator.name:
-                iterator1 = iterator
-            if iter2 == iterator.name:
-                iterator2 = iterator
+#         iterator1 = None
+#         iterator2 = None
+#         for iterator in ITERATORS:
+#             if iter1 == iterator.name:
+#                 iterator1 = iterator
+#             if iter2 == iterator.name:
+#                 iterator2 = iterator
 
-        transformation = IvieTransformationInterchange(iterator1, iterator2)
-        SCHEDULER.append(transformation)
-        
-
-    if name == "unroll" or name == "unroll_and_fuse":
-        iter_name = params[0].dumps()
-        if len(params) > 1:
-            factor = params[1].dumps()
-        else:
-            factor = "-1"
-
-        iter_ = None
-        for iterator in ITERATORS:
-            if iterator.name == iter_name:
-                iterator.set_unroll_factor(factor)
-                iter_ = iterator
-
-        transformation = IvieTransformationUnroll(iter_)
-        if name == "unroll_and_fuse":
-            transformation.set_innerfuse()
-        SCHEDULER.append(transformation)
-
-
-
-
-    ## Experimental, not yet well defined.
-    if name == "distribute":
-        ## Comment: we specify the point from which 
-        ## the distribution starts. 
-        ## if necessary to distribute multiple times
-        ## then consider composition of distributions (?)
-        ## Also, do we instanciate new iterators for 
-        ## all loop body structure ? 
-        ## Update: For the moment, yes, we instanciate new 
-        ## iterators, like in "clone"
-
-        start = params[0].dumps()
-        newloop = params[1].find("list")
-        stmts = params[2].find("list")
+#         transformation = IvieTransformationInterchange(iterator1, iterator2)
+#         SCHEDULER.append(transformation)
         
 
-        for iterator in ITERATORS:
-            if iterator.name == start:
-                start = iterator
+#     if name == "unroll" or name == "unroll_and_fuse":
+#         iter_name = params[0].dumps()
+#         if len(params) > 1:
+#             factor = params[1].dumps()
+#         else:
+#             factor = "-1"
+
+#         iter_ = None
+#         for iterator in ITERATORS:
+#             if iterator.name == iter_name:
+#                 iterator.set_unroll_factor(factor)
+#                 iter_ = iterator
+
+#         transformation = IvieTransformationUnroll(iter_)
+#         if name == "unroll_and_fuse":
+#             transformation.set_innerfuse()
+#         SCHEDULER.append(transformation)
+
+
+
+
+#     ## Experimental, not yet well defined.
+#     if name == "distribute":
+#         ## Comment: we specify the point from which 
+#         ## the distribution starts. 
+#         ## if necessary to distribute multiple times
+#         ## then consider composition of distributions (?)
+#         ## Also, do we instanciate new iterators for 
+#         ## all loop body structure ? 
+#         ## Update: For the moment, yes, we instanciate new 
+#         ## iterators, like in "clone"
+
+#         start = params[0].dumps()
+#         newloop = params[1].find("list")
+#         stmts = params[2].find("list")
+        
+
+#         for iterator in ITERATORS:
+#             if iterator.name == start:
+#                 start = iterator
                 
-        newloop_ =  []
-        stmts_ = []
-        for i in range(0, len(newloop)):
-            for iterator in ITERATORS:
-                if iterator.name == newloop[i].dumps() and iterator not in newloop_:
-                    newloop_.append(iterator)
+#         newloop_ =  []
+#         stmts_ = []
+#         for i in range(0, len(newloop)):
+#             for iterator in ITERATORS:
+#                 if iterator.name == newloop[i].dumps() and iterator not in newloop_:
+#                     newloop_.append(iterator)
 
-        ## Just collecting statement names for the moment
-        for i in range(0, len(stmts)):
-            stmts_.append(stmts[i].dumps())
-
-
-        transformation = IvieTransformationDistribute(start, newloop_, stmts_)
-        SCHEDULER.append(transformation)
+#         ## Just collecting statement names for the moment
+#         for i in range(0, len(stmts)):
+#             stmts_.append(stmts[i].dumps())
 
 
-    # Experimental
-    if name == "clone":
-        clone = params[1].find("list")
-        cloned = params[0].dumps()
+#         transformation = IvieTransformationDistribute(start, newloop_, stmts_)
+#         SCHEDULER.append(transformation)
 
-        newloop = []
 
-        for iterator in ITERATORS:
-            if iterator.name == cloned:
-                cloned = iterator
+#     # Experimental
+#     if name == "clone":
+#         clone = params[1].find("list")
+#         cloned = params[0].dumps()
+
+#         newloop = []
+
+#         for iterator in ITERATORS:
+#             if iterator.name == cloned:
+#                 cloned = iterator
                 
-        for i in range(0, len(clone)):
-            for iterator in ITERATORS:
-                if iterator.name == clone[i].dumps() and iterator not in newloop:
-                    newloop.append(iterator)
+#         for i in range(0, len(clone)):
+#             for iterator in ITERATORS:
+#                 if iterator.name == clone[i].dumps() and iterator not in newloop:
+#                     newloop.append(iterator)
 
-        transformation = IvieTransformationClone(cloned, newloop)
-        SCHEDULER.append(transformation)
+#         transformation = IvieTransformationClone(cloned, newloop)
+#         SCHEDULER.append(transformation)
 
-    if name == "purge":
-        purgeable = None
-        for it in ITERATORS:
-            if it.name == params[0].dumps():
-                purgeable = it
+#     if name == "purge":
+#         purgeable = None
+#         for it in ITERATORS:
+#             if it.name == params[0].dumps():
+#                 purgeable = it
 
-        transformation = IvieTransformationPurge(purgeable)
-        SCHEDULER.append(transformation)
+#         transformation = IvieTransformationPurge(purgeable)
+#         SCHEDULER.append(transformation)
 
-    # Experimental
-    if name == "replace_array":
-        dimension = params[0].dumps()
-        origin = params[1].dumps()
-        replacer = params[2].dumps()
+#     # Experimental
+#     if name == "replace_array":
+#         dimension = params[0].dumps()
+#         origin = params[1].dumps()
+#         replacer = params[2].dumps()
 
-        for it in ITERATORS:
-            if it.name == dimension:
-                dimension = it
+#         for it in ITERATORS:
+#             if it.name == dimension:
+#                 dimension = it
 
-        for array in V_ARRAYS + R_ARRAYS:
-            if array.name == origin:
-                origin = array
+#         for array in V_ARRAYS + R_ARRAYS:
+#             if array.name == origin:
+#                 origin = array
 
-            if array.name == replacer:
-                replacer = array
+#             if array.name == replacer:
+#                 replacer = array
 
-        transformation = IvieTransformationReplace(dimension, origin, replacer)
-        SCHEDULER.append(transformation)
-
-
+#         transformation = IvieTransformationReplace(dimension, origin, replacer)
+#         SCHEDULER.append(transformation)
 
 
-def process_FST(iviefst):
-    """ Processing of FST to retrieve all informations:
-    - all array and iterator declaration in specified order
-    - the loops in which arrays and iterators are used.
 
+
+def process_FST(fst):
+    """ Processing of FST to retrieve all informations.
     At this level of the FST, we encounter different Redbaron 
     data structures that correspond to the following:
 
     - AssignmentNode <==> Arrays and iterators declaration
-    - WithNode <==> Loop from their outermost dimension
     - AtomtrailersNode <==> Loop transformations (???)
     
-    Returns an IvieProgram data structure containing the following
+    Returns an Program data structure containing the following
     informations:
     - Arrays (virtual and physical)
-    - Iterators (virtual and physical)
-    - Loops
-    - Scheduler for transformations """
+    - Loops """
     
     R_ARRAYS = []
     V_ARRAYS = []
@@ -1141,25 +1106,23 @@ def process_FST(iviefst):
 
 
     
-    for element in iviefst:
+    for element in fst:
         if isinstance(element, redbaron.AssignmentNode):
             process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS)
 
-        if isinstance(element, redbaron.WithNode):
-            process_withnode(element, None, LOOPS, R_ARRAYS, V_ARRAYS, ITERATORS, STATEMENTS, ARGS, ALL_DEPS, False)
 
-        if isinstance(element, redbaron.AtomtrailersNode):
-            ## For the moment, two types of atomtrailers:
-            ## Those for memory placement, e.g, A.map_onnode(0)
-            ## Those for loop transformation, e.g fuse(i1, i2)
-            ## For each, the structure of .value is a bit different
-            ## For memory placement, we make sure that .value[1] 
-            ## is a memory placement construct such map_onnode, 
-            ## or map_interleaved. Otherwise, it's loop transformation
-            if element.value[1].dumps() in mem_placement_constructs:
-                process_placement_atomtrailersnode(element, R_ARRAYS)
-            else:
-                process_transformation_atomtrailersnode(element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS, R_ARRAYS, LOOPS, ALL_DEPS)
+        # if isinstance(element, redbaron.AtomtrailersNode):
+        #     ## For the moment, two types of atomtrailers:
+        #     ## Those for memory placement, e.g, A.map_onnode(0)
+        #     ## Those for loop transformation, e.g fuse(i1, i2)
+        #     ## For each, the structure of .value is a bit different
+        #     ## For memory placement, we make sure that .value[1] 
+        #     ## is a memory placement construct such map_onnode, 
+        #     ## or map_interleaved. Otherwise, it's loop transformation
+        #     if element.value[1].dumps() in mem_placement_constructs:
+        #         process_placement_atomtrailersnode(element, R_ARRAYS)
+        #     else:
+        #         process_transformation_atomtrailersnode(element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS, R_ARRAYS, LOOPS, ALL_DEPS)
                 
 
     ### This portion is related to loops generated by
@@ -1171,10 +1134,10 @@ def process_FST(iviefst):
     ### will not be included in the mesh loop.
 
     ### ----- Begin hack ------
-    for array in R_ARRAYS:
-        if array.__class__.__name__ == "IvieArrayTranspose":
-            if array.loop != None:
-                LOOPS.insert(0, array.loop)
+    # for array in R_ARRAYS:
+    #     if array.__class__.__name__ == "IvieArrayTranspose":
+    #         if array.loop != None:
+    #             LOOPS.insert(0, array.loop)
     ### ----- End hack -------
     
 
