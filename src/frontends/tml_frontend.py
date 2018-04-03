@@ -27,7 +27,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         scal = Tensor(name, dtype, None, None, None, asstype)
         R_ARRAYS.append(scal)
 
-        
     if asstype == "tensorize":
         tmpparent = params[0].dumps()
         parent = None
@@ -49,8 +48,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         ## Converting ListNode elements into simple strings
         for data in tmpshape:
             shape.append(data.dumps())
-
+        
         tensor = Tensor(name, dtype, shape, None, None, asstype)
+      
         R_ARRAYS.append(tensor)
 
 
@@ -91,9 +91,10 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
 
         expr = Expression(asstype, af1, af2)
 
-        print expr.debug_print()
+        #print expr.debug_print()
         ## Shape not yet fully determine, will set to None
         tensor = Tensor(name, dtype, None, expr, None, asstype)
+        #print tensor.debug_print()
         R_ARRAYS.append(tensor)
 
         
@@ -186,18 +187,23 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
                 parent = t
 
         tshape = deepcopy(parent.shape)
-        shape = swap_rec(tshape, nranks, 0, len(nranks))
+        tshape = swap_rec(tshape, nranks, 0, len(nranks))
         
+      
+        #print swap_rec(tshape, nranks, 0, len(nranks))
+        #print shape
+        sub = range(1, len(parent.shape)+1)
 
-        sub = range(1, len(parent.shape))
-       
+        print sub
+        print swap_rec(sub, nranks, 0, len(nranks))
         insub = Subscript(parent, swap_rec(sub, nranks, 0, len(nranks)))
         outsub = Subscript(name, sub)
-        print insub.access
-        print outsub.access
-        expr = Expression(None, subscript, None)
+    
+        # print insub.access
+        # print outsub.access
+        expr = Expression(None, insub, None)
         
-        tensor = Transpose(name, parent.dtype, shape, expr, parent, asstype)
+        tensor = Tensor(name, parent.dtype, tshape, expr, parent, asstype)
         R_ARRAYS.append(tensor)
 
 

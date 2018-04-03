@@ -29,15 +29,14 @@ class Expression():
         self.right = right
 
     def debug_print(self):
-        debugleft = None
-        debugright = None
-        if self.left != None:
-            debugleft = self.left.debug_print()
-        if self.right != None:
-            debugright = self.right.debug_print()
-
-        return "(" + self.op + ", " + debugleft + ", " + debugright + ")"
-        
+        # debugleft = None
+        # debugright = None
+        # if self.left != None:
+        #     debugleft = self.left.debug_print()
+        # if self.right != None:
+        #     debugright = self.right.debug_print()
+        #return "(" + self.op + ", " + debugleft + ", " + debugright + ")"
+        return (self.op, self.left.debug_print(), self.right.debug_print())
 
 class Tensor():
     dtype = None
@@ -55,9 +54,16 @@ class Tensor():
         self.expr = expr
         self.parent = parent
         self.construct = construct
+       
+        print (self.dtype, self.name, self.shape,\
+               lambda: self.expr.debug_print() if self.expr != None else None,\
+               self.parent, self.construct)
+
         
-    def debug_print(self):
-        return debug_str
+        def debug_print(self):
+            return (self.dtype, self.name, self.shape,\
+               lambda: self.expr.debug_print() if self.expr != None else None,\
+               self.parent, self.construct)
 
 
     def build(self):

@@ -1,8 +1,8 @@
 B = array(double, [11, 2, 13])
-C = array(double, [11, 11])
+C = array(double, [11, 150])
 D = array(double, [11, 11])
 s = scalar(double)
 p = tensorize(s)
 
-t = mul(C, D, [[1, 2], [2, 3]] -> [1, 3])
-
+Bt = transpose(B, [[1, 2], [1, 3]])
+Ct = transpose(C, [[1, 2]])
