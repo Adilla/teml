@@ -314,42 +314,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
     if asstype == "entrywise_add" or\
        asstype == "entrywise_sub" or\
        asstype == "entrywise_mul" or\
-       asstype == "entrywise_div":
-        t1 = params[0].dumps()
-        t2 = params[1].dumps()
-
-        for t in R_ARRAYS + V_ARRAYS:
-            if t.name == t1:
-                t1 = t
-            if t.name == t2:
-                t2 = t
-                
-
-        op = asstype.replace("entrywise_", "")
-        expr = None
-        if t1 in R_ARRAYS and t2 in R_ARRAYS:
-            aft1 = Subscript(t1, range(1, len(t1.shape)+1))
-            aft2 = Subscript(t2, range(1, len(t2.shape)+1))
-            expr = Expression(op, aft1, aft2, None)
-        if t1 in R_ARRAYS and t2 in V_ARRAYS:
-            aft1 = Subscript(t1, range(1, len(t1.shape)+1))
-            expr = Expression(op, aft1, t2.expr, None)
-        if t1 in V_ARRAYS and t2 in R_ARRAYS:
-            aft2 = Subscript(t2, range(1, len(t2.shape)+1))
-            expr = Expression(op, t1.expr, aft2, None)
-        if t1 in V_ARRAYS and t2 in V_ARRAYS:
-            expr = Expression(op, t1.expr, t2.expr, None)
-        
-        tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
-        store = Subscript(tensor, range(1, len(t1.shape)+1))
-        tensor.expr.update_store(store)
-
-        R_ARRAYS.append(tensor)
-
-
-
-    
-    if asstype == "ventrywise_add" or\
+       asstype == "entrywise_div" or\
+       asstype == "ventrywise_add" or\
        asstype == "ventrywise_sub" or\
        asstype == "ventrywise_mul" or\
        asstype == "ventrywise_div":
@@ -362,7 +328,12 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             if t.name == t2:
                 t2 = t
 
-        op = asstype.replace("ventrywise_", "")
+        op = None 
+        if "ventrywise" in asstype:
+            op = asstype.replace("ventrywise_", "")
+        else:
+            op = asstype.replace("entrywise_", "")
+
         expr = None
         if t1 in R_ARRAYS and t2 in R_ARRAYS:
             aft1 = Subscript(t1, range(1, len(t1.shape)+1))
@@ -378,9 +349,49 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             expr = Expression(op, t1.expr, t2.expr, None)
         
         tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
-        #store = Subscript(tensor, range(1, len(t1.shape)+1))
-        #tensor.expr.update_store(store)
-        V_ARRAYS.append(tensor)
+
+        if "ventrywise" in asstype:
+            V_ARRAYS.append(tensor)
+        else:
+            store = Subscript(tensor, range(1, len(t1.shape)+1))
+            tensor.expr.update_store(store)
+            R_ARRAYS.append(tensor)
+
+        print tensor.debug_print()
+
+    
+    # if asstype == "ventrywise_add" or\
+    #    asstype == "ventrywise_sub" or\
+    #    asstype == "ventrywise_mul" or\
+    #    asstype == "ventrywise_div":
+    #     t1 = params[0].dumps()
+    #     t2 = params[1].dumps()
+
+    #     for t in R_ARRAYS + V_ARRAYS:
+    #         if t.name == t1:
+    #             t1 = t
+    #         if t.name == t2:
+    #             t2 = t
+
+    #     op = asstype.replace("ventrywise_", "")
+    #     expr = None
+    #     if t1 in R_ARRAYS and t2 in R_ARRAYS:
+    #         aft1 = Subscript(t1, range(1, len(t1.shape)+1))
+    #         aft2 = Subscript(t2, range(1, len(t2.shape)+1))
+    #         expr = Expression(op, aft1, aft2, None)
+    #     if t1 in R_ARRAYS and t2 in V_ARRAYS:
+    #         aft1 = Subscript(t1, range(1, len(t1.shape)+1))
+    #         expr = Expression(op, aft1, t2.expr, None)
+    #     if t1 in V_ARRAYS and t2 in R_ARRAYS:
+    #         aft2 = Subscript(t2, range(1, len(t2.shape)+1))
+    #         expr = Expression(op, t1.expr, aft2, None)
+    #     if t1 in V_ARRAYS and t2 in V_ARRAYS:
+    #         expr = Expression(op, t1.expr, t2.expr, None)
+        
+    #     tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
+    #     #store = Subscript(tensor, range(1, len(t1.shape)+1))
+    #     #tensor.expr.update_store(store)
+    #     V_ARRAYS.append(tensor)
 
 
         
