@@ -115,8 +115,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         store = Subscript(tensor, accstore)
         tensor.expr.update_store(store)
         R_ARRAYS.append(tensor)
-        print tensor.infer_range()
+        tensor.infer_range()
 
+        
     if asstype == "vadd" or \
        asstype == "vsub" or \
        asstype == "vmul" or \
