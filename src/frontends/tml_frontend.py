@@ -53,50 +53,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
       
         R_ARRAYS.append(tensor)
 
-
-    # if asstype == "add" or \
-    #    asstype == "sub" or \
-    #    asstype == "mul" or \
-    #    asstype == "div":
-        
-    #     t1 = params[0].dumps()
-    #     t2 = params[1].dumps()
-    #     afin = params[2].find("list").value
-    #     afout = params[3].find("list").value
-
-    #     for t in R_ARRAYS:
-    #         if t1 == t.name:
-    #             t1 = t
-    #         if t2 == t.name:
-    #             t2 = t
-
-    #     dtype = t1.dtype
-
-
-    #     nafin = []
-        
-
-    #     tmp1 = []
-    #     for i in range(0, len(afin[0])):
-    #         tmp1.append(afin[0][i].dumps())
-    #     nafin.append(tmp1)
-
-    #     tmp2 = []
-    #     for i in range(0, len(afin[1])):
-    #         tmp2.append(afin[1][i].dumps())
-    #     nafin.append(tmp2)
-        
-    #     af1 = Subscript(t1, nafin[0])
-    #     af2 = Subscript(t2, nafin[1])
-
-    #     expr = Expression(asstype, af1, af2)
-
-    #     #print expr.debug_print()
-    #     ## Shape not yet fully determine, will set to None
-    #     tensor = Tensor(name, dtype, None, expr, None, asstype)
-    #     #print tensor.debug_print()
-    #     R_ARRAYS.append(tensor)
-
     if asstype == "add" or \
        asstype == "sub" or \
        asstype == "mul" or \
@@ -109,8 +65,10 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         acc2 = None
 
         afout = params[-1].find("list").value
-
-        
+        accstore = []
+        for val in afout:
+            accstore.append(val.dumps())
+            
         ## Get accesses
         if len(params) > 2:
             afin = params[2].find("list").value
@@ -135,25 +93,32 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
                 t2 = t
 
         dtype = t1.dtype
+    
         expr = None
         op = asstype.replace("v", "")
         if t1 in R_ARRAYS and t2 in R_ARRAYS:
             s1 = Subscript(t1, nacc1)
             s2 = Subscript(t2, nacc2)
-            expr = Expression(op, s1, s2)
+            expr = Expression(op, s1, s2, None)
 
         if t1 in R_ARRAYS and t2 in V_ARRAYS:
             s1 = Subscript(t1, nacc1)
-            expr = Expression(op, s1, t2.expr)
+            expr = Expression(op, s1, t2.expr, None)
 
         if t1 in V_ARRAYS and t2 in R_ARRAYS:
             s2 = Subscript(t2, nacc1)
-            expr = Expression(op, t1.expr, s2)
+            expr = Expression(op, t1.expr, s2, None)
             
         if t1 in V_ARRAYS and t2 in V_ARRAYS:
-            expr = Expression(op, t1.expr, t2.expr)
+            expr = Expression(op, t1.expr, t2.expr, None)
         
         tensor = Tensor(name, dtype, None, expr, None, asstype)
+        store = Subscript(tensor, accstore)
+
+        # I have to do this after otherwise, I will only be able
+        # to create the store with the string value of tensor, not
+        # the full object. 
+        tensor.expr.update_store(store)
         R_ARRAYS.append(tensor)
 
 
@@ -198,18 +163,18 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         if t1 in R_ARRAYS and t2 in R_ARRAYS:
             s1 = Subscript(t1, nacc1)
             s2 = Subscript(t2, nacc2)
-            expr = Expression(op, s1, s2)
+            expr = Expression(op, s1, s2, None)
 
         if t1 in R_ARRAYS and t2 in V_ARRAYS:
             s1 = Subscript(t1, nacc1)
-            expr = Expression(op, s1, t2.expr)
+            expr = Expression(op, s1, t2.expr, None)
 
         if t1 in V_ARRAYS and t2 in R_ARRAYS:
             s2 = Subscript(t2, nacc1)
-            expr = Expression(op, t1.expr, s2)
+            expr = Expression(op, t1.expr, s2, None)
             
         if t1 in V_ARRAYS and t2 in V_ARRAYS:
-            expr = Expression(op, t1.expr, t2.expr)
+            expr = Expression(op, t1.expr, t2.expr, None)
         
         tensor = Tensor(name, dtype, None, expr, None, asstype)
         V_ARRAYS.append(tensor)
@@ -344,9 +309,10 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         insub = Subscript(parent, swap_rec(sub, nranks, 0, len(nranks)))
         outsub = Subscript(name, sub)
     
-        expr = Expression(None, insub, None)
+        expr = Expression(None, insub, None, None)
         
         tensor = Tensor(name, parent.dtype, tshape, expr, parent, asstype)
+        tensor.expr.update_store(outsub)
         R_ARRAYS.append(tensor)
 
 
@@ -366,8 +332,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         op = asstype.replace("entrywise_", "")
         aft1 = Subscript(t1, range(1, len(t1.shape)+1))
         aft2 = Subscript(t2, range(1, len(t2.shape)+1))
-        expr = Expression(op, aft1, aft2)
+        expr = Expression(op, aft1, aft2, None)
         tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
+        store = Subscript(tensor, range(1, len(t1.shape)+1))
+        tensor.expr.update_store(store)
+        
         R_ARRAYS.append(tensor)
 
         
@@ -390,11 +359,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             offset = offset + len(inp.shape)
             outaccess += subscript.access
 
-        innerexpr = Expression("mul", subscripts[-2], subscripts[-1])
+        innerexpr = Expression("mul", subscripts[-2], subscripts[-1], None)
 
         expr = None
         for i in range(len(subscripts) - 3, -1, -1):
-            expr = Expression("mul", subscripts[i], innerexpr)
+            expr = Expression("mul", subscripts[i], innerexpr, None)
             innerexpr = expr
 
         dtype = inputs[0].dtype
@@ -403,6 +372,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             shape += inp.shape
 
         tensor = Tensor(name, dtype, shape, innerexpr, None, asstype)
+        store = Subscript(tensor, outaccess)
+        tensor.expr.update_store(store)
         R_ARRAYS.append(tensor)
 
 
@@ -563,9 +534,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
 
         s1 = Subscript(parent1, sub1)
         s2 = Subscript(parent2, sub2)
-        expr = Expression("mul", s1, s2)
+        expr = Expression("mul", s1, s2, None)
             
         tensor = Tensor(name, dtype, shape, expr, None, asstype)
+        store = Subscript(tensor, outsub)
+        tensor.expr.update_store(store)
         #array = Contract(name, parent1, parent2, axes1, axes2)
         # if name in ["u", "v"] or "tmp" in name:
         #     array.cfdmesh = True
@@ -592,10 +565,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         s1 = Subscript(parent1, sub1)
         s2 = Subscript(parent2, sub2)
         op = asstype.replace("scalar_", "")
-        expr = Expression(op, s1, s2)
+        expr = Expression(op, s1, s2, None)
                 
         tensor = Tensor(name, parent2.dtype, parent2.shape, expr, None, asstype)
-
+        store = Subscript(tensor, sub2)
+        tensor.expr.update_store(store)
         R_ARRAYS.append(array)
         
 

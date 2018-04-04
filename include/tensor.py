@@ -22,12 +22,18 @@ class Expression():
     op = None
     left = None
     right = None
+    store = None
 
-    def __init__(self, op, left, right):
+    def __init__(self, op, left, right, store):
         self.op = op
         self.left = left
         self.right = right
+        self.store = store
 
+    def update_store(self, store):
+        self.store = store
+
+        
     def debug_print(self):
         # debugleft = None
         # debugright = None
@@ -42,7 +48,7 @@ class Expression():
             tleft = self.left.debug_print()
         if self.right != None:
             tright = self.right.debug_print()
-        return (self.op, tleft, tright)
+        return (self.store, self.op, tleft, tright)
 
 class Tensor():
     dtype = None
