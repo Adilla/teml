@@ -93,7 +93,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
                 t2 = t
 
         dtype = t1.dtype
-
         expr = None
         op = asstype.replace("v", "")
         if t1 in R_ARRAYS and t2 in R_ARRAYS:
@@ -114,12 +113,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         
         tensor = Tensor(name, dtype, None, expr, None, asstype)
         store = Subscript(tensor, accstore)
-
-        # I have to do this after otherwise, I will only be able
-        # to create the store with the string value of tensor, not
-        # the full object. 
         tensor.expr.update_store(store)
-        print tensor.debug_print()
         R_ARRAYS.append(tensor)
 
 
@@ -324,21 +318,70 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         t1 = params[0].dumps()
         t2 = params[1].dumps()
 
-        for t in R_ARRAYS:
+        for t in R_ARRAYS + V_ARRAYS:
             if t.name == t1:
                 t1 = t
             if t.name == t2:
                 t2 = t
                 
+
         op = asstype.replace("entrywise_", "")
-        aft1 = Subscript(t1, range(1, len(t1.shape)+1))
-        aft2 = Subscript(t2, range(1, len(t2.shape)+1))
-        expr = Expression(op, aft1, aft2, None)
+        expr = None
+        if t1 in R_ARRAYS and t2 in R_ARRAYS:
+            aft1 = Subscript(t1, range(1, len(t1.shape)+1))
+            aft2 = Subscript(t2, range(1, len(t2.shape)+1))
+            expr = Expression(op, aft1, aft2, None)
+        if t1 in R_ARRAYS and t2 in V_ARRAYS:
+            aft1 = Subscript(t1, range(1, len(t1.shape)+1))
+            expr = Expression(op, aft1, t2.expr, None)
+        if t1 in V_ARRAYS and t2 in R_ARRAYS:
+            aft2 = Subscript(t2, range(1, len(t2.shape)+1))
+            expr = Expression(op, t1.expr, aft2, None)
+        if t1 in V_ARRAYS and t2 in V_ARRAYS:
+            expr = Expression(op, t1.expr, t2.expr, None)
+        
         tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
         store = Subscript(tensor, range(1, len(t1.shape)+1))
         tensor.expr.update_store(store)
-        
+
         R_ARRAYS.append(tensor)
+
+
+
+    
+    if asstype == "ventrywise_add" or\
+       asstype == "ventrywise_sub" or\
+       asstype == "ventrywise_mul" or\
+       asstype == "ventrywise_div":
+        t1 = params[0].dumps()
+        t2 = params[1].dumps()
+
+        for t in R_ARRAYS + V_ARRAYS:
+            if t.name == t1:
+                t1 = t
+            if t.name == t2:
+                t2 = t
+
+        op = asstype.replace("ventrywise_", "")
+        expr = None
+        if t1 in R_ARRAYS and t2 in R_ARRAYS:
+            aft1 = Subscript(t1, range(1, len(t1.shape)+1))
+            aft2 = Subscript(t2, range(1, len(t2.shape)+1))
+            expr = Expression(op, aft1, aft2, None)
+        if t1 in R_ARRAYS and t2 in V_ARRAYS:
+            aft1 = Subscript(t1, range(1, len(t1.shape)+1))
+            expr = Expression(op, aft1, t2.expr, None)
+        if t1 in V_ARRAYS and t2 in R_ARRAYS:
+            aft2 = Subscript(t2, range(1, len(t2.shape)+1))
+            expr = Expression(op, t1.expr, aft2, None)
+        if t1 in V_ARRAYS and t2 in V_ARRAYS:
+            expr = Expression(op, t1.expr, t2.expr, None)
+        
+        tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
+        #store = Subscript(tensor, range(1, len(t1.shape)+1))
+        #tensor.expr.update_store(store)
+        V_ARRAYS.append(tensor)
+
 
         
     if asstype == "outerproduct":
@@ -448,22 +491,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
 
 
 
-    # if asstype == "outerproduct":
-    #     ### Tensor outer product
-    #     ### T[i,j] = A[i] * B[j]
-
-    #     parent1 = params[0].dumps()
-    #     parent2 = params[1].dumps()
-    #     for array in R_ARRAYS + V_ARRAYS:
-    #         if array.name == parent1:
-    #             parent1 = array
-    #         if array.name == parent2:
-    #             parent2 = array
-
-    #     array = IvieArrayOuterproduct(name, parent1, parent2)
-    #     R_ARRAYS.append(array)
-
-    if asstype == "contract":
+    if asstype == "contract" or\
+       asstype == "vcontract":
         ### Tensor contraction
         ### T[i,j] = A[i,k] * B[j,k]
         parent1 = params[0].dumps()
@@ -534,17 +563,31 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             inc1 += 1
                 
 
-        s1 = Subscript(parent1, sub1)
-        s2 = Subscript(parent2, sub2)
-        expr = Expression("mul", s1, s2, None)
+        expr = None
+        if parent1 in R_ARRAYS and parent2 in R_ARRAYS:
+            s1 = Subscript(parent1, sub1)
+            s2 = Subscript(parent2, sub2)
+            expr = Expression("mul", s1, s2, None)
+        if parent1 in R_ARRAYS and parent2 in V_ARRAYS:
+            s1 = Subscript(parent1, sub1)
+            expr = Expression("mul", s1, parent2.expr, None)
+        if parent1 in V_ARRAYS and parent2 in R_ARRAYS:
+            s2 = Subscript(parent2, sub2)
+            expr = Expression("mul", parent1.expr, s2, None)
+        if parent1 in V_ARRAYS and parent2 in V_ARRAYS:
+            expr = Expression("mul", parent1.expr, parent2.expr, None)
+        
             
         tensor = Tensor(name, dtype, shape, expr, None, asstype)
-        store = Subscript(tensor, outsub)
-        tensor.expr.update_store(store)
-        #array = Contract(name, parent1, parent2, axes1, axes2)
-        # if name in ["u", "v"] or "tmp" in name:
-        #     array.cfdmesh = True
-        R_ARRAYS.append(tensor)
+        
+        if asstype == "contract":
+            store = Subscript(tensor, outsub)
+            tensor.expr.update_store(store)
+            R_ARRAYS.append(tensor)
+        if asstype == "vcontract":
+            V_ARRAYS.append(tensor)
+
+        print tensor.debug_print()
 
     if asstype == "scalar_add" or\
        asstype == "scalar_sub" or\

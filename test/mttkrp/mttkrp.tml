@@ -5,8 +5,8 @@ A = array(double, [15, 3, 8, 2])
 s = scalar(double)
 p = tensorize(s)
 
-K = entrywise_mul(D, A)
-K1 = entrywise_add(D, A)
+K = ventrywise_mul(D, A)
+K1 = entrywise_add(D, K)
 K2 = entrywise_sub(D, A)
 
 Dt = transpose(D, [[1, 2]])

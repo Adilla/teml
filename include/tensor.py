@@ -70,11 +70,11 @@ class Tensor():
         self.parent = parent
         self.construct = construct
 
-
+        """
         if self.expr != None:
             print (self.dtype, self.name, self.shape, self.expr.debug_print(),\
                    self.parent, self.construct)
-
+        """
             
     def debug_print(self):
         if self.expr != None:
