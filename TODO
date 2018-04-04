@@ -6,5 +6,8 @@
   vhighop + vhighop in general (not urgent)
 
 * Change syntax of access functions to support stencil
-  specification
+  specification (urgent)
+
+
+* Clean implementation in tml_frontend (not urgent)
 
