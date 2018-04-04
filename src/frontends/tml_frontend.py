@@ -54,6 +54,49 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         R_ARRAYS.append(tensor)
 
 
+    # if asstype == "add" or \
+    #    asstype == "sub" or \
+    #    asstype == "mul" or \
+    #    asstype == "div":
+        
+    #     t1 = params[0].dumps()
+    #     t2 = params[1].dumps()
+    #     afin = params[2].find("list").value
+    #     afout = params[3].find("list").value
+
+    #     for t in R_ARRAYS:
+    #         if t1 == t.name:
+    #             t1 = t
+    #         if t2 == t.name:
+    #             t2 = t
+
+    #     dtype = t1.dtype
+
+
+    #     nafin = []
+        
+
+    #     tmp1 = []
+    #     for i in range(0, len(afin[0])):
+    #         tmp1.append(afin[0][i].dumps())
+    #     nafin.append(tmp1)
+
+    #     tmp2 = []
+    #     for i in range(0, len(afin[1])):
+    #         tmp2.append(afin[1][i].dumps())
+    #     nafin.append(tmp2)
+        
+    #     af1 = Subscript(t1, nafin[0])
+    #     af2 = Subscript(t2, nafin[1])
+
+    #     expr = Expression(asstype, af1, af2)
+
+    #     #print expr.debug_print()
+    #     ## Shape not yet fully determine, will set to None
+    #     tensor = Tensor(name, dtype, None, expr, None, asstype)
+    #     #print tensor.debug_print()
+    #     R_ARRAYS.append(tensor)
+
     if asstype == "add" or \
        asstype == "sub" or \
        asstype == "mul" or \
@@ -61,42 +104,57 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         
         t1 = params[0].dumps()
         t2 = params[1].dumps()
-        afin = params[2].find("list").value
-        afout = params[3].find("list").value
 
-        for t in R_ARRAYS:
+        acc1 = None
+        acc2 = None
+
+        afout = params[-1].find("list").value
+
+        
+        ## Get accesses
+        if len(params) > 2:
+            afin = params[2].find("list").value
+            acc1 = afin[0].value
+            if len(afin) == 2:
+                acc2 = afin[1].value
+
+        nacc1 = []
+        if acc1 != None:
+            for val in acc1:
+                nacc1.append(val.dumps())
+
+        nacc2 = []
+        if acc2 != None:
+            for val in acc2:
+                nacc2.append(val.dumps())
+       
+        for t in R_ARRAYS + V_ARRAYS:     
             if t1 == t.name:
                 t1 = t
             if t2 == t.name:
                 t2 = t
 
         dtype = t1.dtype
+        expr = None
+        op = asstype.replace("v", "")
+        if t1 in R_ARRAYS and t2 in R_ARRAYS:
+            s1 = Subscript(t1, nacc1)
+            s2 = Subscript(t2, nacc2)
+            expr = Expression(op, s1, s2)
 
+        if t1 in R_ARRAYS and t2 in V_ARRAYS:
+            s1 = Subscript(t1, nacc1)
+            expr = Expression(op, s1, t2.expr)
 
-        nafin = []
+        if t1 in V_ARRAYS and t2 in R_ARRAYS:
+            s2 = Subscript(t2, nacc1)
+            expr = Expression(op, t1.expr, s2)
+            
+        if t1 in V_ARRAYS and t2 in V_ARRAYS:
+            expr = Expression(op, t1.expr, t2.expr)
         
-
-        tmp1 = []
-        for i in range(0, len(afin[0])):
-            tmp1.append(afin[0][i].dumps())
-        nafin.append(tmp1)
-
-        tmp2 = []
-        for i in range(0, len(afin[1])):
-            tmp2.append(afin[1][i].dumps())
-        nafin.append(tmp2)
-        
-        af1 = Subscript(t1, nafin[0])
-        af2 = Subscript(t2, nafin[1])
-
-        expr = Expression(asstype, af1, af2)
-
-        #print expr.debug_print()
-        ## Shape not yet fully determine, will set to None
         tensor = Tensor(name, dtype, None, expr, None, asstype)
-        #print tensor.debug_print()
         R_ARRAYS.append(tensor)
-
 
 
 
@@ -118,7 +176,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             if len(afin) == 2:
                 acc2 = afin[1].value
 
-
         nacc1 = []
         if acc1 != None:
             for val in acc1:
@@ -129,7 +186,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             for val in acc2:
                 nacc2.append(val.dumps())
        
-
         for t in R_ARRAYS + V_ARRAYS:     
             if t1 == t.name:
                 t1 = t
