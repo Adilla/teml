@@ -1,0 +1,6 @@
+B = array(double, [4096, 4096])
+C = array(double, [4096, 4096])
+D = array(double, [4096, 4096])
+
+tmp = vcontract(C, D, [[2, 1]])
+A = entrywise_mul(B, tmp)

@@ -1,0 +1,25 @@
+B = array(double, [11, 2, 13])
+C = array(double, [11, 150])
+D = array(double, [8, 15, 18, 35])
+A = array(double, [15, 3, 8, 2])
+s = scalar(double)
+p = tensorize(s)
+
+K = ventrywise_mul(D, A)
+K1 = entrywise_add(D, K)
+K2 = entrywise_sub(D, A)
+
+Dt = transpose(D, [[1, 2]])
+Bt = transpose(B, [[1, 2], [1, 3]])
+
+
+T = outerproduct([B, C, D, A])
+T2 = outerproduct([Dt, Bt])
+
+Q = contract(D, A, [[2, 1], [1, 3]])
+Q2 = contract(D, A, [[2, 1]])
+
+V = scalar_mul(s, Q)
+V1 = scalar_add(s, Q)
+V2 = scalar_div(s, Q)
+V3 = scalar_sub(s, Q)
