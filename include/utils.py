@@ -21,9 +21,9 @@ def get_rank(branch, dic):
     access = branch.access
 
     for data in access:
-        if data not in dic:
-            dic[data] = shape[int(data)-1]
-
+        index = access.index(data)
+        dic.update({data:shape[index]})
+        #dic[data] = shape[index]
     return dic
 
 def collect_ranks(dic, expr):

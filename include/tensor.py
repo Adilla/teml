@@ -23,7 +23,9 @@ class Expression():
     left = None
     right = None
     store = None
+    ranks = None
 
+    
     def __init__(self, op, left, right, store):
         self.op = op
         self.left = left
@@ -33,6 +35,8 @@ class Expression():
     def update_store(self, store):
         self.store = store
 
+    def update_ranks(self, ranks):
+        self.ranks = ranks
         
     def debug_print(self):
         # debugleft = None
@@ -94,88 +98,14 @@ class Tensor():
                 shape.append(ranks[data])
             
             self.shape = shape
-
-    def build(self):
-        # infer ranges
-        # create and return loop
-        pass
-    
-# class Array(Tensor):
-    
-#     def __init__(self, name, dtype, shape):
-#         self.name = name
-#         self.dtype = dtype
-#         self.shape = shape
-
-
-# class Scalar(Tensor):
-
-#     def __init__(self, name, dtype):
-#         self.name = name
-#         self.dtype = dtype
-
-# class Tensorize(Tensor):
-    
-#     def __init__(self, name, parent):
-#         self.name = name
-#         self.dtype = parent.dtype
-#         self.shape = ['1']
-#         self.parent = parent
-
-# class Op(Tensor):
-
-#     def __init__(self, name, expr):
-#         self.name = name
-#         self.expr = expr
-
-# class Transpose(Tensor):
-    
-#     def __init__(self, name, parent, ranks):
-#         self.name = name
-#         self.parent = parent
-#         self.dtype = parent.dtype
-#         tmp_shape = deepcopy(parent.shape)
-#         self.shape = swap_rec(tmp_shape, ranks, 0, len(ranks))
-
-
-# class Entrywise(Tensor):
-
-#     def __init__(self, name, parent1, parent2, expr):
-#         self.name = name
-#         self.dtype = parent1.dtype
-#         self.shape = parent1.shape
-#         self.expr = expr
+            self.expr.update_ranks(ranks)
+            
+    def build(self, iterators):
+        ## This is the old implementation
+        ## (for imperative transformations)
+        for data in self.expr.ranks:
+            print ("i" + data, 0, self.expr.ranks[data], 1)
         
+    
 
-# class Outerproduct(Tensor):
-
-#     def __init__(self, name, dtype, shape, expr):
-#         self.name = name
-#         self.dtype = dtype
-#         self.shape = shape
-#         self.expr = expr
-
-
-# class Contract(Tensor):
-
-#         def __init__(self, name, parent1, parent2, axes1, axes2):
-#         self.name = name
-#         self.axes1 = axes1
-#         self.axes2 = axes2
-#         self.dtype = parent1.dtype
-
-#         self.shape = parent1.shape 
-        
-#         self.dimension = str(int(self.parent1.dimension) + int(self.parent2.dimension) - len(axes1) - len(axes2))
-#         self.reduction = True
-       
-#         for i in range(0, len(self.parent1.sizes)):
-#             if str(i+1) not in self.axes1:
-#                 self.sizes.append(parent1.sizes[i])
-        
-        
-#         for i in range(0, len(self.parent2.sizes)):
-#             if str(i+1) not in self.axes2:
-#                 self.sizes.append(parent2.sizes[i])
-  
         
