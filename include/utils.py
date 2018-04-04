@@ -14,3 +14,28 @@ def swap_rec(list, pairs, depth, depthmax):
         return swap_rec(newlist, pairs, depth+1, depthmax)
     else:
         return newlist
+
+
+def get_rank(branch, dic):
+    shape = branch.tensor.shape
+    access = branch.access
+
+    for data in access:
+        if data not in dic:
+            dic[data] = shape[int(data)-1]
+
+    return dic
+
+def collect_ranks(dic, expr):
+    ## Simplistic implementation
+    if expr.left.__class__.__name__ == "Expression":
+        return collect_ranks(dic, expr.left)
+    else:
+        dic = get_rank(expr.left, dic)
+        return dic
+    
+    if expr.right.__class__.__name__ == "Expression":
+        return collect_ranks(list, expr.right)
+    else:
+        dic = get_rank(expr.left, dic)
+        return dic

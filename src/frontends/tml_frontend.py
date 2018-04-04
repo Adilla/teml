@@ -94,7 +94,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
 
         dtype = t1.dtype
         expr = None
-        op = asstype.replace("v", "")
+        op = asstype
         if t1 in R_ARRAYS and t2 in R_ARRAYS:
             s1 = Subscript(t1, nacc1)
             s2 = Subscript(t2, nacc2)
@@ -105,7 +105,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             expr = Expression(op, s1, t2.expr, None)
 
         if t1 in V_ARRAYS and t2 in R_ARRAYS:
-            s2 = Subscript(t2, nacc1)
+            s2 = Subscript(t2, nacc2)
             expr = Expression(op, t1.expr, s2, None)
             
         if t1 in V_ARRAYS and t2 in V_ARRAYS:
@@ -115,8 +115,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         store = Subscript(tensor, accstore)
         tensor.expr.update_store(store)
         R_ARRAYS.append(tensor)
-
-
+        print tensor.infer_range()
 
     if asstype == "vadd" or \
        asstype == "vsub" or \
@@ -432,7 +431,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
 
         R_ARRAYS.append(tensor)
 
-
+        print tensor.debug_print()
 
 
         
@@ -588,7 +587,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         if parent1 in V_ARRAYS and parent2 in V_ARRAYS:
             expr = Expression("mul", parent1.expr, parent2.expr, None)
         
-            
+
         tensor = Tensor(name, dtype, shape, expr, None, asstype)
 
         # Here I actually need the outsubscript everytime

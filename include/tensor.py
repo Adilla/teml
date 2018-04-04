@@ -69,7 +69,7 @@ class Tensor():
         self.expr = expr
         self.parent = parent
         self.construct = construct
-
+    
         """
         if self.expr != None:
             print (self.dtype, self.name, self.shape, self.expr.debug_print(),\
@@ -80,7 +80,20 @@ class Tensor():
         if self.expr != None:
             print (self.dtype, self.name, self.shape, self.expr.debug_print(),\
                    self.parent, self.construct)
+
+
+    def infer_range(self):
+        ## Infer range of output tensor.
+    
+        if self.expr != None:
+            ranks = {}
+            ranks = collect_ranks(ranks, self.expr)
+            access = self.expr.store.access
+            shape = []
+            for data in access:
+                shape.append(ranks[data])
             
+            self.shape = shape
 
     def build(self):
         # infer ranges
