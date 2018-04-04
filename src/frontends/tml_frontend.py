@@ -93,7 +93,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
                 t2 = t
 
         dtype = t1.dtype
-    
+
         expr = None
         op = asstype.replace("v", "")
         if t1 in R_ARRAYS and t2 in R_ARRAYS:
@@ -119,6 +119,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         # to create the store with the string value of tensor, not
         # the full object. 
         tensor.expr.update_store(store)
+        print tensor.debug_print()
         R_ARRAYS.append(tensor)
 
 
@@ -374,6 +375,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         tensor = Tensor(name, dtype, shape, innerexpr, None, asstype)
         store = Subscript(tensor, outaccess)
         tensor.expr.update_store(store)
+
         R_ARRAYS.append(tensor)
 
 

@@ -44,11 +44,14 @@ class Expression():
         # return "(" + self.op + ", " + debugleft + ", " + debugright + ")"
         tleft = None
         tright = None
+        tstore = None
         if self.left != None:
             tleft = self.left.debug_print()
         if self.right != None:
             tright = self.right.debug_print()
-        return (self.store, self.op, tleft, tright)
+        if self.store != None:
+            tstore = self.store.debug_print()
+        return (tstore, self.op, tleft, tright)
 
 class Tensor():
     dtype = None
@@ -72,12 +75,12 @@ class Tensor():
             print (self.dtype, self.name, self.shape, self.expr.debug_print(),\
                    self.parent, self.construct)
 
-        
-        def debug_print(self):
-            return (self.dtype, self.name, self.shape,\
-               lambda: self.expr.debug_print() if self.expr != None else None,\
-               self.parent, self.construct)
-
+            
+    def debug_print(self):
+        if self.expr != None:
+            print (self.dtype, self.name, self.shape, self.expr.debug_print(),\
+                   self.parent, self.construct)
+            
 
     def build(self):
         # infer ranges
