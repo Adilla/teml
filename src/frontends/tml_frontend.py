@@ -590,10 +590,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         
             
         tensor = Tensor(name, dtype, shape, expr, None, asstype)
-        
+
+        # Here I actually need the outsubscript everytime
+        store = Subscript(tensor, outsub)
+        tensor.expr.update_store(store)
         if asstype == "contract":
-            store = Subscript(tensor, outsub)
-            tensor.expr.update_store(store)
             R_ARRAYS.append(tensor)
         if asstype == "vcontract":
             V_ARRAYS.append(tensor)
