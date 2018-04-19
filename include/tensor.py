@@ -1,7 +1,7 @@
 from copy import deepcopy, copy
 from termcolor import colored
 from utils import *
-
+import subprocess
 
 class Subscript():
     tensor = None
@@ -97,26 +97,34 @@ class Tensor():
             constraints = []
             indexes = []
             constraints = collect_constraints(constraints, indexes, self.expr)
-            print constraints
 
+            indexes = ", ".join(indexes)
+            indexes = "S[" + indexes + "]"
             constraints = " and ".join(constraints)
-            constraints = "D := { " + constraints + " };\n"
+            constraints = "D := { " + indexes + ": " + constraints + " };\n"
+            outsub = ", ".join(self.expr.store.access)
+            write = self.name + "[" + outsub + "]"
+            # Build relation with output tensor
+            relation = "W := { " + indexes + " -> " + write + "} * D;\n"
+            irange = "R := ran W;\n"
+            lexmax = "L := lexmax R;\n"
+            result = "print L;\n"
+            iscc_script = constraints + relation + irange + lexmax + result
 
-            print constraints
-            
-            print indexes
-        # Collect system of constraints.
-    
-        # if self.expr != None:
-        #     ranks = {}
-        #     ranks = collect_ranks(ranks, self.expr)
-        #     access = self.expr.store.access
-        #     shape = []
-        #     for data in access:
-        #         shape.append(ranks[data])
-            
-        #     self.shape = shape
-        #     self.expr.update_ranks(ranks)
+            with open("_script.iscc", "w") as source:
+                source.write(iscc_script)
+
+            # I don't know why the following does not work
+            #rrange = subprocess.call(['~/Tools/barvinok-0.41/iscc', '<', '_script.iscc'])
+            with open("_bscript.sh", "w") as source:
+                command = "~/Tools/barvinok-0.41/iscc < _script.iscc"
+                source.write(command)
+
+            rrange = subprocess.check_output(["zsh", "_bscript.sh"])
+
+            print rrange
+
+
             
     def build(self, iterators):
         ## This is the old implementation

@@ -1,0 +1,5 @@
+D := { S[i2, i1, i3]: 0 <= i1 + 2 < 10 and 0 <= i2 < 10 and 0 <= i1 < 50 and 0 <= i2 - 3 < 3 };
+W := { S[i2, i1, i3] -> D[i1, i2]} * D;
+R := ran W;
+L := lexmax R;
+print L;
