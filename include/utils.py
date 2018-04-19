@@ -46,8 +46,12 @@ def get_constraints(branch, ind, consts):
     for i in range(0, len(branch.tensor.shape)):
         c = "0 <= " +  branch.access[i] + " < " + branch.tensor.shape[i]
 
-
-        index = "i"+ re.findall(r"i(.)+", branch.access[i])[0]
+        rr = re.compile(r"[i?]\w+\b")
+        index = rr.findall(branch.access[i])[0]
+        
+        #index = "i"+ re.findall(r"i(.)+", branch.access[i])[0]
+        
+        
         if index not in ind:
             ind.append(index)
         consts.append(c)

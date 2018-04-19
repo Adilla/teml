@@ -116,14 +116,20 @@ class Tensor():
 
             # I don't know why the following does not work
             #rrange = subprocess.call(['~/Tools/barvinok-0.41/iscc', '<', '_script.iscc'])
+            # I will generate a sh file containing the command
             with open("_bscript.sh", "w") as source:
                 command = "~/Tools/barvinok-0.41/iscc < _script.iscc"
                 source.write(command)
 
             rrange = subprocess.check_output(["zsh", "_bscript.sh"])
 
-            print rrange
+            rrange = rrange.replace(self.name, "").\
+                     replace("{ ", "").\
+                     replace(" }", "").\
+                     replace("\n", "")
+            self.shape = rrange
 
+            print self.debug_print()
 
             
     def build(self, iterators):
