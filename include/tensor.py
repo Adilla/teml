@@ -136,6 +136,8 @@ class Tensor():
 
             domain = domain.split(" and ")
 
+
+
             iterranges = []
             for dom in domain:
                 # To switch to ranks
@@ -156,7 +158,7 @@ class Tensor():
                      replace("\n", "")
             self.shape = rrange
 
-             
+            print self.shape
     def build(self):
         
         # Sorting to make it easier

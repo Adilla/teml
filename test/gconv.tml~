@@ -1,0 +1,8 @@
+I = array(double, [N, G, C, H, W])
+W1 = array(double, [G, F, C, KH, KW])
+B = array(double, [G, F])
+
+tmp = vmul(I, W1, [[1, 2, 4, 5, 6 + d8], [d2, d3, d4, d7, d8]] -> [d1, d2, d3, d5, d6])
+O = add(O, tmp, [[d1, d2, d3, d5, d6]] -> [d1, d2, d3, d5, d6])
+O1 = add(O, B, [[d1, d2, d3, d4, d5], [d2, d3]] ->  [d1, d2, d3, d4, d5])
+

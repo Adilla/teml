@@ -43,6 +43,9 @@ def collect_ranks(dic, expr):
 
 
 def get_constraints(branch, ind, consts):
+    print branch.tensor.shape
+    print branch.tensor.name
+    print branch.access
     for i in range(0, len(branch.tensor.shape)):
         c = "0 <= " +  branch.access[i] + " < " + branch.tensor.shape[i]
 
