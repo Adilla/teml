@@ -88,17 +88,27 @@ class Tensor():
 
     def infer_range(self):
         ## Infer range of output tensor.
-    
+        print self.debug_print()
+
+
         if self.expr != None:
-            ranks = {}
-            ranks = collect_ranks(ranks, self.expr)
-            access = self.expr.store.access
-            shape = []
-            for data in access:
-                shape.append(ranks[data])
+            constraints = []
+            constraints = collect_constraints(constraints, self.expr)
+
+            print constraints
             
-            self.shape = shape
-            self.expr.update_ranks(ranks)
+        # Collect system of constraints.
+    
+        # if self.expr != None:
+        #     ranks = {}
+        #     ranks = collect_ranks(ranks, self.expr)
+        #     access = self.expr.store.access
+        #     shape = []
+        #     for data in access:
+        #         shape.append(ranks[data])
+            
+        #     self.shape = shape
+        #     self.expr.update_ranks(ranks)
             
     def build(self, iterators):
         ## This is the old implementation

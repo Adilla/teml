@@ -56,7 +56,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
     if asstype == "add" or \
        asstype == "sub" or \
        asstype == "mul" or \
-       asstype == "div":
+       asstype == "div" or \
+       asstype == "vadd" or \
+       asstype == "vsub" or \
+       asstype == "vmul" or \
+       asstype == "vdiv":
         
         t1 = params[0].dumps()
         t2 = params[1].dumps()
@@ -95,6 +99,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         dtype = t1.dtype
         expr = None
         op = asstype
+        if "v" in op:
+            op = op.replace("v", "")
+            
         if t1 in R_ARRAYS and t2 in R_ARRAYS:
             s1 = Subscript(t1, nacc1)
             s2 = Subscript(t2, nacc2)
@@ -114,142 +121,15 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         tensor = Tensor(name, dtype, None, expr, None, asstype)
         store = Subscript(tensor, accstore)
         tensor.expr.update_store(store)
-        R_ARRAYS.append(tensor)
-        tensor.infer_range()
 
-        
-    if asstype == "vadd" or \
-       asstype == "vsub" or \
-       asstype == "vmul" or \
-       asstype == "vdiv":
-        
-        t1 = params[0].dumps()
-        t2 = params[1].dumps()
+        if "v" in asstype:
+            V_ARRAYS.append(tensor)
+        else:
+            R_ARRAYS.append(tensor)
+            tensor.infer_range()
 
-        acc1 = None
-        acc2 = None
-
-        ## Get accesses
-        if len(params) > 2:
-            afin = params[2].find("list").value
-            acc1 = afin[0].value
-            if len(afin) == 2:
-                acc2 = afin[1].value
-
-        nacc1 = []
-        if acc1 != None:
-            for val in acc1:
-                nacc1.append(val.dumps())
-
-        nacc2 = []
-        if acc2 != None:
-            for val in acc2:
-                nacc2.append(val.dumps())
-       
-        for t in R_ARRAYS + V_ARRAYS:     
-            if t1 == t.name:
-                t1 = t
-            if t2 == t.name:
-                t2 = t
-
-        dtype = t1.dtype
-        expr = None
-        op = asstype.replace("v", "")
-        if t1 in R_ARRAYS and t2 in R_ARRAYS:
-            s1 = Subscript(t1, nacc1)
-            s2 = Subscript(t2, nacc2)
-            expr = Expression(op, s1, s2, None)
-
-        if t1 in R_ARRAYS and t2 in V_ARRAYS:
-            s1 = Subscript(t1, nacc1)
-            expr = Expression(op, s1, t2.expr, None)
-
-        if t1 in V_ARRAYS and t2 in R_ARRAYS:
-            s2 = Subscript(t2, nacc1)
-            expr = Expression(op, t1.expr, s2, None)
-            
-        if t1 in V_ARRAYS and t2 in V_ARRAYS:
-            expr = Expression(op, t1.expr, t2.expr, None)
-        
-        tensor = Tensor(name, dtype, None, expr, None, asstype)
-        V_ARRAYS.append(tensor)
-            
-        
         
                 
-        # for t in R_ARRAYS:
-        #     if t1 == t.name:
-        #         t1 = t
-        #     if t2 == t.name:
-        #         t2 = t
-                    
-        # dtype = t1.dtype
-
-        # nafin = []
-        
-        # tmp1 = []
-        # for i in range(0, len(afin[0])):
-        #     tmp1.append(afin[0][i].dumps())
-        # nafin.append(tmp1)
-
-        # tmp2 = []
-        # for i in range(0, len(afin[1])):
-        #     tmp2.append(afin[1][i].dumps())
-        # nafin.append(tmp2)
-        
-        # af1 = Subscript(t1, nafin[0])
-        # af2 = Subscript(t2, nafin[1])
-
-        # expr = Expression(asstype, af1, af2)
-
-        # #print expr.debug_print()
-        # ## Shape not yet fully determine, will set to None
-        # tensor = Tensor(name, dtype, None, expr, None, asstype)
-        # #print tensor.debug_print()
-        # V_ARRAYS.append(tensor)
-
-        
-    # if asstype == "vadd" or \
-    #    asstype == "vsub" or \
-    #    asstype == "vmul" or \
-    #    asstype == "vdiv":
-        
-    #     t1 = params[0].dumps()
-    #     t2 = params[1].dumps()
-
-        
-    #     if len(params) > 2:
-    #         ## If there is some access function provided
-    #         pass
-    #     else:
-    #         pass
-
-            
-        
-        # afin = params[2].find("list").value
-    
-        # for t in R_ARRAYS:
-        #     if t1 == t.name:
-        #         t1 = t
-        #     if t2 == t.name:
-        #         t2 = t
-
-        # dtype = t1.dtype
-        
-        # for i in range(0, len(afin[0])):
-        #     afin[0][i] = afin[0][i].dumps()
-
-        # for i in range(0, len(afin[1])):
-        #     afin[1][i] = afin[1][i].dumps()
-        
-        # af1 = Subscript(t1, afin[0])
-        # af2 = Subscript(t2, afin[1])
-
-        # expr = Expression(asstype, af1, af2)
-
-        # tensor = Op(name, expr)
-        # R_ARRAYS.append(tensor)
-
     
     
     """

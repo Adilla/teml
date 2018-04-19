@@ -39,3 +39,25 @@ def collect_ranks(dic, expr):
     else:
         dic = get_rank(expr.left, dic)
         return dic
+
+
+def get_constraints(branch, consts):
+    for i in range(0, len(branch.tensor.shape)):
+        c = " 0 <= " +  branch.access[i] + " < " + branch.tensor.shape[i]
+
+        consts.append(c)
+
+    return consts
+        
+def collect_constraints(consts, expr):
+    if expr.left.__class__.__name__ == "Expression":
+        return collect_constraints(consts, expr.left)
+    else:
+        consts = get_constraints(expr.left, consts)
+        return consts
+
+    if expr.right.__class__.__name__ == "Expression":
+        return collect_constraints(consts, expr.right)
+    else:
+        consts = get_constraints(expr.left, consts)
+        return consts
