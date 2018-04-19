@@ -1,6 +1,7 @@
 A = array(double, [10, 10])
 B = array(double, [50, 3])
 
-C = mul(A, B, [[1, 2], [1, 2]] -> [1, 2])
 
 D = mul(A, B, [[i1 + 2, i2], [i1, i2 - 3]] -> [i1, i2])
+
+
