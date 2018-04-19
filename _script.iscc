@@ -1,5 +1,5 @@
-C := { S[i1, i2, i3]: 0 <= i1 < 11 and 0 <= i2 < 2 and 0 <= i3 < 13 and 0 <= i2 < 150 and 0 <= i3 < 150 };
-W := { S[i1, i2, i3] -> T4[i1, i2, i3]} * C;
+C := { S[i1, i2]: 0 <= i1 + 2 < 90 and 0 <= i2 < 77 and 0 <= i1 < 22 and 0 <= i2 - 3 < 30 and 0 <= i2 + 5 < 30 };
+W := { S[i1, i2] -> D[i1, i2]} * C;
 R := ran W;
 D := dom W;
 L := lexmax R;

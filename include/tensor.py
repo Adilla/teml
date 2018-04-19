@@ -2,7 +2,6 @@ from copy import deepcopy, copy
 from termcolor import colored
 from utils import *
 import subprocess
-from iterators import *
 from loops import *
 
 class Subscript():
