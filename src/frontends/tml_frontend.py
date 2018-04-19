@@ -65,18 +65,21 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         t1 = params[0].dumps()
         t2 = params[1].dumps()
 
+
         acc1 = None
         acc2 = None
 
-        afout = params[-1].find("list").value
         accstore = []
-        for val in afout:
-            accstore.append(val.dumps())
+        if "v" not in asstype:
+            afout = params[-1].find("list").value
+            for val in afout:
+                accstore.append(val.dumps())
             
         ## Get accesses
         if len(params) > 2:
             afin = params[2].find("list").value
             acc1 = afin[0].value
+        
             if len(afin) == 2:
                 acc2 = afin[1].value
 
@@ -85,7 +88,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             for val in acc1:
                 nacc1.append(val.dumps())
 
+        
         nacc2 = []
+
         if acc2 != None:
             for val in acc2:
                 nacc2.append(val.dumps())
@@ -112,9 +117,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             expr = Expression(op, s1, t2.expr, None)
 
         if t1 in V_ARRAYS and t2 in R_ARRAYS:
-            s2 = Subscript(t2, nacc2)
+            s2 = Subscript(t2, nacc1)
             expr = Expression(op, t1.expr, s2, None)
-            
+
         if t1 in V_ARRAYS and t2 in V_ARRAYS:
             expr = Expression(op, t1.expr, t2.expr, None)
 
