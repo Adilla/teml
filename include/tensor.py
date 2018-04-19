@@ -2,6 +2,8 @@ from copy import deepcopy, copy
 from termcolor import colored
 from utils import *
 import subprocess
+from iterators import *
+from loops import *
 
 class Subscript():
     tensor = None
@@ -68,7 +70,7 @@ class Tensor():
     construct = None
     debug_str = None
     loopdomain = None
-    
+    loop = None
 
     def __init__(self, name, dtype, shape, expr, parent, construct):
         self.name = name
@@ -137,7 +139,11 @@ class Tensor():
 
             iterranges = []
             for dom in domain:
+                # To switch to ranks
+                dom = dom.replace("i", "")
                 r = dom.replace(" ", "").split("<=")
+
+               
                 iterranges.append(r)
         
             self.loopdomain = iterranges
@@ -152,12 +158,29 @@ class Tensor():
             self.shape = rrange
 
              
-    def build(self, iterators):
-        ## This is the old implementation
-        ## (for imperative transformations)
-        for data in self.expr.ranks:
-            print ("i" + data, 0, self.expr.ranks[data], 1)
+    def build(self):
         
-    
+        # Sorting to make it easier
+        # x[1] corresponds to the rank
+        # print sorted(self.loopdomain, key=lambda x: x[1])
+        iterators = []
+        for it in self.loopdomain:
+            #Strict domain
+            #iterr = Iterator(it[1], it[0], it[2], '1')
 
+            #But for the moment, we assume
+            #iterators to start from 0
+            iterr = Iterator(it[1], '0', it[2], '1')
+            iterators.append(iterr)
+        
+        innermost = Loop(iterators[-1], [self.expr])
+
+        for i in range(len(iterators)-2, -1, -1):
+            innermost = Loop(iterators[i], [innermost])
+        self.loop = innermost
+        self.loop.debug_print()
+        
+        
+
+        
         

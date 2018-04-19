@@ -1,13 +1,13 @@
 04/04/18
 
 * Support combination of:
-  vcontract + entrywise_mul (urgent)
   vcontract + vcontract (not urgent)
   vhighop + vhighop in general (not urgent)
-
-* Change syntax of access functions to support stencil
-  specification (urgent)
 
 
 * Clean implementation in tml_frontend (not urgent)
 
+
+19/04/18
+
+* Implement build_range (not urgent)

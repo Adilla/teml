@@ -3,8 +3,9 @@ from termcolor import colored
 import sys
 
 
-class IvieIterator():
+class Iterator():
 
+    rank = None
     vec_hints = None
     parent = None
     kind = None
@@ -24,6 +25,21 @@ class IvieIterator():
     axe_traversal = False
     virtualized = []
 
+
+    def __init__(self, rank, minbound, maxbound, stride):
+        self.name = "i" + rank
+        self.rank = rank
+        self.minbound = minbound
+        self.maxbound = maxbound
+        self.stride = stride
+
+    def debug_print(self):
+        string = colored("ITERATOR:", "blue",  attrs=["bold"]) + colored(" " + self.name, attrs=["bold"]) + " {" + self.minbound + ", " + self.maxbound + ", " + self.stride + "}"
+        return string
+
+
+
+    
     def set_axe_traversal(self, boolean):
         self.axe_traversal = True
 
@@ -78,6 +94,9 @@ class IvieIterator():
     def set_peel_end_factor(self, factor):
         self.peel_end_factor = factor
 
+
+        
+
     """
     def prettyprint_C_dimension(self, newname, indent):
         parallinfo = ""
@@ -117,105 +136,3 @@ class IvieIterator():
         string += newname + " += " + self.stride + ") {\n"
     """
 
-class IvieIteratorIterator(IvieIterator):
-    """ Types:
-    minbound: string
-    maxbound: string
-    stride: string
-    """
-    def __init__(self, name, minbound, maxbound, stride):
-        self.name = name 
-        self.minbound = minbound
-        self.maxbound = maxbound
-        self.stride = stride
-
-    def debug_print(self):
-        string = colored("ITERATOR:", "blue",  attrs=["bold"]) + colored(" " + self.name, attrs=["bold"]) + " {" + self.minbound + ", " + self.maxbound + ", " + self.stride + "}"
-        return string
-
-class IvieIteratorAxetraversor(IvieIterator):
-    ### Experiemntal (CFD)
-    def __init__(self, name, parent):
-        self.name = name
-        self.axe_traversor_parent = parent    
-        self.minbound = parent.minbound
-        self.maxbound = parent.maxbound
-        self.stride = parent.stride
-
-    def debug_print(self):
-        string = colored("Axe traversor: ", "blue", attrs=["bold"]) + colored(self.name, attrs=["bold"]) + " {" + self.minbound + ", " + self.maxbound + ", " + self.stride + ", " + self.axe_traversor_parent.debug_print() + "}"
-        return string
-
-class IvieIteratorReplicateAxetraversor(IvieIterator):
-    ### Experiemntal (CFD)
-    def __init__(self, name, parent, parent2):
-        self.name = name
-        self.parent = parent
-        self.axe_traversor_parent = parent2
-        self.minbound = parent.minbound
-        self.maxbound = parent.maxbound
-        self.stride = parent.stride
-
-    def debug_print(self):
-        string = colored("Replicate Axe traversor: ", "blue", attrs=["bold"]) + colored(self.name, attrs=["bold"]) + " {" + self.minbound + ", " + self.maxbound + ", " + self.stride + ", " + self.parent.debug_print() + "}"
-        return string
-
-class IvieIteratorTile(IvieIterator):
-    """ Types:
-    name: string
-    minbound: string
-    maxbound: string
-    stride: string 
-    child: IvieIterator"""
-
-    def __init__(self, name, minbound, maxbound, stride, child):
-        self.name = name
-        self.minbound = minbound
-        self.maxbound = maxbound
-        self.stride = stride
-        self.child = child
-
-    def debug_print(self):
-        string = colored("Tile iterator: ", "blue", attrs=["bold"]) + colored(self.name, attrs=["bold"]) + " {" + self.minbound + ", " + self.maxbound + ", " + self.stride + ", "
-        string += self.child.debug_print() + "}"
-        return string
-
-class IvieIteratorReplicate(IvieIterator):
-    """ Types:
-    name: string
-    parent: IvieIterator
-    minbound: string
-    maxbound: string
-    stride: string """
-
-    def __init__(self, name, parent):
-        self.name = name
-        self.parent = parent
-        self.minbound = parent.minbound
-        self.maxbound = parent.maxbound
-        self.stride = parent.stride
-
-    def debug_print(self):
-        string = colored("Replicate iterator: ", "blue", attrs=["bold"]) + colored(self.name, attrs=["bold"]) + " {" + self.minbound + ", " + self.maxbound + ", " + self.stride + ", "
-        string += self.parent.debug_print() + "}"
-        return string
-
-class IvieIteratorVirtualize(IvieIterator):
-    """ Types:
-    name: string
-    parent: IvieIterator
-    minbound: string
-    maxbound: string
-    stride: string """
-
-    def __init__(self, name, parent):
-        self.name = name
-        self.parent = parent
-        self.minbound = parent.minbound
-        self.maxbound = parent.maxbound
-        self.stride = parent.stride
-
-    def debug_print(self):
-        string = colored("Virtual iterator: ", "blue", attrs=["bold"]) + colored(self.name, attrs=["bold"]) + " {" + self.minbound + ", " + self.maxbound + ", " + self.stride + ", "
-        string += self.parent.debug_print() + "}"
-        return string

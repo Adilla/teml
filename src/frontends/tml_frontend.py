@@ -12,7 +12,7 @@ import sys
 
 
         
-def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
+def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
     """ For a given "element", depending on the array/iterator declaration
     mode, it will be processed and sorted as a physical array (R_ARRAY)
     or virtual array (V_ARRAY) """
@@ -556,7 +556,16 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
         ITERATORS.append(iterator)
 
 
+    if asstype == "build":
+        tensor = params[0].dumps()
 
+        for t in R_ARRAYS:
+            if t.name == tensor:
+                tensor = t
+
+        loop = tensor.build()
+        LOOPS.append(loop)
+        
 # def process_withcontextitem(item, ITERATORS):
 #     """ Processing of withcontextitemnode.
 #     An iterator may be used in the different following forms:
@@ -1276,7 +1285,7 @@ def process_FST(fst):
     
     for element in fst:
         if isinstance(element, redbaron.AssignmentNode):
-            process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS)
+            process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS)
 
 
         if isinstance(element, redbaron.AtomtrailersNode):
