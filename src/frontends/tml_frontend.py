@@ -129,7 +129,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
 
         if "v" in asstype:
             V_ARRAYS.append(tensor)
-            print tensor.debug_print()
+
         else:
             tensor.expr.update_store(store)
             R_ARRAYS.append(tensor)

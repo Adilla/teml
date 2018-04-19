@@ -53,7 +53,9 @@ def get_constraints(branch, ind, consts):
         
         if index not in ind:
             ind.append(index)
-        consts.append(c)
+
+        if c not in consts:
+            consts.append(c)
 
     return consts
         

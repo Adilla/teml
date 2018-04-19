@@ -7,8 +7,8 @@ p = tensorize(s)
 
 
 
-T = vmul(B, C, [[1, 2, 3], [1, 2, 3]])
-T2 = vmul(B, T, [[1, 2, 3]])
-T3 = vmul(T, C, [[1, 2, 3]])
-T4 = mul(T2, T3, [[]] -> [1, 2, 3])
+T = vmul(B, C, [[i1, i2, i3], [i1, i2]])
+T2 = vmul(B, T, [[i1, i2, i3]])
+T3 = vmul(T, C, [[i1, i3]])
+T4 = mul(T2, T3, [[]] -> [i1, i2, i3])
 

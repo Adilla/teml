@@ -133,7 +133,7 @@ class Tensor():
                      replace("\n", "")
             self.shape = rrange
 
-            print iscc_script
+            print self.debug_print()
              
     def build(self, iterators):
         ## This is the old implementation
