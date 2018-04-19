@@ -12,9 +12,12 @@ class Subscript():
         self.access = access
 
     def debug_print(self):
-        string = self.tensor.name + "[" + str(self.access[0])
-        for data in self.access[1:]:
-            string += ', ' + str(data)
+        string = self.tensor.name + "["
+        if self.access != []:
+            string += str(self.access[0])
+        
+            for data in self.access[1:]:
+                string += ', ' + str(data)
         string += ']'
         return string
 
@@ -88,8 +91,7 @@ class Tensor():
 
     def infer_range(self):
         ## Infer range of output tensor.
-        print self.debug_print()
-
+       
 
         if self.expr != None:
             # Collect constraints
@@ -129,9 +131,9 @@ class Tensor():
                      replace("\n", "")
             self.shape = rrange
 
-            print self.debug_print()
 
-            
+            print self.debug_print()
+             
     def build(self, iterators):
         ## This is the old implementation
         ## (for imperative transformations)

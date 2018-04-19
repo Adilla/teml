@@ -117,14 +117,16 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS):
             
         if t1 in V_ARRAYS and t2 in V_ARRAYS:
             expr = Expression(op, t1.expr, t2.expr, None)
-        
+
         tensor = Tensor(name, dtype, None, expr, None, asstype)
+
         store = Subscript(tensor, accstore)
-        tensor.expr.update_store(store)
 
         if "v" in asstype:
             V_ARRAYS.append(tensor)
+            print tensor.debug_print()
         else:
+            tensor.expr.update_store(store)
             R_ARRAYS.append(tensor)
             tensor.infer_range()
 

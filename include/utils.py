@@ -51,7 +51,6 @@ def get_constraints(branch, ind, consts):
         
         #index = "i"+ re.findall(r"i(.)+", branch.access[i])[0]
         
-        
         if index not in ind:
             ind.append(index)
         consts.append(c)
@@ -59,8 +58,9 @@ def get_constraints(branch, ind, consts):
     return consts
         
 def collect_constraints(consts, ind, expr):
+    print expr.left
+    print expr.right
 
-    
     if expr.left.__class__.__name__ == "Expression":
         return collect_constraints(consts, ind, expr.left)
     else:
@@ -70,6 +70,7 @@ def collect_constraints(consts, ind, expr):
     if expr.right.__class__.__name__ == "Expression":
         return collect_constraints(consts, ind, expr.right)
     else:
+        print expr.left.tensor.name
         consts = get_constraints(expr.right, ind, consts)
 
     return consts

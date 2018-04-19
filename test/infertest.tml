@@ -1,7 +1,7 @@
 A = array(double, [10, 10])
 B = array(double, [50, 3])
 
+C = vmul(A, B, [[i1 + 2, i2], [i1, i2 - 3]])
 
-D = mul(A, B, [[i1 + 2, i2], [i1, i2 - 3]] -> [i1, i2])
 
 
