@@ -1,3 +1,4 @@
+import re
 
 def swap(list, e1, e2):
     tmp = list[e2]
@@ -41,26 +42,30 @@ def collect_ranks(dic, expr):
     return dic
 
 
-def get_constraints(branch, consts):
+def get_constraints(branch, ind, consts):
     for i in range(0, len(branch.tensor.shape)):
         c = "0 <= " +  branch.access[i] + " < " + branch.tensor.shape[i]
 
+
+        index = "i"+ re.findall(r"i(.)+", branch.access[i])[0]
+        if index not in ind:
+            ind.append(index)
         consts.append(c)
 
     return consts
         
-def collect_constraints(consts, expr):
+def collect_constraints(consts, ind, expr):
 
     
     if expr.left.__class__.__name__ == "Expression":
-        return collect_constraints(consts, expr.left)
+        return collect_constraints(consts, ind, expr.left)
     else:
-        consts = get_constraints(expr.left, consts)
+        consts = get_constraints(expr.left, ind, consts)
 
     
     if expr.right.__class__.__name__ == "Expression":
-        return collect_constraints(consts, expr.right)
+        return collect_constraints(consts, ind, expr.right)
     else:
-        consts = get_constraints(expr.right, consts)
+        consts = get_constraints(expr.right, ind, consts)
 
     return consts

@@ -92,11 +92,19 @@ class Tensor():
 
 
         if self.expr != None:
+            # Collect constraints
+            # in string format for ISCC
             constraints = []
-            constraints = collect_constraints(constraints, self.expr)
+            indexes = []
+            constraints = collect_constraints(constraints, indexes, self.expr)
+            print constraints
+
+            constraints = " and ".join(constraints)
+            constraints = "D := { " + constraints + " };\n"
 
             print constraints
             
+            print indexes
         # Collect system of constraints.
     
         # if self.expr != None:
