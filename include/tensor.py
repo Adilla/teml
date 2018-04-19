@@ -98,6 +98,8 @@ class Tensor():
             # in string format for ISCC
             constraints = []
             indexes = []
+
+            
             constraints = collect_constraints(constraints, indexes, self.expr)
 
             indexes = ", ".join(indexes)
@@ -131,8 +133,7 @@ class Tensor():
                      replace("\n", "")
             self.shape = rrange
 
-
-            print self.debug_print()
+            print iscc_script
              
     def build(self, iterators):
         ## This is the old implementation

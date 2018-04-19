@@ -1,4 +1,4 @@
-D := { S[i1, i2]: 0 <= i1 + 2 < 10 and 0 <= i2 < 10 and 0 <= i1 < 50 and 0 <= i2 - 3 < 3 };
+D := { S[i1, i2]: 0 <= i1 + 2 < 10 and 0 <= i2 < 10 and 0 <= i1 < 50 and 0 <= i2 - 3 < 3 and 0 <= i1 < 50 and 0 <= i2 + 5 < 3 };
 W := { S[i1, i2] -> D[i1, i2]} * D;
 R := ran W;
 L := lexmax R;

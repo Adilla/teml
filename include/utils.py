@@ -30,12 +30,12 @@ def get_rank(branch, dic):
 def collect_ranks(dic, expr):
     ## Simplistic implementation
     if expr.left.__class__.__name__ == "Expression":
-        return collect_ranks(dic, expr.left)
+        dic = collect_ranks(dic, expr.left)
     else:
         dic = get_rank(expr.left, dic)
     
     if expr.right.__class__.__name__ == "Expression":
-        return collect_ranks(list, expr.right)
+        dic = collect_ranks(list, expr.right)
     else:
         dic = get_rank(expr.left, dic)
 
@@ -58,19 +58,15 @@ def get_constraints(branch, ind, consts):
     return consts
         
 def collect_constraints(consts, ind, expr):
-    print expr.left
-    print expr.right
-
+  
     if expr.left.__class__.__name__ == "Expression":
-        return collect_constraints(consts, ind, expr.left)
+        consts = collect_constraints(consts, ind, expr.left)
     else:
         consts = get_constraints(expr.left, ind, consts)
 
     
     if expr.right.__class__.__name__ == "Expression":
-        return collect_constraints(consts, ind, expr.right)
+        consts = collect_constraints(consts, ind, expr.right)
     else:
-        print expr.left.tensor.name
         consts = get_constraints(expr.right, ind, consts)
-
     return consts
