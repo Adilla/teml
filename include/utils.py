@@ -50,9 +50,10 @@ def get_constraints(branch, ind, consts):
         index = rr.findall(branch.access[i])[0]
         
         #index = "i"+ re.findall(r"i(.)+", branch.access[i])[0]
-        
+
         if index not in ind:
             ind.append(index)
+            
 
         if c not in consts:
             consts.append(c)

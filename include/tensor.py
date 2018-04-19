@@ -67,6 +67,7 @@ class Tensor():
     parent = None
     construct = None
     debug_str = None
+    loopdomain = None
     
 
     def __init__(self, name, dtype, shape, expr, parent, construct):
@@ -105,15 +106,16 @@ class Tensor():
             indexes = ", ".join(indexes)
             indexes = "S[" + indexes + "]"
             constraints = " and ".join(constraints)
-            constraints = "D := { " + indexes + ": " + constraints + " };\n"
+            constraints = "C := { " + indexes + ": " + constraints + " };\n"
             outsub = ", ".join(self.expr.store.access)
             write = self.name + "[" + outsub + "]"
             # Build relation with output tensor
-            relation = "W := { " + indexes + " -> " + write + "} * D;\n"
+            relation = "W := { " + indexes + " -> " + write + "} * C;\n"
             irange = "R := ran W;\n"
+            domain = "D := dom W;\n"
             lexmax = "L := lexmax R;\n"
-            result = "print L;\n"
-            iscc_script = constraints + relation + irange + lexmax + result
+            result = "print D;\nprint L;\n"
+            iscc_script = constraints + relation + irange + domain + lexmax + result
 
             with open("_script.iscc", "w") as source:
                 source.write(iscc_script)
@@ -127,13 +129,28 @@ class Tensor():
 
             rrange = subprocess.check_output(["zsh", "_bscript.sh"])
 
-            rrange = rrange.replace(self.name, "").\
+            res = rrange.split("\n")
+            domain = res[0].split(":")
+            domain = domain[1].replace(" }", "")
+
+            domain = domain.split(" and ")
+
+            iterranges = []
+            for dom in domain:
+                r = dom.replace(" ", "").split("<=")
+                iterranges.append(r)
+        
+            self.loopdomain = iterranges
+
+            # clean up
+            del res[-1]
+
+            rrange = res[1].replace(self.name, "").\
                      replace("{ ", "").\
                      replace(" }", "").\
                      replace("\n", "")
             self.shape = rrange
 
-            print self.debug_print()
              
     def build(self, iterators):
         ## This is the old implementation
