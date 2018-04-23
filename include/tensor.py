@@ -130,7 +130,10 @@ class Tensor():
 
             rrange = subprocess.check_output(["zsh", "_bscript.sh"])
 
+
+            
             res = rrange.split("\n")
+            
             domain = res[0].split(":")
             domain = domain[1].replace(" }", "")
 
@@ -139,6 +142,7 @@ class Tensor():
 
 
             iterranges = []
+
             for dom in domain:
                 # To switch to ranks
                 dom = dom.replace("i", "")
@@ -162,23 +166,26 @@ class Tensor():
                      split(", ")
 
             for i in range(0, len(rrange)):
+                rrange[i] = int(rrange[i]) + 1
                 rrange[i] = str(rrange[i])
 
             self.shape = rrange
 
-            #print self.shape
-    def build(self):
+
+    def build(self, label):
         
         # Sorting to make it easier
         # x[1] corresponds to the rank
         # print sorted(self.loopdomain, key=lambda x: x[1])
         iterators = []
+
         for it in self.loopdomain:
             #Strict domain
             #iterr = Iterator(it[1], it[0], it[2], '1')
 
             #But for the moment, we assume
             #iterators to start from 0
+        
             iterr = Iterator(it[1], '0', it[2], '1')
             iterators.append(iterr)
         
@@ -186,10 +193,11 @@ class Tensor():
 
         for i in range(len(iterators)-2, -1, -1):
             innermost = Loop(iterators[i], [innermost])
-        self.loop = innermost
-        self.loop.debug_print()
-        
-        
+        #self.loop = innermost
+        #self.loop.debug_print()
+
+        self.loop = LoopBox(label, innermost)
+        return self.loop
 
         
         

@@ -539,25 +539,16 @@ class IvieTransformationFuse():
             else:
                 self.cleanup(LOOPS[i])
 
-                
-class IvieTransformationStripmine():
-    """ Strip mining is one of the components of 
-    loop tiling, with interchange. Maybe I will 
-    provide loop tiling as a composition of 
-    strip mining and interchange. For the moment, I 
-    am leaving the class TransformationTile. 
-    
-    To perform strip mining, or even tiling, it 
-    is necessary to declare a tile iterator. At the 
-    point of declaring the tile iterator, no transformation
-    is performed on the loop. This tile iterator just exist.
-    When calling stripmining with the pair of 
-    TileIterator, Iterator, that's when the loop 
-    transformation occurs. """
 
-    def __init__(self, iterator):
-        #self.tile_iterator = tile_iterator
-        self.iterator = iterator
+
+class Stripmine():
+  
+    def __init__(self, label, loopin, lrank, factor):
+        self.label = label
+        self.loopin = loopin
+        self.lrank = lrank
+        self.factor = factor
+        self.apply_stripmine(1)
 
     def debug_print(self):
         string = colored("Stripmine ", "green", attrs=["bold"]) \
@@ -566,65 +557,66 @@ class IvieTransformationStripmine():
         return string
 
 
-    def legality_check(self):
-        """ Cannot perform strip mining if:
-        - iterator has no declared tile parent
-        - tile iterator or iterator are garbage
-        - tile iterator has not been declared
-        - TO BE COMPLETED. """
-        
-        if self.iterator.tile_parent == None:
-            sys.exit("[Error][Stripmining] %s has no tile iterator" % self.iterator.name)
+    def apply_stripmine(self, depth):
 
-    def apply_stripmine(self):
-        #self.iterator.set_tile_parent(self.tile_iterator)
-        new_minbound = self.iterator.tile_parent.name
-        new_maxbound = "min(" + self.iterator.tile_parent.maxbound + ", "
-        new_maxbound += self.iterator.tile_parent.name + " + " + self.iterator.tile_parent.stride + ")"
-        self.iterator.update_minbound(new_minbound)
-        self.iterator.update_maxbound(new_maxbound)
-        self.iterator.tile_parent.kind = self.iterator.kind
-        self.iterator.tile_parent.parallelism = self.iterator.parallelism
-        if self.iterator.private_variables != None:
-            self.iterator.tile_parent.private_variables = self.iterator.private_variables.append(self.iterator.name)
+        loopout = deepcopy(self.loopin)
+
+        print loopout.iterator.name
+      
+        if loopout.iterator.name == "i" + self.lrank:
+            print "hurray"
         else:
-            self.iterator.tile_parent.private_variables = [self.iterator.name]
-        self.iterator.tile_parent.schedule = self.iterator.schedule
-        self.iterator.tile_parent.set_permutability(self.iterator.permutable)
+            for bod in loopout.body:
+                if bod.__class__.__name__ == "Loop":
+                    bod.apply_stripmine(depth)
+    
+        # depth = 1
+        # if lrank == 1:
+        #     pass
+        # else:
+            
+        
+    #     #self.iterator.set_tile_parent(self.tile_iterator)
+    #     new_minbound = self.iterator.tile_parent.name
+    #     new_maxbound = "min(" + self.iterator.tile_parent.maxbound + ", "
+    #     new_maxbound += self.iterator.tile_parent.name + " + " + self.iterator.tile_parent.stride + ")"
+    #     self.iterator.update_minbound(new_minbound)
+    #     self.iterator.update_maxbound(new_maxbound)
+    #     self.iterator.tile_parent.kind = self.iterator.kind
+    #     self.iterator.tile_parent.parallelism = self.iterator.parallelism
+    #     if self.iterator.private_variables != None:
+    #         self.iterator.tile_parent.private_variables = self.iterator.private_variables.append(self.iterator.name)
+    #     else:
+    #         self.iterator.tile_parent.private_variables = [self.iterator.name]
+    #     self.iterator.tile_parent.schedule = self.iterator.schedule
+    #     self.iterator.tile_parent.set_permutability(self.iterator.permutable)
 
 
-    def update_loop(self, loop):
-        for i in range(0, len(loop.body)):
-            if loop.body[i].__class__.__name__ == "IvieLoop":
-                if loop.body[i].iterators.name == self.iterator.name:
+    # def update_loop(self, loop):
+    #     for i in range(0, len(loop.body)):
+    #         if loop.body[i].__class__.__name__ == "IvieLoop":
+    #             if loop.body[i].iterators.name == self.iterator.name:
               
-                    capsule = IvieLoop(self.iterator.tile_parent, [loop.body[i]])
-                    loop.body[i] = capsule
-                else:
-                    self.update_loop(loop.body[i])
-    
-    def update_schedules(self, isl_schedules):
-        for i in range(0, len(isl_schedules)):
-            if self.iterator in isl_schedules[i].schedule_object:
-                pos = isl_schedules[i].schedule_object.index(self.iterator)
-                isl_schedules[i].schedule_object.insert(pos, self.iterator.tile_parent)
-                isl_schedules[i].schedule_object.insert(pos+1, 0)
+    #                 capsule = IvieLoop(self.iterator.tile_parent, [loop.body[i]])
+    #                 loop.body[i] = capsule
+    #             else:
+    #                 self.update_loop(loop.body[i])
     
 
-    def apply_transformation(self, ivieprog):  
-        isl_schedules = ivieprog.isl_loop_schedules
-        LOOPS = ivieprog.loops
 
-        self.legality_check()
-        self.apply_stripmine()
-        #self.update_schedules(isl_schedules)
+    # def apply_transformation(self, ivieprog):  
+    #     LOOPS = ivieprog.loops
 
-        for i in range(0, len(LOOPS)):
-            if LOOPS[i].iterators.name == self.iterator.name:
-                capsule = IvieLoop(self.iterator.tile_parent, [LOOPS[i]])
-                LOOPS[i] = capsule
-            else:
-                self.update_loop(LOOPS[i])
+    #     self.legality_check()
+    #     self.apply_stripmine()
+    #     #self.update_schedules(isl_schedules)
+
+    #     for i in range(0, len(LOOPS)):
+    #         if LOOPS[i].iterators.name == self.iterator.name:
+    #             capsule = IvieLoop(self.iterator.tile_parent, [LOOPS[i]])
+    #             LOOPS[i] = capsule
+    #         else:
+    #             self.update_loop(LOOPS[i])
 
 
 class IvieTransformationTile():    

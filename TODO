@@ -11,3 +11,8 @@
 19/04/18
 
 * Implement build_range (not urgent)
+
+
+23/04/18
+
+* Fix bug in domains; crash sur extraction de domain paramétrés par d'autre loop indexes (ex: le 1er kernel de gconv)

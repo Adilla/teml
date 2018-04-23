@@ -563,8 +563,83 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             if t.name == tensor:
                 tensor = t
 
-        loop = tensor.build()
+        loop = tensor.build(name)
+
+        
         LOOPS.append(loop)
+        
+
+
+    if asstype == "stripmine":
+        print params
+        lname = params[0].dumps()
+        lrank = params[1].dumps()
+        factor = params[2].dumps()
+
+        loopin = None
+        for l in LOOPS:
+            if lname == l.label:
+              loopin = l
+
+        loopout = deepcopy(loopin)
+        #loopout = Stripmine(name, loopin, lrank, factor)
+        loopout = stripmine(name, loopout, int(lrank), factor, False)
+
+        print loopout.debug_print()
+        LOOPS.append(loopout)
+    
+        # iter_ = params[0].dumps()
+        # for iterator in ITERATORS:
+        #     if iter_ == iterator.name:
+        #         iter_ = iterator
+
+        # transformation = IvieTransformationStripmine(iter_)
+        # SCHEDULER.append(transformation)
+
+    if asstype == "interchange":
+        
+        lname = params[0].dumps()
+        ranks = params[1].find("list").value
+
+
+        nranks = []
+        for i in range(0, len(ranks)):
+            tmp_ = []
+            tmp = ranks[i].find("list").value
+            for j in range(0, len(tmp)):
+                tmp_.append(tmp[j].find("int").dumps())
+            nranks.append(tmp_)
+
+
+        loopin = None
+        for l in LOOPS:
+            if lname == l.label:
+              loopin = l
+
+
+
+        loopout = deepcopy(loopin)
+        loopout = LoopBox(name, deepcopy(loopin.loopnest))
+
+
+        LOOPS.append(loopout)
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
 # def process_withcontextitem(item, ITERATORS):
 #     """ Processing of withcontextitemnode.
@@ -1129,7 +1204,6 @@ def process_transformation_atomtrailersnode(element, ITERATORS, SCHEDULER, STATE
         for iterator in ITERATORS:
             if iter_ == iterator.name:
                 iter_ = iterator
-
 
         transformation = IvieTransformationStripmine(iter_)
         SCHEDULER.append(transformation)

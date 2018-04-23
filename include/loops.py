@@ -6,6 +6,7 @@ import sys
 
 class Iterator():
 
+
     rank = None
     vec_hints = None
     parent = None
@@ -34,6 +35,8 @@ class Iterator():
         self.maxbound = maxbound
         self.stride = stride
 
+
+        
     def debug_print(self):
         string = colored("ITERATOR:", "blue",  attrs=["bold"]) + colored(" " + self.name, attrs=["bold"]) + " {" + self.minbound + ", " + self.maxbound + ", " + self.stride + "}"
         return string
@@ -96,7 +99,13 @@ class Iterator():
         self.peel_end_factor = factor
 
 
-        
+
+class LoopBox():
+    def __init__(self, label, loopnest):
+        self.label = label
+        self.loopnest = loopnest
+
+    
 
 class Loop():
     """ Types
