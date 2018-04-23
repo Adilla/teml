@@ -541,6 +541,18 @@ class IvieTransformationFuse():
 
 
 
+def get_loop(l, rank, out):
+    if l.iterator.rank != rank:
+        for bod in l.body:
+            if bod.__class__.__name__ == "Loop":
+                out = get_loop(bod, rank, out)
+    else:
+        out = l
+
+    return out
+
+    
+
 class Stripmine():
   
     def __init__(self, label, loopin, lrank, factor):

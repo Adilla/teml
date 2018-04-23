@@ -610,26 +610,34 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
                 tmp_.append(tmp[j].find("int").dumps())
             nranks.append(tmp_)
 
-
         loopin = None
         for l in LOOPS:
             if lname == l.label:
               loopin = l
 
-
-
         loopout = deepcopy(loopin)
         loopout = LoopBox(name, deepcopy(loopin.loopnest))
-
 
         LOOPS.append(loopout)
         
 
 
+    if asstype == "fuse":
+        l1 = params[0].dumps()
+        l2 = params[1].dumps()
+        lr = params[2].dumps()
+        
+        for l in LOOPS:
+            if l1 == l.label:
+                l1 = l
+            if l2 == l.label:
+                l2 = l
 
+        tofuse = None
+        tofuse = get_loop(l2.loopnest, lr, tofuse)
 
-
-
+        print tofuse.debug_print()
+        
 
 
 
