@@ -152,13 +152,21 @@ class Tensor():
             # clean up
             del res[-1]
 
+            # processing resulting shape
             rrange = res[1].replace(self.name, "").\
                      replace("{ ", "").\
                      replace(" }", "").\
-                     replace("\n", "")
+                     replace("\n", "").\
+                     replace("[", "").\
+                     replace("]", "").\
+                     split(", ")
+
+            for i in range(0, len(rrange)):
+                rrange[i] = str(rrange[i])
+
             self.shape = rrange
 
-            print self.shape
+            #print self.shape
     def build(self):
         
         # Sorting to make it easier
