@@ -551,6 +551,16 @@ def get_loop(l, rank, out):
 
     return out
 
+def fuse(loop, tofuse, rank):
+    if loop.iterator.rank != rank:
+        for bod in loop.body:
+            if bod.__class__.__name__ == "Loop":
+                loop = fuse(bod, tofuse, rank)
+    else:
+        print tofuse.debug_print()
+        print loop.body[0].debug_print()
+    return loop
+
     
 
 class Stripmine():

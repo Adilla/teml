@@ -1,4 +1,4 @@
-C := { S[i1, i2, i3, i4, i5]: 0 <= i1 < 32 and 0 <= i2 < 32 and 0 <= i3 < 16 and 0 <= i4 < 16 and 0 <= i5 < 14 };
+C := { S[i1, i2, i3, i4, i5]: 0 <= i1 < 32 and 0 <= i2 < 32 and 0 <= i3 < 16 and 0 <= i4 < 11 and 0 <= i5 < 12 };
 W := { S[i1, i2, i3, i4, i5] -> O1[i1, i2, i3, i4, i5]} * C;
 R := ran W;
 D := dom W;

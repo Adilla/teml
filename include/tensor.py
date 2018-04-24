@@ -136,9 +136,7 @@ class Tensor():
             
             domain = res[0].split(":")
             domain = domain[1].replace(" }", "")
-
             domain = domain.split(" and ")
-
 
 
             iterranges = []
@@ -146,9 +144,10 @@ class Tensor():
             for dom in domain:
                 # To switch to ranks
                 dom = dom.replace("i", "")
-                r = dom.replace(" ", "").split("<=")
 
-               
+                r = dom.replace(" ", "").split("<=")
+                r[1] = int(r[1])
+                
                 iterranges.append(r)
         
             self.loopdomain = iterranges
@@ -178,7 +177,7 @@ class Tensor():
         # x[1] corresponds to the rank
         # print sorted(self.loopdomain, key=lambda x: x[1])
         iterators = []
-
+        self.loopdomain = sorted(self.loopdomain, key=lambda x: x[1])
         for it in self.loopdomain:
             #Strict domain
             #iterr = Iterator(it[1], it[0], it[2], '1')
@@ -186,7 +185,7 @@ class Tensor():
             #But for the moment, we assume
             #iterators to start from 0
         
-            iterr = Iterator(it[1], '0', it[2], '1')
+            iterr = Iterator(str(it[1]), '0', it[2], '1')
             iterators.append(iterr)
         
         innermost = Loop(iterators[-1], [self.expr])

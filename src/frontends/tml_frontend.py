@@ -565,7 +565,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
         loop = tensor.build(name)
 
-        
+        print loop.loopnest.debug_print()
         LOOPS.append(loop)
         
 
@@ -635,8 +635,12 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
         tofuse = None
         tofuse = get_loop(l2.loopnest, lr, tofuse)
+        newloop = deepcopy(l1)
 
-        print tofuse.debug_print()
+        print newloop.loopnest.debug_print()
+        newloop.loopnest = fuse(newloop.loopnest, tofuse, lr)
+        newloop.label = name
+        #print newloop.debug_print()
         
 
 

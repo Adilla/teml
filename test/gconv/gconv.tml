@@ -2,12 +2,12 @@ I = array(double, [32, 32, 16, 16, 14])
 W1 = array(double, [32, 16, 16, 3, 3])
 B = array(double, [32, 16])
 
-O = mul(I, W1, [[i1, i2, i4, i5, i6], [i2, i3, i4, i7, i8]] -> [i1, i2, i3, i5, i6])
+O = mul(I, W1, [[i1, i2, i4, i5 + 5, i6 + 2], [i2, i3, i4, i7, i8]] -> [i1, i2, i3, i5, i6])
 O1 = add(O, B, [[i1, i2, i3, i4, i5], [i2, i3]] ->  [i1, i2, i3, i4, i5])
 
 
 
 l = build(O)
+
 l1 = build(O1)
 
-l2 = fuse(l, l1, 5)
