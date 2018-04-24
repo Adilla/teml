@@ -8,6 +8,6 @@ O1 = add(O, B, [[i1, i2, i3, i4, i5], [i2, i3]] ->  [i1, i2, i3, i4, i5])
 
 
 l = build(O)
-
 l1 = build(O1)
+l2 = fuse(l, l1, 5)
 
