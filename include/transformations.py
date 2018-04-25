@@ -49,15 +49,16 @@ class IvieTransformationCollapse():
                     self.search_body(bod, loop)
 
 
-def parallelize(loop, rank, type_, schedule, private_vars):
+def parallelize(loop, rank, type_, schedule):
     if loop.iterator.rank == rank:
         loop.iterator.type_ = type_
         loop.iterator.schedule = schedule
-        loop.iterator.private_variables = private_vars
+        ## Private variables will be collected
+        ## right before code generation.
     else:
         for bod in loop.body:
             if bod.__class__.__name__ == "Loop":
-                parallelize(bod, rank, type_, schedule, private_vars)
+                parallelize(bod, rank, type_, schedule)
 
 class IvieTransformationParallelize():
     def __init__(self, iterator, type_, schedule, private_vars):

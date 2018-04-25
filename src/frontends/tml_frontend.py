@@ -569,18 +569,25 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         LOOPS.append(loop)
         
 
-    if asstype == "vectorize":
+    if asstype == "vectorize" or\
+       asstype == "parallelize":
         lname = params[0].dumps()
         lr = int(params[1].dumps())
-
+        sched = None
+        paramtype = "VEC"
+        if asstype == "parallelize":
+            sched = params[2].dumps()
+            paramtype = "THRD"
+            
         for l in LOOPS:
             if lname == l.label:
                 loopin = l
 
         newloop = deepcopy(loopin)
-        parallelize(newloop.loopnest, lr, "VEC", None, None)
+        parallelize(newloop.loopnest, lr, paramtype, sched)
         newloop.label = name
         LOOPS.append(newloop)
+
 
     if asstype == "stripmine":
         
