@@ -665,27 +665,94 @@ def increment_all_ranks(loop):
             print bod.debug_print()
 
 
-def stripmine(outer, current, rank, factor):
-    if current.iterator.rank == rank:
-        it = current.iterator
-        tileit = Iterator(lr, it.minbound, "(" + it.maxbound + ") / " + factor, it.stride)
+# def stripmine(outer, current, rank, factor):
+#     if current.iterator.rank == rank:
+#         it = current.iterator
+#         tileit = Iterator(lr, it.minbound, "(" + it.maxbound + ") / " + factor, it.stride)
 
-        it.rank = rank + 1
-        it.minbound = factor + " * " + tileit.name
-        it.maxbound = factor + " * " + tileit.name + " + (" + factor + " -1)"
-        it.stride = tileit.stride
+#         it.rank = rank + 1
+#         it.minbound = factor + " * " + tileit.name
+#         it.maxbound = factor + " * " + tileit.name + " + (" + factor + " -1)"
+#         it.stride = tileit.stride
 
-        newloop = Loop(tileit, [current])
+#         newloop = Loop(tileit, [current])
 
-        ## This assumes that the loop is perfectly nested..
-        if outer != None:
-            outer.body = [newloop]
-            newloop = outer
+#         ## This assumes that the loop is perfectly nested..
+#         if outer != None:
+#             outer.body = [newloop]
+#             newloop = outer
 
-        return newloop
+#         return newloop
+
+
+def stripmine(loop, rank, factor):
+    if loop.iterator.rank == rank:
+        for bod in loop.body:
+            if bod.__class__.__name__ == "Loop":
+                update_stripmine_stmts(bod, rank)
+            else:
+                update_stripmine_expr(bod, rank)
+
+        it = deepcopy(loop.iterator)
         
+        #tileit = Iterator(rank, it.minbound, "(" + it.maxbound + ") / " + factor, it.stride)
+      
+        #loopit = Iterator(rank + 1, factor + " * " + it.name, factor + " * " + it.name + " + (" + factor + " - 1)", it.stride)
 
+        #Assuming for the moment that I only
+        # work with integers...
+        tileit = Iterator(rank, it.minbound, str(int(it.maxbound) / int(factor)), it.stride)
+        loop.iterator = tileit
 
+              
+        loopit = Iterator(rank + 1, factor + " * " + it.name, factor + " * " + it.name + " + " +str( int(factor)-1), it.stride)
+
+                
+        newloop = Loop(loopit, loop.body)
+        loop.body = [newloop]
+
+    else:
+        for bod in loop.body:
+            if bod.__class__.__name__ == "Loop":
+                stripmine(bod, rank, factor)
+
+                
+def update_stripmine_stmts(loop, begin_rank):
+    ## Here, in every statement, we increment
+    ## ranks according to their new position in the
+    ## loop, starting from begin_rank.
+    
+    loop.iterator.rank += 1
+    loop.iterator.name = "i"+str(loop.iterator.rank)
+    for bod in loop.body:
+        if bod.__class__.__name__ != "Loop":
+            update_stripmine_expr(bod, begin_rank)
+        else:
+            update_stripmine_stmts(bod, begin_rank)
+
+def update_stripmine_expr(expr, begin_rank):
+    if expr.store != None:
+        update_stripmine_subs(expr.store, begin_rank)
+
+    if expr.left != None and expr.left.__class__.__name__ != "Expression":
+        update_stripmine_subs(expr.left, begin_rank)
+    else:
+        update_stripmine_expr(expr.left, begin_rank)
+        
+    if expr.right != None and expr.right.__class__.__name__ != "Expression":
+        update_stripmine_subs(expr.right, begin_rank)
+    else:
+        update_stripmine_expr(expr.right, begin_rank)
+
+def update_stripmine_subs(subs, begin_rank):
+   
+    for i in range(0, len(subs.access)):
+        # Extracting the rank from the name
+        lr = int(subs.access[i].replace("i",""))
+        if lr >= begin_rank:
+            lr += 1
+            subs.access[i] = "i"+str(lr)
+        
 def unroll(outer, loop, rank, factor):
     if loop.iterator.rank == rank:
         if factor == None:

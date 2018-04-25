@@ -570,7 +570,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
 
     if asstype == "stripmine":
-        print params
+        
         lname = params[0].dumps()
         lr = int(params[1].dumps())
         factor = params[2].dumps()
@@ -581,21 +581,25 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
               loopin = l
 
         newloop = deepcopy(loopin)
+        print newloop.loopnest.debug_print()
+        stripmine(newloop.loopnest, lr, factor)
+        print newloop.loopnest.debug_print()
+        
         #loopout = Stripmine(name, loopin, lrank, factor)
         #loopout = stripmine(name, loopout, int(lr), factor, False)
 
-        it = None
-        it = get_iterator(loopin.loopnest, lr, it)
+        # it = None
+        #it = get_iterator(loopin.loopnest, lr, it)
 
-        tile_it = Iterator(lr, it.minbound, "(" + it.maxbound + ") / " + factor, it.stride)
-        loop_it = Iterator(lr + 1, factor + " * " + it.name, factor + " * " + it.name + " + (" + factor + " - 1)", it.stride)
+        # tile_it = Iterator(lr, it.minbound, "(" + it.maxbound + ") / " + factor, it.stride)
+        # loop_it = Iterator(lr + 1, factor + " * " + it.name, factor + " * " + it.name + " + (" + factor + " - 1)", it.stride)
 
-        innerloop = Loop(loop_it, [])
-        tileloop = Loop(tile_it, [innerloop])
+        # innerloop = Loop(loop_it, [])
+        # tileloop = Loop(tile_it, [innerloop])
 
-        outerloop = None
-        if lr > 1:
-            outerloop = get_loop(loopin.loopnest, lr, outerloop)
+        # outerloop = None
+        # if lr > 1:
+        #     outerloop = get_loop(loopin.loopnest, lr, outerloop)
 
         
         # iter_ = params[0].dumps()
@@ -637,7 +641,10 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             r2 = max(int(pair[0]), int(pair[1]))
             i1 = get_iterator(loopin.loopnest, r1, i1)
             i2 = get_iterator(loopin.loopnest, r2, i2)
-        
+
+            ## I need to decoupled interchange from updating stmt
+            ## because of messy recursion when handling both
+            ## in the same function.
             interchange(newloop.loopnest, r1, r2, i1, i2)
             interchange_stmt(newloop.loopnest, r1, r2)
             
