@@ -612,7 +612,24 @@ def interchange(l, r1, r2, i1, i2):
         #     #    interchange(bod, r1, r2, i1, i2, )
 
 
+def interchange_range(iterator, r1, r2):
+    if "i"+str(r1) in iterator.minbound:
+        iterator.minbound.replace("i"+str(r1), "i"+str(r2)+"_")
+    if "i"+str(r1) in iterator.maxbound:
+        iterator.maxbound.replace("i"+str(r1), "i"+str(r2)+"_")
+
+    if "i"+str(r2) in iterator.minbound:
+        iterator.minbound.replace("i"+str(r2), "i"+str(r1))
+    if "i"+str(r2) in iterator.maxbound:
+        iterator.maxbound.replace("i"+str(r2), "i"+str(r1))
+
+    # clean up
+    iterator.maxbound.replace("_","")
+    iterator.minbound.replace("_","")
+        
 def interchange_stmt(l, r1, r2):
+
+    #interchange_range(l.iterator, r1, r2)
     ## Swapping within statement
     for bod in l.body:
         if bod.__class__.__name__ != "Loop":

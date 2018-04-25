@@ -584,7 +584,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         print newloop.loopnest.debug_print()
         stripmine(newloop.loopnest, lr, factor)
         print newloop.loopnest.debug_print()
-        
+
+        newloop.label = name
+        LOOPS.append(newloop)
         #loopout = Stripmine(name, loopin, lrank, factor)
         #loopout = stripmine(name, loopout, int(lr), factor, False)
 
