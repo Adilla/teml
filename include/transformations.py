@@ -57,7 +57,10 @@ def peel(loop, rank, factor):
                     mbound = int(bod.iterator.maxbound)
                     bod.iterator.maxbound = str(int(bod.iterator.maxbound) - factor)
                     newb = peeloff(bod.body, rank, mbound, factor)
-        loop.body += newb
+        if loop.iterator.rank > 1:
+            loop.body += newb
+        else:
+            loop.outer_post_statements += newb
     else:
         for bod in loop.body:
             if bod.__class__.__name__ == "Loop":
@@ -72,9 +75,25 @@ def peeloff(body, rank, maxbound, factor):
                 tbod = deepcopy(bod)
                 peeloff_expr(tbod, rank, maxbound - i)
                 peeled.append(tbod)
-
+        else:
+            for i in range(factor-1, -1, -1):
+                tbod = deepcopy(bod)
+                peeloff_loop(tbod, rank, maxbound -i)
+                peeled.append(tbod)
+            
     return peeled
 
+
+
+def peeloff_loop(loop, rank, val):
+    for bod in loop.body:
+        if bod.__class__.__name__ == "Expression":
+            peeloff_expr(bod, rank, val)
+        else:
+            peeloff_loop(bod, rank, val)
+
+
+            
 def peeloff_expr(expr, rank, val):
     if expr.store != None:
         peeloff_subs(expr.store, rank, val)
