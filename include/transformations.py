@@ -48,7 +48,51 @@ class IvieTransformationCollapse():
                 if bod.__class__.__name__ == "IvieLoop":
                     self.search_body(bod, loop)
 
+def peel(loop, rank, factor):
+    if loop.iterator.rank == rank-1:
+        newb = None
+        for bod in loop.body:
+            if bod.__class__.__name__ == "Loop":
+                if bod.iterator.rank == rank:
+                    mbound = int(bod.iterator.maxbound)
+                    bod.iterator.maxbound = str(int(bod.iterator.maxbound) - factor)
+                    newb = peeloff(bod.body, rank, mbound, factor)
+        loop.body += newb
+    else:
+        for bod in loop.body:
+            if bod.__class__.__name__ == "Loop":
+                    peel(bod, rank, factor)
 
+
+def peeloff(body, rank, maxbound, factor):
+    peeled = []
+    for bod in body:
+        if bod.__class__.__name__ != "Loop":
+            for i in range(factor-1, -1, -1):
+                tbod = deepcopy(bod)
+                peeloff_expr(tbod, rank, maxbound - i)
+                peeled.append(tbod)
+
+    return peeled
+
+def peeloff_expr(expr, rank, val):
+    if expr.store != None:
+        peeloff_subs(expr.store, rank, val)
+    if expr.left != None and expr.left.__class__.__name__ != "Expression":
+        peeloff_subs(expr.left, rank, val)
+    else:
+        peeloff_expr(expr.left, rank, val)
+    if expr.right != None and expr.right.__class__.__name__ != "Expression":
+        peeloff_subs(expr.right, rank, val)
+    else:
+        peeloff_expr(expr.right, rank, val)
+
+
+def peeloff_subs(subs, rank, val):
+    for i in range(0, len(subs.access)):
+        if "i"+str(rank) == subs.access[i]:
+            subs.access[i] = val
+                    
 def parallelize(loop, rank, type_, schedule):
     if loop.iterator.rank == rank:
         loop.iterator.type_ = type_

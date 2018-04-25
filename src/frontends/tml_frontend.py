@@ -578,7 +578,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         if asstype == "parallelize":
             sched = params[2].dumps()
             paramtype = "THRD"
-            
+
+        loopin = None
         for l in LOOPS:
             if lname == l.label:
                 loopin = l
@@ -607,30 +608,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
         newloop.label = name
         LOOPS.append(newloop)
-        #loopout = Stripmine(name, loopin, lrank, factor)
-        #loopout = stripmine(name, loopout, int(lr), factor, False)
-
-        # it = None
-        #it = get_iterator(loopin.loopnest, lr, it)
-
-        # tile_it = Iterator(lr, it.minbound, "(" + it.maxbound + ") / " + factor, it.stride)
-        # loop_it = Iterator(lr + 1, factor + " * " + it.name, factor + " * " + it.name + " + (" + factor + " - 1)", it.stride)
-
-        # innerloop = Loop(loop_it, [])
-        # tileloop = Loop(tile_it, [innerloop])
-
-        # outerloop = None
-        # if lr > 1:
-        #     outerloop = get_loop(loopin.loopnest, lr, outerloop)
-
-        
-        # iter_ = params[0].dumps()
-        # for iterator in ITERATORS:
-        #     if iter_ == iterator.name:
-        #         iter_ = iterator
-
-        # transformation = IvieTransformationStripmine(iter_)
-        # SCHEDULER.append(transformation)
 
     if asstype == "interchange":
         
@@ -699,6 +676,24 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         LOOPS.append(newloop)
 
 
+    if asstype == "peel":
+        ## I assume peeling at end of loop only.
+        lname = params[0].dumps()
+        lr = int(params[1].dumps())
+        factor = int(params[2].dumps())
+
+
+        loopin = None
+        for l in LOOPS:
+            if lname == l.label:
+                loopin = l
+
+        newloop = deepcopy(loopin)
+        print newloop.loopnest.debug_print()
+        peel(newloop.loopnest, lr, factor)
+        print newloop.loopnest.debug_print()
+        
+        
     if asstype == "unroll":
         lname = params[0].dumps()
         lr = int(params[1].dumps())
