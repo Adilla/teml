@@ -693,7 +693,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         tofuse = None
         tofuse = get_loop(l2.loopnest, int(lr), tofuse)
         newloop = deepcopy(l1)
-        
+
+        print newloop.loopnest.debug_print()
         fuse(newloop.loopnest, tofuse, int(lr))
         newloop.label = name
         
