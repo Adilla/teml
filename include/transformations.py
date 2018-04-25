@@ -47,7 +47,17 @@ class IvieTransformationCollapse():
             for bod in loop.body:
                 if bod.__class__.__name__ == "IvieLoop":
                     self.search_body(bod, loop)
-                
+
+
+def parallelize(loop, rank, type_, schedule, private_vars):
+    if loop.iterator.rank == rank:
+        loop.iterator.type_ = type_
+        loop.iterator.schedule = schedule
+        loop.iterator.private_variables = private_vars
+    else:
+        for bod in loop.body:
+            if bod.__class__.__name__ == "Loop":
+                parallelize(bod, rank, type_, schedule, private_vars)
 
 class IvieTransformationParallelize():
     def __init__(self, iterator, type_, schedule, private_vars):
@@ -655,7 +665,6 @@ def swap_in_expr(stmt, r1, r2):
         swap_in_expr(stmt.right, r1, r2)
 
 def swap_in_subs(subs, r1, r2):
-    
     for i in range(0, len(subs.access)):
         if subs.access[i] == "i"+str(r1):
             # just a hack so that when I permute

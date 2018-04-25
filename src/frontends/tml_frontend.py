@@ -556,6 +556,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         ITERATORS.append(iterator)
 
 
+
     if asstype == "build":
         tensor = params[0].dumps()
 
@@ -568,6 +569,18 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         LOOPS.append(loop)
         
 
+    if asstype == "vectorize":
+        lname = params[0].dumps()
+        lr = int(params[1].dumps())
+
+        for l in LOOPS:
+            if lname == l.label:
+                loopin = l
+
+        newloop = deepcopy(loopin)
+        parallelize(newloop.loopnest, lr, "VEC", None, None)
+        newloop.label = name
+        LOOPS.append(newloop)
 
     if asstype == "stripmine":
         
