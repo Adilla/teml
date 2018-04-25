@@ -111,7 +111,72 @@ def peeloff_subs(subs, rank, val):
     for i in range(0, len(subs.access)):
         if "i"+str(rank) == subs.access[i]:
             subs.access[i] = val
-                    
+
+
+
+
+def unroll(loop, rank, factor):
+    if factor == None:
+        # Then full unrolling.
+        if loop.iterator.rank == rank-1:
+            newb = None
+            for i in range(0, len(loop.body)):
+                bod = loop.body[i]
+                if bod.__class__.__name__ == "Loop":
+                    if bod.iterator.rank == rank:
+                        factor = int(bod.iterator.maxbound)
+                        newb = unrolloff(bod.body, rank, factor)
+            
+            if loop.iterator.rank > 1:
+                loop.body = newb
+            else:
+                loop.outer_post_statements += newb
+                loop.body = None
+                loop.iterator = None
+            
+        else:
+            for bod in loop.body:
+                if bod.__class__.__name__ == "Loop":
+                    unroll(bod, rank, factor)
+
+
+
+def unrolloff(body, rank, factor):
+    unrolled = []
+    for bod in body:
+        for i in range(0, factor):
+            tbod = deepcopy(bod)
+            if bod.__class__.__name__ != "Loop":
+                unrolloff_expr(tbod, rank, i)
+            else:
+                unrolloff_loop(tbod, rank, i)
+            unrolled.append(tbod)
+            
+    return unrolled
+
+
+def unrolloff_expr(expr, rank, val):
+    if expr.store != None:
+        unrolloff_subs(expr.store, rank, val)
+    if expr.left != None and expr.left.__class__.__name__ != "Expression":
+        unrolloff_subs(expr.left, rank, val)
+    else:
+        unrolloff_expr(expr.left, rank, val)
+    if expr.right != None and expr.right.__class__.__name__ != "Expression":
+        unrolloff_subs(expr.right, rank, val)
+    else:
+        unrolloff_expr(expr.right, rank, val)
+
+
+def unrolloff_subs(subs, rank, val):
+    for i in range(0, len(subs.access)):
+        if "i"+str(rank) == subs.access[i]:
+            subs.access[i] = val
+
+
+
+
+            
 def parallelize(loop, rank, type_, schedule):
     if loop.iterator.rank == rank:
         loop.iterator.type_ = type_
@@ -122,24 +187,6 @@ def parallelize(loop, rank, type_, schedule):
         for bod in loop.body:
             if bod.__class__.__name__ == "Loop":
                 parallelize(bod, rank, type_, schedule)
-
-class IvieTransformationReverse():
-    def __init__(self, iterator):
-        self.reversed = iterator
-
-    def debug_print(self):
-        string = colored("Reverse ", "green", attrs=["bold"]) + self.reversed.name 
-        return string
-    
-    def apply_transformation(self, ivieprog):
-        
-        minbound = self.reversed.maxbound
-        maxbound = self.reversed.minbound
-        
-        self.reversed.update_minbound(minbound)
-        self.reversed.update_maxbound(maxbound)
-        self.reversed.set_reversed(True)
-
 
 
 
@@ -283,25 +330,6 @@ def increment_all_ranks(loop):
             print bod.debug_print()
 
 
-# def stripmine(outer, current, rank, factor):
-#     if current.iterator.rank == rank:
-#         it = current.iterator
-#         tileit = Iterator(lr, it.minbound, "(" + it.maxbound + ") / " + factor, it.stride)
-
-#         it.rank = rank + 1
-#         it.minbound = factor + " * " + tileit.name
-#         it.maxbound = factor + " * " + tileit.name + " + (" + factor + " -1)"
-#         it.stride = tileit.stride
-
-#         newloop = Loop(tileit, [current])
-
-#         ## This assumes that the loop is perfectly nested..
-#         if outer != None:
-#             outer.body = [newloop]
-#             newloop = outer
-
-#         return newloop
-
 
 def stripmine(loop, rank, factor):
     if loop.iterator.rank == rank:
@@ -370,32 +398,18 @@ def update_stripmine_subs(subs, begin_rank):
         if lr >= begin_rank:
             lr += 1
             subs.access[i] = "i"+str(lr)
-        
-def unroll(outer, loop, rank, factor):
-    if loop.iterator.rank == rank:
-        if factor == None:
-            factor = int(loop.iterator.maxbound)
 
-        newbody = []
-        newbody.append(deepcopy(loop.body))
-        for i in range(1, factor):
-            #newbody.append(update(deepcopy(loop.body), rank, i))
-            newbody.append(deepcopy(loop.body))
 
-        outer.body = [newbody]
+
+
+
+
+
+
+
+
+
             
-# def stripmine(outerloop, currentloop, rank):
-#     if currentloop.iterator.rank == rank:
-#         newloop.body = currentloop.body
-#         for bod in newloop.body:
-#             if bod.__class__.__name__ == "Loop":
-#                 increment_all_ranks(bod)
-#         outerloop.body += newloop.body
-#     else:
-#         for bod in newloop.body:
-#             if bod.__class__.__name__ == "Loop":
-#                 stripmine(currentloop, bod, rank, newloop)
-        
 
 class IvieTransformationTile():    
     """ Types:
@@ -685,383 +699,4 @@ class IvieTransformationUnroll():
         if self.iterator.unroll_factor == self.iterator.maxbound:
             self.iterator.mark_as_garbage()
         """
-
-# Broken
-class IvieTransformationDistribute():
-    """ Types:
-    parent: IvieIterator
-    newiter: IvieIterator
-    """
-
-    def __init__(self, parent, newloop, stmts):
-        self.parent = parent
-        self.newloop = newloop
-        self.stmts = stmts
-
-
-    def debug_print(self):
-        string = colored("Distribute: ", "green", attrs=["bold"]) + self.parent.debug_print() + " using (" 
-        for iterator in self.newloop:
-            string += iterator.debug_print() + "\n "
-        string += ")"
-        return string
-
-    def check_legality(self):
-        """ To make a distribution legal, the new iterator
-        must be a replication of parent. 
-        [TODO] We also need to check if dependencies aren't broken """
-    
-
-        ## Comparison of instances if enough
-        if self.new_iterator.parent != None:
-            if self.new_iterator.parent != self.parent:
-                sys.exit("[Error][Distribute] %s is not equal to %s" % (self.new_iterator.name, self.parent.name))
-        else:
-            if self.new_iterator.minbound != self.parent.minbound or self.new_iterator.maxbound != self.parent.maxbound or self.new_iterator.stride != self.parent.stride:
-                sys.exit("[Error][Distribute] %s is not equal to %s" % (self.new_iterator.name, self.parent.name))  
-
-    
-    def update_schedules(self, isl_schedules):
-        new_scheds = []
-        ## Copy 
-        
-        tmp= None
-
-        for sched in isl_schedules:
-            if self.parent in sched.schedule_object:
-                tmp = sched
-                break
-
-        for z in range(0, len(self.stmts)):
-            new_scheds.append(deepcopy(tmp))
-
-        ### Update schedules that need to be updated
-        for sched in isl_schedules:
-            if sched.schedule_object[0] > new_scheds[0].schedule_object[0]:
-                sched.schedule_object[0] += 1
-
-        for new_sched in new_scheds:
-            for i in range(0, len(new_sched.schedule_object)):
-                if not isinstance(new_sched.schedule_object[i], int):
-                    if new_sched.schedule_object[i].name == self.parent.name:
-            
-                        new_sched.schedule_object[i-1] += 1
-
-                    for iterator in self.newloop:
-                        if iterator.parent.name == new_sched.schedule_object[i].name:
-                            new_sched.schedule_object[i] = iterator
-
-
-        poses = []
-        ## Remove old stmts before adding distributed one
-        for i in range(0, len(isl_schedules)):
-            if isl_schedules[i].name in self.stmts:
-                poses.append(i)
-        
-        for i in sorted(poses, reverse=True):
-            isl_schedules.pop(i)
-        
-        isl_schedules += new_scheds
-
-
-    def replace_iterator(self, loop, iterator):
-        if iterator.parent != None and iterator.parent.name == loop.iterators.name:
-            loop.iterators = iterator
-            
-        poses = []
-        for bod in loop.body:
-            if bod.__class__.__name__ == "IvieStatement": 
-                if bod.name in self.stmts:
-                    for i in range(0, len(bod.store.indexes)):
-                        if bod.store.indexes[i].name == iterator.parent.name:
-                            bod.store.indexes[i] = iterator
-                    for i in range(0, len(bod.args)):
-                        for j in range(0, len(bod.args[i].indexes)):
-                            if bod.args[i].indexes[j].name == iterator.parent.name:
-                                bod.args[i].indexes[j] = iterator
-                else:
-                    poses.append(loop.body.index(bod))
-                    
-            else: 
-                self.replace_iterator(bod, iterator)
-
-        ## Delete unwanted statement
-        for i in sorted(poses, reverse=True):
-            loop.body.pop(i)
-            
-
-    def cleanup(self, loop):
-        poses = []
-        for bod in loop.body:
-            if bod.__class__.__name__ == "IvieStatement":
-                if bod.name in self.stmts:
-                    poses.append(loop.body.index(bod))
-            else:
-                self.cleanup(bod)
-
-        for i in sorted(poses, reverse=True):
-            loop.body.pop(i)
-
-
-    def build_new_loop(self, loop, prevloop):
-        """ For the new loop to build
-        we make a deepcopy and replace 
-        all iterators with their respective
-        replications. """
-
-        newloop = None
-        if loop.iterators.name == self.parent.name:
-            newloop = deepcopy(loop)
-
-            self.cleanup(loop)
-
-
-
-            for iterator in self.newloop:
-                self.replace_iterator(newloop, iterator)
-
-            if prevloop != []:
-                prevloop[0].body.append(newloop)
-            else:
-                prevloop += [newloop]
-       
-        else:
-            for i in range(0, len(loop.body)):
-                if loop.body[i].__class__.__name__ == "IvieLoop":
-                    self.build_new_loop(loop.body[i], [loop])
-
-      
-
-    def apply_transformation(self, ivieprog):
-
-        LOOPS = ivieprog.loops
-        isl_schedules = ivieprog.isl_loop_schedules
-        #self.update_schedules(isl_schedules)
-        
-        for i in range(0, len(LOOPS)):
-            tmp = []
-            self.build_new_loop(LOOPS[i], tmp)
-            if tmp != []:
-                LOOPS.insert(i+1, tmp[0])
-            
-# Broken
-class IvieTransformationClone():
-    """ Types:
-    cloned: IvieIterator
-    new_clone: list of IvieIterator. """
-    
-    old_loop = None
-
-    def __init__(self, cloned, new_clone):
-        self.cloned = cloned
-        self.new_loop = new_clone
-
-
-    def debug_print(self):
-        string = colored("Clone: ", "green", attrs=["bold"]) + self.cloned.debug_print() + " using (" 
-        for iterator in self.new_loop:
-            string += iterator.debug_print() + "\n "
-        string += ")"
-        return string
-
-    def replace_iterator(self, loop, iterator):
-        if iterator.parent != None and iterator.parent.name == loop.iterators.name:
-            loop.iterators = iterator
-            
-        for bod in loop.body:
-            if bod.__class__.__name__ == "IvieStatement": 
-                for i in range(0, len(bod.store.indexes)):
-                    if bod.store.indexes[i].name == iterator.parent.name:
-                        bod.store.indexes[i] = iterator
-                for i in range(0, len(bod.args)):
-                    for j in range(0, len(bod.args[i].indexes)):
-                        if bod.args[i].indexes[j].name == iterator.parent.name:
-                            bod.args[i].indexes[j] = iterator
-            else: 
-                self.replace_iterator(bod, iterator)
-
-
-    def build_new_loop(self, loop):
-        """ For the new loop to build
-        we make a deepcopy and replace 
-        all iterators with their respective
-        replications. """
-        
-        newloop = deepcopy(loop)
-
-        for iterator in self.new_loop:
-            self.replace_iterator(newloop, iterator)
-
-        return newloop
-
-    def update_schedules(self, isl_schedules):
-        new_sched = None
-        ## Copy 
-        for sched in isl_schedules:
-            if self.cloned in sched.schedule_object:
-                new_sched = deepcopy(sched)
-
-        ### Update schedules that need to be updated
-        for sched in isl_schedules:
-            if sched.schedule_object[0] > new_sched.schedule_object[0]:
-                sched.schedule_object[0] += 1
-
-        for i in range(0, len(new_sched.schedule_object)):
-            if not isinstance(new_sched.schedule_object[i], int):
-                if new_sched.schedule_object[i].name == self.cloned.name:
-            
-                    new_sched.schedule_object[i-1] += 1
-
-                for iterator in self.new_loop:
-                    if iterator.parent.name == new_sched.schedule_object[i].name:
-                        new_sched.schedule_object[i] = iterator
-
-        isl_schedules.append(new_sched)
-
-
-    def apply_transformation(self, ivieprog):
-
-        LOOPS = ivieprog.loops
-        isl_schedules = ivieprog.isl_loop_schedules
-        pos = None
-        res = None
-        for i in range(0, len(LOOPS)):
-
-            if LOOPS[i].iterators == self.cloned:
-                ### Find outermost dimension
-                ### For the moment, in the context of CFD
-                ### outermost dimensions only are concerned
-                res = self.build_new_loop(LOOPS[i])
-                
-                pos = i
-
-        LOOPS.insert(pos+1, res)
-
-
-        #self.update_schedules(isl_schedules)
-
-
-### Experimental :/
-class IvieTransformationPurge():
-    """ This transformation is used in the context 
-    of operators involved in CFD computations. The operation
-    occuring here are very specific and simple. When purging 
-    an iterator:
-    - in an IslSchedule, the position corresponding to the 
-      iterator is set to 0
-    - in LOOPS, the body of the corresponding dimension 
-      is hoisted out to its outer dimension AND all array
-      accesses involving the purged iterator are removed 
-      from the statement. 
-    
-    Types:
-       purgeable: IvieIterator
-    """
-
-    def __init__(self, purgeable):
-        self.purgeable = purgeable
-
-    def debug_print(self):
-        string = colored("Purge ", "green", attrs=["bold"]) + self.purgeable.debug_print()
-        return string
-
-    def purge_body(self, body):
-        """ In every statement, delete array access functions
-        that involve self.purgeable. The written element is 
-        never concerned. """
- 
-        for bod in body:
-            if bod.__class__.__name__ == "IvieStatement":
-                poses = []
-                for i in range(0, len(bod.args)):
-                    for j in range(0, len(bod.args[i].indexes)):
-                        if bod.args[i] != 0 and bod.args[i].array.forbid_purge == False and \
-                           bod.args[i].indexes[j] == self.purgeable:
-                            ## Replace args to be deleted by 0
-                            bod.args[i] = 0
-                        elif bod.args[i] != 0 and bod.args[i].indexes[j] == self.purgeable:
-                            if bod.args[i].indexes[j].axe_traversal == True:
-                                ## For remaining access functions based on self.purgeable (those 
-                                ## for which we forbid purging) make these reference fall back 
-                                ## on parent reference
-                                bod.args[i].indexes[j] = bod.args[i].indexes[j].axe_traversor_parent
-                                
-                            """
-                            ## Now there may be cases where the considered iterator is 
-                            ## a replicate that has an AxeTraversor in its genealogy. 
-                            ## These must be taken into account also
-                            if bod.args[i].indexes[j].__class__.__name__ == "IvieIteratorReplicate":
-                                ## We are going to ascend its genealogy to search for
-                                ## the last parent that is an Axeitraversor
-                                parent = bod.args[i].indexes[j].parent
-                                while parent != None:
-                                    if parent.__class__.__name__ == "IvieIteratorAxetraversor":
-                                        break
-                                    else:
-                                        parent = parent.parent
-                                bod.args[i].indexes[j] = parent
-                            """
-
-                ## Clean up list
-                bod.args = filter(lambda a: a != 0, bod.args)
-
-            else:
-                self.purge_body(bod.body)
-
-
-    def purge_dimension(self, body):
-        for i in range(0, len(body)):
-            if body[i].__class__.__name__ == "IvieLoop":
-                if body[i].iterators == self.purgeable:
-                    body[i] = 0
-
-        body = filter(lambda a: a != 0, body)
-        return body
-                
-    def update_schedule(self, isl_schedules):
-        for i in range(0, len(isl_schedules)):
-            if self.purgeable in isl_schedules[i].schedule_object:
-                pos = isl_schedules[i].schedule_object.index(self.purgeable)
-                # Remove element and its associated schedule number 
-                # (the preceeding element)
-                isl_schedules[i].schedule_object.pop(pos)
-                isl_schedules[i].schedule_object.pop(pos-1)
-        
-    
-    def get_body(self, loop):
-        getbody = None
-        for bod in loop.body:
-            if bod.__class__.__name__ == "IvieLoop":
-                if bod.iterators == self.purgeable:
-                    getbody = bod.body
-
-        if getbody == None:
-            for bod in loop.body:
-                if bod.__class__.__name__ == "IvieLoop":
-                  getbody = self.get_body(bod)
-        else:
-            ## Modify body content
-            ## Hoist body
-            ## Remove dimension
-   
-            self.purge_body(getbody)
-            loop.body += getbody
-            loop.body = self.purge_dimension(loop.body)
-
-        return getbody
-    
-    def apply_transformation(self, ivieprog):
-        """ Deletes any dimension involving self.purgeable AND 
-        any array access function involving this iterator. """
-
-        isl_schedules = ivieprog.isl_loop_schedules
-        LOOPS = ivieprog.loops
-
-        self.update_schedule(isl_schedules)
-        for loop in LOOPS:
-            body = self.get_body(loop)
-
-            
-
-        
 

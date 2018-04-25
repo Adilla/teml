@@ -691,6 +691,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         newloop = deepcopy(loopin)
         print newloop.loopnest.debug_print()
         peel(newloop.loopnest, lr, factor)
+
+        newloop.label = name
+        LOOPS.append(newloop)
         print newloop.loopnest.debug_print()
         
         
@@ -709,8 +712,12 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
 
         newloop = deepcopy(loopin)
+        print newloop.loopnest.debug_print()
+        
+        unroll(newloop.loopnest, lr, factor)
 
-        unroll(None, newloop.loopnest, 2, factor)
+
+        print newloop.loopnest.debug_print()
         newloop.label = name
 
         LOOPS.append(newloop)
