@@ -185,7 +185,7 @@ class Tensor():
             #But for the moment, we assume
             #iterators to start from 0
         
-            iterr = Iterator(str(it[1]), '0', it[2], '1')
+            iterr = Iterator(it[1], '0', it[2], '1')
             iterators.append(iterr)
         
         innermost = Loop(iterators[-1], [self.expr])

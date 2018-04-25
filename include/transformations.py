@@ -557,8 +557,97 @@ def fuse(loop, tofuse, rank):
                 fuse(bod, tofuse, rank)
     else:
         loop.body += tofuse.body
- 
-    
+
+def get_iterator(l, rank, out):
+    if l.iterator.rank != rank:
+        for bod in l.body:
+            if bod.__class__.__name__ == "Loop":
+                out = get_iterator(bod, rank, out)
+    else:
+        out = l.iterator
+    return out
+
+def interchange(l, r1, r2, i1, i2, flag):
+    ## I ensure that r1 < r2 so that
+    ## we first interchange the outermost dimension
+    ## then go through innermost dimensions to find
+    ## the other one to permute.
+    if l.iterator.rank == r1:
+        l.iterator = i2
+        l.iterator.rank = r1
+        l.iterator.name = "i" + str(r1)
+        flag = True
+        for bod in l.body:
+            if bod.__class__.__name__ == "Loop":
+                interchange(bod, r1, r2, i1, i2, flag)
+
+    elif l.iterator.rank == r2:
+        l.iterator = i1
+        l.iterator.rank = r2
+        l.iterator.name = "i" + str(r2)
+    else:
+        for bod in l.body:
+            if bod.__class__.__name__ == "Loop":
+                interchange(bod, r1, r2, i1, i2, flag)
+        
+
+                
+def increment_all_ranks(loop):
+    loop.iterator.rank += 1
+    loop.iterator.name = "i" + str(loop.iterator.rank)
+    for bod in loop.body:
+        if bod.__class__.__name__ == "Loop":
+            increment_all_ranks(bod)
+        else:
+            print bod.debug_print()
+
+
+def stripmine(outer, current, rank, factor):
+    if current.iterator.rank == rank:
+        it = current.iterator
+        tileit = Iterator(lr, it.minbound, "(" + it.maxbound + ") / " + factor, it.stride)
+
+        it.rank = rank + 1
+        it.minbound = factor + " * " + tileit.name
+        it.maxbound = factor + " * " + tileit.name + " + (" + factor + " -1)"
+        it.stride = tileit.stride
+
+        newloop = Loop(tileit, [current])
+
+        ## This assumes that the loop is perfectly nested..
+        if outer != None:
+            outer.body = [newloop]
+            newloop = outer
+
+        return newloop
+        
+
+
+def unroll(outer, loop, rank, factor):
+    if loop.iterator.rank == rank:
+        if factor == None:
+            factor = int(loop.iterator.maxbound)
+
+        newbody = []
+        newbody.append(deepcopy(loop.body))
+        for i in range(1, factor):
+            #newbody.append(update(deepcopy(loop.body), rank, i))
+            newbody.append(deepcopy(loop.body))
+
+        outer.body = [newbody]
+            
+# def stripmine(outerloop, currentloop, rank):
+#     if currentloop.iterator.rank == rank:
+#         newloop.body = currentloop.body
+#         for bod in newloop.body:
+#             if bod.__class__.__name__ == "Loop":
+#                 increment_all_ranks(bod)
+#         outerloop.body += newloop.body
+#     else:
+#         for bod in newloop.body:
+#             if bod.__class__.__name__ == "Loop":
+#                 stripmine(currentloop, bod, rank, newloop)
+        
 
 class Stripmine():
   

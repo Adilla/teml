@@ -29,7 +29,7 @@ class Iterator():
 
 
     def __init__(self, rank, minbound, maxbound, stride):
-        self.name = "i" + rank
+        self.name = "i" + str(rank)
         self.rank = rank
         self.minbound = minbound
         self.maxbound = maxbound

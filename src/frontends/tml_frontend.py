@@ -572,7 +572,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
     if asstype == "stripmine":
         print params
         lname = params[0].dumps()
-        lrank = params[1].dumps()
+        lr = int(params[1].dumps())
         factor = params[2].dumps()
 
         loopin = None
@@ -580,13 +580,24 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             if lname == l.label:
               loopin = l
 
-        loopout = deepcopy(loopin)
+        newloop = deepcopy(loopin)
         #loopout = Stripmine(name, loopin, lrank, factor)
-        loopout = stripmine(name, loopout, int(lrank), factor, False)
+        #loopout = stripmine(name, loopout, int(lr), factor, False)
 
-        print loopout.debug_print()
-        LOOPS.append(loopout)
-    
+        it = None
+        it = get_iterator(loopin.loopnest, lr, it)
+
+        tile_it = Iterator(lr, it.minbound, "(" + it.maxbound + ") / " + factor, it.stride)
+        loop_it = Iterator(lr + 1, factor + " * " + it.name, factor + " * " + it.name + " + (" + factor + " - 1)", it.stride)
+
+        innerloop = Loop(loop_it, [])
+        tileloop = Loop(tile_it, [innerloop])
+
+        outerloop = None
+        if lr > 1:
+            outerloop = get_loop(loopin.loopnest, lr, outerloop)
+
+        
         # iter_ = params[0].dumps()
         # for iterator in ITERATORS:
         #     if iter_ == iterator.name:
@@ -614,10 +625,28 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             if lname == l.label:
               loopin = l
 
-        loopout = deepcopy(loopin)
-        loopout = LoopBox(name, deepcopy(loopin.loopnest))
 
-        LOOPS.append(loopout)
+        newloop = deepcopy(loopin)
+        
+        print newloop.loopnest.debug_print()
+
+        for pair in nranks:
+            #print pair
+            i1 = None
+            i2 = None
+            r1 = min(int(pair[0]), int(pair[1]))
+            r2 = max(int(pair[0]), int(pair[1]))
+            i1 = get_iterator(loopin.loopnest, r1, i1)
+            i2 = get_iterator(loopin.loopnest, r2, i2)
+            #print i1.debug_print()
+            #print i2.debug_print()
+
+            interchange(newloop.loopnest, r1, r2, i1, i2, False)
+            
+        print newloop.loopnest.debug_print()
+
+        #loopout = deepcopy(loopin)
+
         
 
 
@@ -632,22 +661,37 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             if l2 == l.label:
                 l2 = l
 
-
         tofuse = None
-        tofuse = get_loop(l2.loopnest, lr, tofuse)
+        tofuse = get_loop(l2.loopnest, int(lr), tofuse)
         newloop = deepcopy(l1)
         
-        fuse(newloop.loopnest, tofuse, lr)
+        fuse(newloop.loopnest, tofuse, int(lr))
+        newloop.label = name
+        
+        print newloop.loopnest.debug_print()
+        LOOPS.append(newloop)
+
+
+    if asstype == "unroll":
+        lname = params[0].dumps()
+        lr = int(params[1].dumps())
+        factor = None
+        if len(params) > 2:
+            factor = int(params[2].dumps())
+
+        
+        loopin = None
+        for l in LOOPS:
+            if lname == l.label:
+              loopin = l
+
+
+        newloop = deepcopy(loopin)
+
+        unroll(None, newloop.loopnest, 2, factor)
         newloop.label = name
 
         LOOPS.append(newloop)
-
-        for loop in LOOPS:
-            print loop.label
-
-
-
-
 
 
 
