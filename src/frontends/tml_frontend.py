@@ -643,6 +643,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
             interchange(newloop.loopnest, r1, r2, i1, i2, False)
             
+            
         print newloop.loopnest.debug_print()
 
         #loopout = deepcopy(loopin)

@@ -572,6 +572,11 @@ def interchange(l, r1, r2, i1, i2, flag):
     ## we first interchange the outermost dimension
     ## then go through innermost dimensions to find
     ## the other one to permute.
+    ## Since the transformation is based on dimension ranking,
+    ## we do a permutation of iteration ranges, then
+    ## restore the proper rank at a given depth.
+    ## This swapping also modifies iterator identifications in
+    ## the statements because of the principle of ranking.
     if l.iterator.rank == r1:
         l.iterator = i2
         l.iterator.rank = r1
@@ -589,9 +594,45 @@ def interchange(l, r1, r2, i1, i2, flag):
         for bod in l.body:
             if bod.__class__.__name__ == "Loop":
                 interchange(bod, r1, r2, i1, i2, flag)
-        
+          
+    ## Swapping within statement
+    for bod in l.body:
+        if bod.__class__.__name__ != "Loop":
+            swap_in_expr(bod, r1, r2)
 
-                
+def swap_in_expr(stmt, r1, r2):
+ 
+    if stmt.store != None:
+        swap_in_subs(stmt.store, r1, r2)
+
+    if stmt.left != None and stmt.left.__class__.__name__ != "Expression":
+        swap_in_subs(stmt.left, r1, r2)
+    else:
+        swap_in_expr(stmt.left, r1, r2)
+
+    if stmt.right != None and stmt.right.__class__.__name__ != "Expression":
+        swap_in_subs(stmt.right, r1, r2)
+    else:
+        swap_in_expr(stmt.right, r1, r2)
+
+def swap_in_subs(subs, r1, r2):
+
+    for i in range(0, len(subs.access)):
+        if subs.access[i] == "i"+str(r1):
+            # just a hack so that when I permute
+            # the other rank, it does not modify
+            # the newly permuted ones
+            subs.access[i] = "i"+str(r2) + "_"
+        if subs.access[i] == "i"+str(r2):
+            subs.access[i] = "i"+str(r1)
+
+    for i in range(0, len(subs.access)):
+        if "_" in subs.access[i]:
+            # Clean up the mess
+            subs.access[i] = subs.access[i].replace("_","")
+
+    
+    
 def increment_all_ranks(loop):
     loop.iterator.rank += 1
     loop.iterator.name = "i" + str(loop.iterator.rank)
