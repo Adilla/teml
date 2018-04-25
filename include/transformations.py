@@ -567,7 +567,7 @@ def get_iterator(l, rank, out):
         out = l.iterator
     return out
 
-def interchange(l, r1, r2, i1, i2, flag):
+def interchange(l, r1, r2, i1, i2):
     ## I ensure that r1 < r2 so that
     ## we first interchange the outermost dimension
     ## then go through innermost dimensions to find
@@ -577,14 +577,17 @@ def interchange(l, r1, r2, i1, i2, flag):
     ## restore the proper rank at a given depth.
     ## This swapping also modifies iterator identifications in
     ## the statements because of the principle of ranking.
+  
+    
     if l.iterator.rank == r1:
         l.iterator = i2
         l.iterator.rank = r1
         l.iterator.name = "i" + str(r1)
-        flag = True
         for bod in l.body:
             if bod.__class__.__name__ == "Loop":
-                interchange(bod, r1, r2, i1, i2, flag)
+                interchange(bod, r1, r2, i1, i2)
+                #else:
+                #    swap_in_expr(bod, r1, r2)
 
     elif l.iterator.rank == r2:
         l.iterator = i1
@@ -593,15 +596,34 @@ def interchange(l, r1, r2, i1, i2, flag):
     else:
         for bod in l.body:
             if bod.__class__.__name__ == "Loop":
-                interchange(bod, r1, r2, i1, i2, flag)
-          
+                interchange(bod, r1, r2, i1, i2)
+                #else:
+            #    swap_in_expr(bod, r1, r2)
+    
+        # ## Swapping within statement
+        # ## With the flag set to False,
+        # ## the recursion will continue
+        # ## without destroying the permutations
+        # for bod in l.body:
+        #     print bod.debug_print()
+        #     if bod.__class__.__name__ != "Loop":
+        #         swap_in_expr(bod, r1, r2, flag)
+        #     #else:    
+        #     #    interchange(bod, r1, r2, i1, i2, )
+
+
+def interchange_stmt(l, r1, r2):
     ## Swapping within statement
     for bod in l.body:
         if bod.__class__.__name__ != "Loop":
             swap_in_expr(bod, r1, r2)
-
+        else:
+            interchange_stmt(bod, r1, r2)
+                        
+  
+            
 def swap_in_expr(stmt, r1, r2):
- 
+
     if stmt.store != None:
         swap_in_subs(stmt.store, r1, r2)
 
@@ -616,7 +638,7 @@ def swap_in_expr(stmt, r1, r2):
         swap_in_expr(stmt.right, r1, r2)
 
 def swap_in_subs(subs, r1, r2):
-
+    
     for i in range(0, len(subs.access)):
         if subs.access[i] == "i"+str(r1):
             # just a hack so that when I permute
