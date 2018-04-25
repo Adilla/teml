@@ -20,8 +20,5 @@
 
 25/04/18
 
-* Fix bug in interchange: la boucle a partir de laquelle je fais un deepcopy est a un moment donnée modifié. Il doit avoir une mauvaise instruction quelque part. Il faut que toutes les boucles d'origines restent intactes.
-
 * Problem when interchanging in Gconv: subscript of type i5 + i7 is not properly updated when operating permutations.
 
-* Fix bug in building from high ops: since their is no range inference, there is an instruction that crashes.
