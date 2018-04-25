@@ -190,7 +190,7 @@ def unrolloff_loop(loop, rank, val):
             
 def parallelize(loop, rank, type_, schedule):
     if loop.iterator.rank == rank:
-        loop.iterator.type_ = type_
+        loop.iterator.parallelism = type_
         loop.iterator.schedule = schedule
         ## Private variables will be collected
         ## right before code generation.
@@ -224,7 +224,7 @@ def get_iterator(l, rank, out):
             if bod.__class__.__name__ == "Loop":
                 out = get_iterator(bod, rank, out)
     else:
-        out = l.iterator
+        out = deepcopy(l.iterator)
     return out
 
 def interchange(l, r1, r2, i1, i2):

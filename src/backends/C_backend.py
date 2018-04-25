@@ -7,8 +7,19 @@ def prettyprint_C_iterator(iterator):
     minbound = iterator.minbound
     maxbound = iterator.maxbound
     stride = iterator.stride
-
-    string = "for (" + name + " = " + minbound + "; " +\
+    paraltype = iterator.parallelism
+    paralsched = iterator.schedule
+    
+    string = ""
+    if paraltype == "THRD":
+        string += "#pragma omp parallel for "
+        if paralsched != None:
+            string += "schedule(static," + paralsched + ") "
+            ## Still need to collect private vars..
+        string += "\n"
+    elif paraltype == "VEC":
+        string += "#pragma ivdep\n#pragma vector always\n"
+    string += "for (" + name + " = " + minbound + "; " +\
              name + " <= " + maxbound + "; " + \
              name + " += " + stride + ") "
 
@@ -25,9 +36,9 @@ def prettyprint_C_subscript(subs):
 def prettyprint_C_statement(stmt, flag):
     string = ""
 
-    string += prettyprint_C_subscript(stmt.store)
-
     if flag == True:
+        ## Flag to know when to print lhv and =
+        string += prettyprint_C_subscript(stmt.store)
         string += " = "
 
     if stmt.left.__class__.__name__ == "Expression":

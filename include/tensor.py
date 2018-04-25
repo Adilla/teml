@@ -177,6 +177,10 @@ class Tensor():
         # x[1] corresponds to the rank
         # print sorted(self.loopdomain, key=lambda x: x[1])
         iterators = []
+        if self.loopdomain == None:
+            ### It means that this tensor is the result
+            ### of a high level operation
+            self.infer_range()
         self.loopdomain = sorted(self.loopdomain, key=lambda x: x[1])
         for it in self.loopdomain:
             #Strict domain

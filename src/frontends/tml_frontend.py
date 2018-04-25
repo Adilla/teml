@@ -225,15 +225,23 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             op = asstype.replace("entrywise_", "")
 
         expr = None
+        sub1 = []
+        sub2 = []
+        for i in range(1, len(t1.shape)+1):
+            sub1.append("i"+ str(i))
+        for i in range(1, len(t2.shape)+1):
+            sub2.append("i"+ str(i))
+            
         if t1 in R_ARRAYS and t2 in R_ARRAYS:
-            aft1 = Subscript(t1, range(1, len(t1.shape)+1))
-            aft2 = Subscript(t2, range(1, len(t2.shape)+1))
+                
+            aft1 = Subscript(t1, sub1)
+            aft2 = Subscript(t2, sub2)
             expr = Expression(op, aft1, aft2, None)
         if t1 in R_ARRAYS and t2 in V_ARRAYS:
-            aft1 = Subscript(t1, range(1, len(t1.shape)+1))
+            aft1 = Subscript(t1, sub1)
             expr = Expression(op, aft1, t2.expr, None)
         if t1 in V_ARRAYS and t2 in R_ARRAYS:
-            aft2 = Subscript(t2, range(1, len(t2.shape)+1))
+            aft2 = Subscript(t2, sub2)
             expr = Expression(op, t1.expr, aft2, None)
         if t1 in V_ARRAYS and t2 in V_ARRAYS:
             expr = Expression(op, t1.expr, t2.expr, None)
@@ -243,7 +251,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         if "ventrywise" in asstype:
             V_ARRAYS.append(tensor)
         else:
-            store = Subscript(tensor, range(1, len(t1.shape)+1))
+            substore = []
+            for i in range(1, len(t1.shape)+1):
+                substore.append("i"+str(i))
+                
+            store = Subscript(tensor, substore)
             tensor.expr.update_store(store)
             R_ARRAYS.append(tensor)
 
@@ -438,12 +450,16 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
         shape = t1shape + t2shape
 
+        outsub = []
+        for i in range(1, len(shape)+1):
+            outsub.append("i"+str(i))
 
-        outsub = range(1, len(shape)+1)
-        red_axes = range(len(shape)+1, len(shape)+1 + len(_axes))
+        red_axes = []
+        for i in range(len(shape)+1, len(shape)+1 + len(_axes)):
+            red_axes.append("i"+str(i))
 
-        sub1 = [0] * len(parent1.shape)
-        sub2 = [0] * len(parent2.shape)
+        sub1 = [None] * len(parent1.shape)
+        sub2 = [None] * len(parent2.shape)
 
         
         inc1 = 0
@@ -485,6 +501,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         store = Subscript(tensor, outsub)
         tensor.expr.update_store(store)
         if asstype == "contract":
+
             R_ARRAYS.append(tensor)
         if asstype == "vcontract":
             V_ARRAYS.append(tensor)
@@ -633,7 +650,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
 
         newloop = deepcopy(loopin)
-        
+
         print newloop.loopnest.debug_print()
 
         for pair in nranks:
@@ -649,7 +666,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             ## in the same function.
             interchange(newloop.loopnest, r1, r2, i1, i2)
             interchange_stmt(newloop.loopnest, r1, r2)
-            
+
         print newloop.loopnest.debug_print()
 
         newloop.label = name
@@ -823,7 +840,6 @@ def process_atomtrailersnode(element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS
                 if l.label == name:
                     string += prettyprint_C_loop(l.loopnest)
 
-                    
         print string
 
         
