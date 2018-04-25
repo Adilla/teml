@@ -73,7 +73,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         acc2 = None
 
         accstore = []
-        if "v" not in asstype:
+        if asstype[0] != 'v':
             afout = params[-1].find("list").value
             for val in afout:
                 accstore.append(val.dumps())
@@ -107,8 +107,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         dtype = t1.dtype
         expr = None
         op = asstype
-        if "v" in op:
-            op = op.replace("v", "")
+
+        if asstype[0] == 'v':
+            asstype[0] = ''
+   
+            #op = op.replace("v", "")
             
         if t1 in R_ARRAYS and t2 in R_ARRAYS:
             s1 = Subscript(t1, nacc1)
@@ -127,17 +130,16 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             expr = Expression(op, t1.expr, t2.expr, None)
 
         tensor = Tensor(name, dtype, None, expr, None, asstype)
-
+        
         store = Subscript(tensor, accstore)
 
-        if "v" in asstype:
+        if asstype[0] == 'v':
             V_ARRAYS.append(tensor)
-
         else:
             tensor.expr.update_store(store)
-            R_ARRAYS.append(tensor)
-            tensor.infer_range()
 
+            R_ARRAYS.append(tensor)
+            tensor.infer_range()           
         
                 
     
@@ -257,8 +259,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
                 
             store = Subscript(tensor, substore)
             tensor.expr.update_store(store)
+            tensor.infer_range()
             R_ARRAYS.append(tensor)
-
+            
         print tensor.debug_print()
 
     
@@ -311,7 +314,10 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         outaccess = []
         offset = 1
         for inp in inputs:
-            subscript = Subscript(inp, range(offset, offset + len(inp.shape)))
+            sub = []
+            for i in range(offset, offset + len(inp.shape)):
+                sub.append("i"+str(i))
+            subscript = Subscript(inp, sub)
             subscripts.append(subscript)
             offset = offset + len(inp.shape)
             outaccess += subscript.access
@@ -437,7 +443,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
         t1shape = []
         t2shape = []
-
 
         for i in range(0, len(parent1.shape)):
             if str(i+1) not in axes1:

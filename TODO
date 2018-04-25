@@ -22,3 +22,4 @@
 
 * Problem when interchanging in Gconv: subscript of type i5 + i7 is not properly updated when operating permutations.
 
+* Reductions not properly prettyprinted for high level ops

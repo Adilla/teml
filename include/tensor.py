@@ -164,6 +164,7 @@ class Tensor():
                      replace("]", "").\
                      split(", ")
 
+
             for i in range(0, len(rrange)):
                 rrange[i] = int(rrange[i]) + 1
                 rrange[i] = str(rrange[i])
