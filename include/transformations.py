@@ -49,23 +49,28 @@ class IvieTransformationCollapse():
                     self.search_body(bod, loop)
 
 def peel(loop, rank, factor):
-    if loop.iterator.rank == rank-1:
-        newb = None
-        for bod in loop.body:
-            if bod.__class__.__name__ == "Loop":
-                if bod.iterator.rank == rank:
-                    mbound = int(bod.iterator.maxbound)
-                    bod.iterator.maxbound = str(int(bod.iterator.maxbound) - factor)
-                    newb = peeloff(bod.body, rank, mbound, factor)
-        if loop.iterator.rank > 1:
+    if rank-1 >= 1:
+        if loop.iterator.rank == rank-1:
+            newb = None
+            for bod in loop.body:
+                if bod.__class__.__name__ == "Loop":
+                    if bod.iterator.rank == rank:
+                        mbound = int(bod.iterator.maxbound)
+                        bod.iterator.maxbound = str(int(bod.iterator.maxbound) - factor)
+                        newb = peeloff(bod.body, rank, mbound, factor)
             loop.body += newb
         else:
-            loop.outer_post_statements += newb
-    else:
-        for bod in loop.body:
-            if bod.__class__.__name__ == "Loop":
+            for bod in loop.body:
+                if bod.__class__.__name__ == "Loop":
                     peel(bod, rank, factor)
 
+    else:
+        mbound = int(loop.iterator.maxbound)
+        loop.iterator.maxbound = str(int(loop.iterator.maxbound) - factor)
+        newb = peeloff(loop.body, rank, mbound, factor)
+                        
+        loop.outer_post_statements += newb
+   
 
 def peeloff(body, rank, maxbound, factor):
     peeled = []
@@ -138,7 +143,6 @@ def unroll(loop, rank, factor):
 
         else:
             newb = None
-
             factor = int(loop.iterator.maxbound)
             newb = unrolloff(loop.body, rank, factor)           
             loop.outer_post_statements += newb
