@@ -96,18 +96,19 @@ def peeloff_loop(loop, rank, val):
             
 def peeloff_expr(expr, rank, val):
     if expr.store != None:
-        peeloff_subs(expr.store, rank, val)
+        update_val_subs(expr.store, rank, val)
     if expr.left != None and expr.left.__class__.__name__ != "Expression":
-        peeloff_subs(expr.left, rank, val)
+        update_val_subs(expr.left, rank, val)
     else:
         peeloff_expr(expr.left, rank, val)
     if expr.right != None and expr.right.__class__.__name__ != "Expression":
-        peeloff_subs(expr.right, rank, val)
+        update_val_subs(expr.right, rank, val)
     else:
         peeloff_expr(expr.right, rank, val)
 
 
-def peeloff_subs(subs, rank, val):
+
+def update_val_subs(subs, rank, val):
     for i in range(0, len(subs.access)):
         if "i"+str(rank) == subs.access[i]:
             subs.access[i] = val
@@ -118,26 +119,32 @@ def peeloff_subs(subs, rank, val):
 def unroll(loop, rank, factor):
     if factor == None:
         # Then full unrolling.
-        if loop.iterator.rank == rank-1:
-            newb = None
-            for i in range(0, len(loop.body)):
-                bod = loop.body[i]
-                if bod.__class__.__name__ == "Loop":
-                    if bod.iterator.rank == rank:
-                        factor = int(bod.iterator.maxbound)
-                        newb = unrolloff(bod.body, rank, factor)
-            
-            if loop.iterator.rank > 1:
+        if rank-1 >= 1:
+            #If unrolled is non-outermost
+            if loop.iterator.rank == rank-1:
+                newb = None
+                for i in range(0, len(loop.body)):
+                    bod = loop.body[i]
+                    if bod.__class__.__name__ == "Loop":
+                        if bod.iterator.rank == rank:
+                            factor = int(bod.iterator.maxbound)
+                            newb = unrolloff(bod.body, rank, factor)
+
                 loop.body = newb
             else:
-                loop.outer_post_statements += newb
-                loop.body = None
-                loop.iterator = None
-            
+                for bod in loop.body:
+                    if bod.__class__.__name__ == "Loop":
+                        unroll(bod, rank, factor)
+
         else:
-            for bod in loop.body:
-                if bod.__class__.__name__ == "Loop":
-                    unroll(bod, rank, factor)
+            newb = None
+
+            factor = int(loop.iterator.maxbound)
+            newb = unrolloff(loop.body, rank, factor)           
+            loop.outer_post_statements += newb
+            loop.body = None
+            loop.iterator = None
+            
 
 
 
@@ -157,23 +164,23 @@ def unrolloff(body, rank, factor):
 
 def unrolloff_expr(expr, rank, val):
     if expr.store != None:
-        unrolloff_subs(expr.store, rank, val)
+        update_val_subs(expr.store, rank, val)
     if expr.left != None and expr.left.__class__.__name__ != "Expression":
-        unrolloff_subs(expr.left, rank, val)
+        update_val_subs(expr.left, rank, val)
     else:
         unrolloff_expr(expr.left, rank, val)
     if expr.right != None and expr.right.__class__.__name__ != "Expression":
-        unrolloff_subs(expr.right, rank, val)
+        update_val_subs(expr.right, rank, val)
     else:
         unrolloff_expr(expr.right, rank, val)
 
 
-def unrolloff_subs(subs, rank, val):
-    for i in range(0, len(subs.access)):
-        if "i"+str(rank) == subs.access[i]:
-            subs.access[i] = val
-
-
+def unrolloff_loop(loop, rank, val):
+    for bod in loop.body:
+        if bod.__class__.__name__ == "Expression":
+            unrolloff_expr(bod, rank, val)
+        else:
+            unrolloff_loop(bod, rank, val)
 
 
             

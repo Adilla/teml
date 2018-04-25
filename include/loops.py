@@ -139,19 +139,21 @@ class Loop():
         #     string += stmt.debug_print()
         #string += self.iterator.debug_print() + "\n" \
             #                  + "Body: " 
+     
+        if self.iterator != None:
+            print self.iterator.debug_print() + "\n" \
+                + "Body: " 
 
-        print self.iterator.debug_print() + "\n" \
-            + "Body: " 
-
-        for bod in self.body:
-            print bod.debug_print()
+        if self.body != None:
+            for bod in self.body:
+                print bod.debug_print()
             # for bod in self.body:
             #     string += bod.debug_print()
-            
-        # for stmt in self.outer_post_statements:
-        #     string += stmt.debug_print()
+        if self.outer_post_statements != None:
+            for stmt in self.outer_post_statements:
+                print stmt.debug_print()
         #return string
-
+    
 
     """
     def prettyprint_C_loop(self, depth, iters, indent):

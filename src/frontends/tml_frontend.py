@@ -716,7 +716,6 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         
         unroll(newloop.loopnest, lr, factor)
 
-
         print newloop.loopnest.debug_print()
         newloop.label = name
 
