@@ -4,3 +4,14 @@ D = array(double, [4096, 4096])
 
 tmp = vcontract(C, D, [[2, 1]])
 A = entrywise_mul(B, tmp)
+
+
+l = build(A)
+
+
+init(B, 5)
+init(C, 5)
+init(D, 4)
+init(A, 0)
+
+codegen([l])

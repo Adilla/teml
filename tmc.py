@@ -35,7 +35,7 @@ def main():
     prog = process_FST(fst)
 
 
-    codegen = template(name, prog)
+    template(name, prog)
     #print prog.debug_print()
 
 

@@ -1,4 +1,4 @@
-
+import subprocess
 
 includes = ["stdio", "stdlib", "unistd", "sys/time", "omp"]
 rtclock = "double rtclock() {\n struct timezone Tzp;\n struct timeval Tp;\n int stat;\n stat = gettimeofday(&Tp, &Tzp);"
@@ -49,13 +49,10 @@ def template(name, prog):
     init = prog.tensors
     code = prog.code
 
-    print init
-    print code
-
     for tensor in init:
         print add_tensor_param(tensor)
     
-    filename = "tml." + name + ".c"
+    filename = "tml." + name 
 
     with open(filename, "w") as source:
         for include in includes:
@@ -107,3 +104,11 @@ def template(name, prog):
 
         
             
+    bscript = "clang-format tml." + name + "> tml." + name + ".c"
+
+    with open("cbscript.sh", "w") as src:
+        src.write(bscript)
+
+    subprocess.call(["zsh", "cbscript.sh"])
+    subprocess.call(["rm", "cbscript.sh"])
+    subprocess.call(["rm", filename])
