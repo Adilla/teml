@@ -13,10 +13,10 @@ double rtclock() {
     printf("Error return from gettimeofday: %d", stat);
   return (Tp.tv_sec + Tp.tv_usec * 1.0e-7);
 }
-void sddmm(double B[const restrict 4096][4096],
-           double C[const restrict 4096][4096],
-           double D[const restrict 4096][4096],
-           double A[const restrict 4096][4096]) {
+void pluto_sddmm(double B[const restrict 4096][4096],
+                 double C[const restrict 4096][4096],
+                 double D[const restrict 4096][4096],
+                 double A[const restrict 4096][4096]) {
 
   int i1, i2;
 
@@ -43,10 +43,13 @@ void sddmm(double B[const restrict 4096][4096],
 
   double begin, end;
   begin = rtclock();
+#pragma omp parallel for schedule(static, None)
   for (i1 = 0; i1 <= 4095; i1 += 1) {
     for (i2 = 0; i2 <= 4095; i2 += 1) {
+#pragma ivdep
+#pragma vector always
       for (i3 = 0; i3 <= 4095; i3 += 1) {
-        A[i1][i2] = B[i1][i2] * C[i1][i3] * D[i3][i2];
+        A[i1][i3] = B[i1][i3] * C[i1][i2] * D[i2][i3];
       }
     }
   }
@@ -58,7 +61,7 @@ int main(int *argc, char **argv) {
   double(*C)[4096][4096] = malloc(sizeof *C);
   double(*D)[4096][4096] = malloc(sizeof *D);
   double(*A)[4096][4096] = malloc(sizeof *A);
-  sddmm(B, C, D, A);
+  pluto_sddmm(B, C, D, A);
   free(B);
   free(C);
   free(D);

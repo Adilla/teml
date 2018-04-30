@@ -1,0 +1,1 @@
+~/Tools/barvinok-0.41/iscc < _script.iscc

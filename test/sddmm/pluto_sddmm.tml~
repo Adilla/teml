@@ -7,9 +7,8 @@ A = entrywise_mul(B, tmp)
 
 l = build(A)
 
-init(B, 1)
-init(C, 1)
-init(D, 1)
-init(A, 0)
+l1 = interchange(l, [[2, 3]])
+l2 = parallelize(l1, 1, None)
+l3 = vectorize(l2, 3)
 
-codegen([l])
+codegen([l, l3])

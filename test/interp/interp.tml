@@ -1,0 +1,19 @@
+A = array(double, [7, 7])
+u = array(double, [7, 7, 7])
+
+tmp1 = contract(A, u, [[2, 1]])
+tmp2 = contract(A, tmp1, [[2, 2]])
+v = contract(A, tmp2, [[2, 3]])
+
+l1 = build(tmp1)
+l2 = build(tmp2)
+l3 = build(v)
+
+init(A, 1)
+init(u, 1)
+init(tmp1, 0)
+init(tmp2, 0)
+init(v, 0)
+
+
+codegen([l1, l2, l3])

@@ -1,0 +1,7 @@
+C := { S[i1, i4, i2, i3]: 0 <= i1 < 7 and 0 <= i4 < 7 and 0 <= i2 < 7 and 0 <= i3 < 7 };
+W := { S[i1, i4, i2, i3] -> v[i1, i2, i3]} * C;
+R := ran W;
+D := dom W;
+L := lexmax R;
+print D;
+print L;

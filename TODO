@@ -27,3 +27,8 @@
 * Implement tiling [urgent]
             part_unroll [not as urgent]
 	    unroll_and_fuse [not as urgent]
+
+
+30/04/18
+
+* The current way of generating all iterator declarations does not take into account maximum depth possible [not urgent]

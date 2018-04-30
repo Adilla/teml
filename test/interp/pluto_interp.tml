@@ -1,0 +1,29 @@
+A = array(double, [7, 7])
+u = array(double, [7, 7, 7])
+
+tmp1 = contract(A, u, [[2, 1]])
+tmp2 = contract(A, tmp1, [[2, 2]])
+v = contract(A, tmp2, [[2, 3]])
+
+l1 = build(tmp1)
+l2 = build(tmp2)
+l3 = build(v)
+
+
+l11 = interchange(l1, [[3, 4]])
+l12 = vectorize(l11, 5)
+
+l21 = interchange(l2, [[3, 4]])
+l22 = vectorize(l21, 5)
+
+l13 = parallelize(l12, 1, None)
+l23 = parallelize(l22, 1, None)
+l31 = parallelize(l3, 1, None)
+
+init(A, 1)
+init(u, 1)
+init(tmp1, 0)
+init(tmp2, 0)
+init(v, 0)
+
+codegen([l13, l23, l31])

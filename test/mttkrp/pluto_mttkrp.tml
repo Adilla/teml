@@ -7,9 +7,13 @@ A = contract(tmp, C, [[2, 1]])
 
 l = build(A)
 
+l1 = parallelize(l, 1, None)
+l2 = interchange(l1, [[2, 3]])
+
+
 init(B, 1)
 init(C, 1)
 init(D, 1)
 init(A, 0)
 
-codegen([l])
+codegen([l2])
