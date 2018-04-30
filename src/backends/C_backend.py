@@ -74,16 +74,18 @@ def prettyprint_C_statement(stmt, flag):
     return string
     
 
-def prettyprint_C_loop(loop):
-
+def prettyprint_C_loop(loop, max):
+    if loop.iterator.rank > max:
+        max = loop.iterator.rank
+ 
     string = prettyprint_C_iterator(loop.iterator)
     string += " {\n"
     for bod in loop.body:
         if bod.__class__.__name__ == "Loop":
-            string += prettyprint_C_loop(bod)
+            string += prettyprint_C_loop(bod, max)[0]
         else:
             string += prettyprint_C_statement(bod, True)
             string += ";\n"
     string += "}\n"
-
-    return string
+    
+    return [string, max]

@@ -31,11 +31,12 @@ def main():
     source = sys.argv[1]
 
     name = source.split("/")[-1].replace(".tml","")
+    path = source.replace(name + ".tml", "")
     fst = parse_tml(source)
     prog = process_FST(fst)
 
 
-    template(name, prog)
+    template(name, prog, path)
     #print prog.debug_print()
 
 

@@ -57,6 +57,7 @@ class IslSchedule():
 
 class Program():
     tensors = []
+    maxiter = 1
     def __init__(self, tensors, code):
         self.tensors = tensors
         self.code = code

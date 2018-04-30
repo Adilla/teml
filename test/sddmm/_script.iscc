@@ -1,0 +1,7 @@
+C := { S[i1, i2, i3]: 0 <= i1 < 4096 and 0 <= i2 < 4096 and 0 <= i3 < 4096 };
+W := { S[i1, i2, i3] -> A[i1, i2]} * C;
+R := ran W;
+D := dom W;
+L := lexmax R;
+print D;
+print L;

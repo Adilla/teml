@@ -11,7 +11,7 @@ def add_tensor_param(tensor):
     param = tensor.dtype +  " "
     param += tensor.name
     param += "[const restrict " + tensor.shape[0] + "]"
-    for sh in tensor.shape:
+    for sh in tensor.shape[1:]:
         param += "[" + sh + "]"
 
     return param
@@ -45,13 +45,11 @@ def free(tensor):
 
     return free
 
-def template(name, prog):
+def template(name, prog, path):
     init = prog.tensors
     code = prog.code
 
-    for tensor in init:
-        print add_tensor_param(tensor)
-    
+
     filename = "tml." + name 
 
     with open(filename, "w") as source:
@@ -62,20 +60,32 @@ def template(name, prog):
         source.write(rtclock)
         source.write("\n")
 
+        for tensor in init:
+            if len(tensor.shape) > prog.maxiter:
+                prog.maxiter = len(tensor.shape)
+        
         funcname = "void " + name + "("
         for i in range(0, len(init) - 1):
             tensor = init[i]
             funcname += add_tensor_param(tensor) + ",\n"
 
-        funcname += add_tensor_param(init[-1]) + ") {\n"
+        funcname += add_tensor_param(init[-1]) + ") {\n\n"
 
         source.write(funcname)
 
+        iterators = "int "
+        for i in range(1, prog.maxiter):
+            iterators += "i" + str(i) + ", "
+
+        iterators += "i" + str(i+1)
+
+        iterators += ";\n\n"
+        source.write(iterators)
 
         for tensor in init:
             source.write(initialization(tensor))
 
-
+        source.write("\n")
         source.write("double begin, end;\n")
         source.write("begin = rtclock();\n")
         source.write(code)
@@ -104,7 +114,7 @@ def template(name, prog):
 
         
             
-    bscript = "clang-format tml." + name + "> tml." + name + ".c"
+    bscript = "clang-format tml." + name + "> " + path + "tml." + name + ".c"
 
     with open("cbscript.sh", "w") as src:
         src.write(bscript)

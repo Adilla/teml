@@ -854,13 +854,22 @@ def process_atomtrailersnode(prog, element, ITERATORS, SCHEDULER, STATEMENTS, V_
     if name == "codegen":
         string = ""
         loops = params.find("list")
+        max = 1
         for loo in loops:
             name = loo.dumps()
             for l in LOOPS:
                 if l.label == name:
-                    string += prettyprint_C_loop(l.loopnest)
+                    res = prettyprint_C_loop(l.loopnest, max)
+                    string += res[0]
 
+
+                    if res[1] > max:
+                        max = res[1]
+
+                        
         prog.code = string
+        if max > prog.maxiter:
+            prog.maxiter = max
 
     # if name == "init":
     #     tensors = params.find("list")
