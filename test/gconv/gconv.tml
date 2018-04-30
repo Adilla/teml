@@ -12,6 +12,8 @@ l1 = build(O1)
 
 l2 = unroll(l1, 5)
 
-
+init(I, 7)
+init(W1, 8)
+init(B, 4)
 
 codegen([l, l1, l2])

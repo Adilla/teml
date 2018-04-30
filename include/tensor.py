@@ -28,6 +28,7 @@ class Expression():
     right = None
     store = None
     ranks = None
+    reduced = False
 
     
     def __init__(self, op, left, right, store):
@@ -41,6 +42,9 @@ class Expression():
 
     def update_ranks(self, ranks):
         self.ranks = ranks
+
+    def is_reduced(self, bool):
+        self.reduced = bool
         
     def debug_print(self):
         # debugleft = None
@@ -70,6 +74,7 @@ class Tensor():
     debug_str = None
     loopdomain = None
     loop = None
+    initvalue = None
 
     def __init__(self, name, dtype, shape, expr, parent, construct):
         self.name = name

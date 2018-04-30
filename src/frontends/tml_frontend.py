@@ -3,7 +3,7 @@ import redbaron
 from include.tensor import *
 #from include.iterators import *
 from include.loops import *
-#from include.program import *
+from include.program import *
 from include.transformations import *
 from src.backends.C_backend import *
 
@@ -63,7 +63,11 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
        asstype == "vadd" or \
        asstype == "vsub" or \
        asstype == "vmul" or \
-       asstype == "vdiv":
+       asstype == "vdiv" or \
+       asstype == "radd" or \
+       asstype == "rsub" or \
+       asstype == "rdiv" or \
+       asstype == "rmul":
         
         t1 = params[0].dumps()
         t2 = params[1].dumps()
@@ -129,6 +133,10 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         if t1 in V_ARRAYS and t2 in V_ARRAYS:
             expr = Expression(op, t1.expr, t2.expr, None)
 
+
+        if asstype[0] == "r":
+            expr.is_reduced(True)
+            
         tensor = Tensor(name, dtype, None, expr, None, asstype)
         
         store = Subscript(tensor, accstore)
@@ -190,16 +198,20 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
         tshape = deepcopy(parent.shape)
         tshape = swap_rec(tshape, nranks, 0, len(nranks))
-        
-        sub = range(1, len(parent.shape)+1)
+
+        sub = []
+        for i in range(1, len(parent.shape)+1):
+            sub.append("i"+str(i))
 
         insub = Subscript(parent, swap_rec(sub, nranks, 0, len(nranks)))
-        outsub = Subscript(name, sub)
-    
         expr = Expression(None, insub, None, None)
         
         tensor = Tensor(name, parent.dtype, tshape, expr, parent, asstype)
+
+        outsub = Subscript(tensor, sub)
+        
         tensor.expr.update_store(outsub)
+
         R_ARRAYS.append(tensor)
 
 
@@ -500,6 +512,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             expr = Expression("mul", parent1.expr, parent2.expr, None)
         
 
+        expr.is_reduced(True)
         tensor = Tensor(name, dtype, shape, expr, None, asstype)
 
         # Here I actually need the outsubscript everytime
@@ -824,7 +837,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
 
 # ## Experimental. How we do transformation needs to be clarified. 
-def process_atomtrailersnode(element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS, R_ARRAYS, LOOPS, DEPS):
+def process_atomtrailersnode(prog, element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS, R_ARRAYS, LOOPS, DEPS):
     """ Adds each transformation in a scheduler. """
     
     name = element.value[0].dumps()
@@ -836,17 +849,36 @@ def process_atomtrailersnode(element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS
     #### The only reason it is in this is function is 
     #### because the syntax is basically the same as 
     #### that of transformations
+  
 
     if name == "codegen":
-        loops = params.find("list")
         string = ""
+        loops = params.find("list")
         for loo in loops:
             name = loo.dumps()
             for l in LOOPS:
                 if l.label == name:
                     string += prettyprint_C_loop(l.loopnest)
 
-        print string
+        prog.code = string
+
+    # if name == "init":
+    #     tensors = params.find("list")
+    #     tensors_ = []  
+    #     for ten in tensors:
+    #         name = ten.dumps()
+    #         for t in R_ARRAYS:
+    #             if t.name == name:
+    #                 tensors_.append(t)
+    #     prog.tensors = tensors_
+
+
+    if name == "init":
+        tensor = params[0].dumps()  
+        for t in R_ARRAYS:
+            if t.name == tensor:
+                t.initval = params[1].dumps()
+                prog.tensors.append(t)
 
         
     if name == "__align":
@@ -861,8 +893,8 @@ def process_atomtrailersnode(element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS
                 if iterator.name == iter_.dumps():
                     iterator.vec_hints = True
 
-
-
+    
+                    
 def process_FST(fst):
     """ Processing of FST to retrieve all informations.
     At this level of the FST, we encounter different Redbaron 
@@ -887,7 +919,7 @@ def process_FST(fst):
     mem_placement_constructs = ["map_onnode", "map_interleaved"]
 
 
-    
+    prog = Program([], None)
     for element in fst:
         if isinstance(element, redbaron.AssignmentNode):
             process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS)
@@ -904,7 +936,7 @@ def process_FST(fst):
         #     if element.value[1].dumps() in mem_placement_constructs:
         #         process_placement_atomtrailersnode(element, R_ARRAYS)
             #     else:
-            process_atomtrailersnode(element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS, R_ARRAYS, LOOPS, ALL_DEPS)
+            process_atomtrailersnode(prog, element, ITERATORS, SCHEDULER, STATEMENTS, V_ARRAYS, R_ARRAYS, LOOPS, ALL_DEPS)
                 
 
     ### This portion is related to loops generated by
@@ -923,4 +955,6 @@ def process_FST(fst):
     ### ----- End hack -------
     
 
-    return IvieProgram(R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS, SCHEDULER, STATEMENTS, ALL_DEPS)
+    #return IvieProgram(R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS, SCHEDULER, STATEMENTS, ALL_DEPS)
+   
+    return prog

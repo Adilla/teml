@@ -1,0 +1,59 @@
+
+
+includes = ["stdio", "stdlib", "unistd", "sys/time", "omp"]
+rtclock = "double rtclock() {\n struct timezone Tzp;\n struct timeval Tp;\n int stat;\n stat = gettimeofday(&Tp, &Tzp);"
+rtclock += "if (stat != 0) printf(\"Error return from gettimeofday: %d\", stat);\n"
+rtclock += "return(Tp.tv_sec + Tp.tv_usec*1.0e-7);\n}"
+
+
+def template(name, code):
+
+    filename = "tml." + name + ".c"
+
+    with open(filename, "w") as source:
+        for include in includes:
+            inc = "#include <" + include + ".h>"
+            filename.write(include)
+        filename.write("\n")
+        filename.write(rtclock)
+        filename.write("\n")
+
+        funcname = "void " + name + "("
+        for tensor in init[:1]:
+            funcname += add_tensor_param(tensor) + ",\n"
+
+        funcname += add_tensor_param(init[-1]) + ") {\n"
+
+        inits = initialization(init[0])
+        for tensor in init[1:]:
+            inits += initialization(tensor)
+
+        filename.write(funcname)
+        filename.write(inits)
+
+        filename.write("double begin, end;")
+        filename.write("begin = rtclock();")
+        filename.write(code)
+        filename.write("end = rtclock();")
+
+        filename.write("}");
+
+
+        filename.write("int main(int * argc, char ** argv) {")
+
+        allocs = ""
+        for tensor in init:
+            allocs += allocate(tensor)
+
+        filename.write(allocs)
+
+        call = name + "(" + call(init[0])
+        for tensor in init:
+            call += ", " + call(tensor)
+            
+
+        filename.write(call)
+        filename.write("return 0;\n}")
+
+        
+            

@@ -55,7 +55,13 @@ class IslSchedule():
     
 
 
-class IvieProgram():
+class Program():
+    tensors = []
+    def __init__(self, tensors, code):
+        self.tensors = tensors
+        self.code = code
+
+    """
     def __init__(self, rarrays, varrays, iterators, loops, scheduler, statements, dependencies):
         self.physical_arrays = rarrays
         self.virtual_arrays = varrays
@@ -120,3 +126,4 @@ class IvieProgram():
 
         return string
 
+    """

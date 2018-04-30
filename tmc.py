@@ -1,5 +1,6 @@
 import sys
 from src.frontends.tml_frontend import *
+from src.backends.template_utils import *
 
 from redbaron import RedBaron
 import re
@@ -28,9 +29,13 @@ def parse_tml(src):
 
 def main():
     source = sys.argv[1]
+
+    name = source.split("/")[-1].replace(".tml","")
     fst = parse_tml(source)
     prog = process_FST(fst)
 
+
+    codegen = template(name, prog)
     #print prog.debug_print()
 
 
