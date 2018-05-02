@@ -45,7 +45,7 @@ def allocation(tensor):
         allocpolicy = "_mm_malloc"
         
     alloc += " = " + allocpolicy + "(sizeof * " + tensor.name
-    if tensor.allocpolicy == "onnode":
+    if tensor.allocpolicy == "onnode" or tensor.allocpolicy == "align":
         alloc += ", " + tensor.allocattribute
     alloc += ");\n"
 

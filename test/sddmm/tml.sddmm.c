@@ -55,7 +55,7 @@ void sddmm(double B[const restrict 4096][4096],
 }
 
 int main(int *argc, char **argv) {
-  double(*B)[4096][4096] = _mm_malloc(sizeof *B);
+  double(*B)[4096][4096] = _mm_malloc(sizeof *B, 64);
   double(*C)[4096][4096] = numa_alloc_interleaved(sizeof *C);
   double(*D)[4096][4096] = numa_alloc_onnode(sizeof *D, 0);
   double(*A)[4096][4096] = malloc(sizeof *A);
