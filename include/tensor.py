@@ -75,6 +75,8 @@ class Tensor():
     loopdomain = None
     loop = None
     initvalue = None
+    numapolicy = None
+    allocnode = None
 
     def __init__(self, name, dtype, shape, expr, parent, construct):
         self.name = name
@@ -95,6 +97,12 @@ class Tensor():
             print (self.dtype, self.name, self.shape, self.expr.debug_print(),\
                    self.parent, self.construct)
 
+
+    def set_numa_policy(self, policy):
+        self.numapolicy = policy
+
+    def set_numa_alloc_node(self, node):
+        self.allocnode = node
 
     def infer_range(self):
         ## Infer range of output tensor.

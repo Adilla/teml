@@ -849,7 +849,7 @@ def process_atomtrailersnode(prog, element, ITERATORS, SCHEDULER, STATEMENTS, V_
     #### The only reason it is in this is function is 
     #### because the syntax is basically the same as 
     #### that of transformations
-  
+
 
     if name == "codegen":
         string = ""
@@ -889,7 +889,21 @@ def process_atomtrailersnode(prog, element, ITERATORS, SCHEDULER, STATEMENTS, V_
                 t.initval = params[1].dumps()
                 prog.tensors.append(t)
 
-        
+
+    
+    if name == "alloc":
+        tensor = params[0].dumps()
+
+        policy = params[1].dumps()
+
+        node = None
+        if policy == "onnode":
+            node = params[2].dumps()
+            
+        for t in R_ARRAYS:
+            if t.name == tensor:
+                t.set_numa_policy(policy)
+                t.set_numa_alloc_node(node)
     if name == "__align":
         for arr in params:
             for array in R_ARRAYS:

@@ -54,10 +54,10 @@ void sddmm(double B[const restrict 4096][4096],
 }
 
 int main(int *argc, char **argv) {
-  double(*B)[4096][4096] = malloc(sizeof *B);
-  double(*C)[4096][4096] = malloc(sizeof *C);
-  double(*D)[4096][4096] = malloc(sizeof *D);
-  double(*A)[4096][4096] = malloc(sizeof *A);
+  double(*B)[4096][4096] = numa_alloc_interleaved(sizeof *B);
+  double(*C)[4096][4096] = numa_alloc_onnode(sizeof *C);
+  double(*D)[4096][4096] = numa_alloc_onnode(sizeof *D);
+  double(*A)[4096][4096] = numa_alloc_interleaved(sizeof *A);
   sddmm(B, C, D, A);
   free(B);
   free(C);

@@ -35,8 +35,17 @@ def allocation(tensor):
     for sh in tensor.shape:
         alloc += "[" + sh + "]"
 
-    alloc += " = malloc(sizeof * " + tensor.name + ");\n"
-
+    allocpolicy = "malloc"
+        
+    if tensor.numapolicy == "interleaved":
+        allocpolicy = "numa_alloc_interleaved"
+    elif tensor.numapolicy == "onnode":
+        allocpolicy = "numa_alloc_onnode"
+        
+    alloc += " = " + allocpolicy + "(sizeof * " + tensor.name
+    if tensor.numapolicy == "numa_alloc_onnode":
+        alloc += ", " + tensor.allocnode
+    alloc += ");\n"
 
     return alloc
 
