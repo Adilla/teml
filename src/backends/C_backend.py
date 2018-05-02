@@ -39,15 +39,8 @@ def prettyprint_C_statement(stmt, flag):
         ## Flag to know when to print lhv and =
         string += prettyprint_C_subscript(stmt.store)
     
-        if stmt.reduced == True:
-            if stmt.op == "add":
-                string += " += "
-            if stmt.op == "sub":
-                string += " -= "
-            if stmt.op == "mul":
-                string += " *= "
-            if stmt.op == "div":
-                string += " /= "
+        if stmt.reduced != None:
+            string += " " +stmt.reduced + "= "
         else:
             string += " = "
 

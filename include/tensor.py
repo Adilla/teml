@@ -28,7 +28,7 @@ class Expression():
     right = None
     store = None
     ranks = None
-    reduced = False
+    reduced = None
 
     
     def __init__(self, op, left, right, store):
@@ -43,8 +43,8 @@ class Expression():
     def update_ranks(self, ranks):
         self.ranks = ranks
 
-    def is_reduced(self, bool):
-        self.reduced = bool
+    def is_reduced(self, reducetype):
+        self.reduced = reducetype
         
     def debug_print(self):
         # debugleft = None

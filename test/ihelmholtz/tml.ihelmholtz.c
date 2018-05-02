@@ -30,7 +30,7 @@ void ihelmholtz(double A[const restrict 13][13]) {
     for (i2 = 0; i2 <= 12; i2 += 1) {
       for (i3 = 0; i3 <= 12; i3 += 1) {
         for (i4 = 0; i4 <= 12; i4 += 1) {
-          tmp1[i1][i2][i3] *= A[i2][i1] * u[i4][i2][i3];
+          tmp1[i1][i2][i3] += A[i2][i1] * u[i4][i2][i3];
         }
       }
     }

@@ -576,7 +576,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         # if parent1 in V_ARRAYS and parent2 in V_ARRAYS:
         #     expr = Expression("mul", parent1.expr, parent2.expr, None)
         
-        expr.is_reduced(True)
+        expr.is_reduced("+")
         tensor = Tensor(name, dtype, shape, expr, None, asstype)
 
         # Here I actually need the outsubscript everytime
