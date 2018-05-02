@@ -227,7 +227,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             expr = None
         
         tensor = Tensor(name, parent.dtype, tshape, expr, parent, asstype)
-        tensor.vtranspose_sub = insub
+        tensor.vtranspose_ranks = nranks
         if asstype == "transpose":
             outsub = Subscript(tensor, sub)
             
@@ -245,14 +245,14 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
        asstype == "ventrywise_sub" or\
        asstype == "ventrywise_mul" or\
        asstype == "ventrywise_div":
-        t1 = params[0].dumps()
-        t2 = params[1].dumps()
+        parent1 = params[0].dumps()
+        parent2 = params[1].dumps()
 
         for t in R_ARRAYS + V_ARRAYS:
-            if t.name == t1:
-                t1 = t
-            if t.name == t2:
-                t2 = t
+            if t.name == parent1:
+                parent1 = t
+            if t.name == parent2:
+                parent2 = t
 
         op = None 
         if "ventrywise" in asstype:
@@ -263,32 +263,59 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         expr = None
         sub1 = []
         sub2 = []
-        for i in range(1, len(t1.shape)+1):
+        for i in range(1, len(parent1.shape)+1):
             sub1.append("i"+ str(i))
-        for i in range(1, len(t2.shape)+1):
+        for i in range(1, len(parent2.shape)+1):
             sub2.append("i"+ str(i))
             
-        if t1 in R_ARRAYS and t2 in R_ARRAYS:
-                
-            aft1 = Subscript(t1, sub1)
-            aft2 = Subscript(t2, sub2)
-            expr = Expression(op, aft1, aft2, None)
-        if t1 in R_ARRAYS and t2 in V_ARRAYS:
-            aft1 = Subscript(t1, sub1)
-            expr = Expression(op, aft1, t2.expr, None)
-        if t1 in V_ARRAYS and t2 in R_ARRAYS:
-            aft2 = Subscript(t2, sub2)
-            expr = Expression(op, t1.expr, aft2, None)
-        if t1 in V_ARRAYS and t2 in V_ARRAYS:
-            expr = Expression(op, t1.expr, t2.expr, None)
+        # if t1 in R_ARRAYS and t2 in R_ARRAYS:
+        #     aft1 = Subscript(t1, sub1)
+        #     aft2 = Subscript(t2, sub2)
+        #     expr = Expression(op, aft1, aft2, None)
+        # if t1 in R_ARRAYS and t2 in V_ARRAYS:
+        #     aft1 = Subscript(t1, sub1)
+        #     expr = Expression(op, aft1, t2.expr, None)
+        # if t1 in V_ARRAYS and t2 in R_ARRAYS:
+        #     aft2 = Subscript(t2, sub2)
+        #     expr = Expression(op, t1.expr, aft2, None)
+        # if t1 in V_ARRAYS and t2 in V_ARRAYS:
+        #     expr = Expression(op, t1.expr, t2.expr, None)
+
+
+
+        leftop = None
+        rightop = None
+
+        if parent1 in R_ARRAYS:
+            leftop = Subscript(parent1, sub1)
+        if parent1 in V_ARRAYS:
+            if parent1.construct == "vtranspose":
+                toswap = deepcopy(sub1)
+                nranks = parent1.vtranspose_ranks
+                leftop = Subscript(parent1, swap_rec(toswap, nranks, 0, len(nranks)))
+            else:
+                leftop = parent1.expr
+
+        if parent2 in R_ARRAYS:
+            rightop = Subscript(parent2, sub2)
+        if parent2 in V_ARRAYS:
+            if parent2.construct == "vtranspose":
+                toswap = deepcopy(sub2)
+                nranks = parent2.vtranspose_ranks
+                rightop = Subscript(parent2, swap_rec(toswap, nranks, 0, len(nranks)))
+            else:
+                rightop = parent2.expr
+
+        expr = Expression("mul", leftop, rightop, None)
         
-        tensor = Tensor(name, t1.dtype, t1.shape, expr, None, asstype)
+        
+        tensor = Tensor(name, parent1.dtype, parent1.shape, expr, None, asstype)
 
         if "ventrywise" in asstype:
             V_ARRAYS.append(tensor)
         else:
             substore = []
-            for i in range(1, len(t1.shape)+1):
+            for i in range(1, len(parent1.shape)+1):
                 substore.append("i"+str(i))
                 
             store = Subscript(tensor, substore)
@@ -502,6 +529,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
                 t1shape.append(parent1.shape[i])
 
 
+
         for i in range(0, len(parent2.shape)):
             if str(i+1) not in axes2:
                 t2shape.append(parent2.shape[i])
@@ -548,7 +576,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             leftop = Subscript(parent1, sub1)
         if parent1 in V_ARRAYS:
             if parent1.construct == "vtranspose":
-                leftop = parent1.vtranspose_sub
+                toswap = deepcopy(sub1)
+                nranks = parent1.vtranspose_ranks
+                leftop = Subscript(parent1, swap_rec(toswap, nranks, 0, len(nranks)))
             else:
                 leftop = parent1.expr
 
@@ -556,7 +586,9 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             rightop = Subscript(parent2, sub2)
         if parent2 in V_ARRAYS:
             if parent2.construct == "vtranspose":
-                rightop = parent2.vtranspose_sub
+                toswap = deepcopy(sub2)
+                nranks = parent2.vtranspose_ranks
+                rightop = Subscript(parent2, swap_rec(toswap, nranks, 0, len(nranks)))
             else:
                 rightop = parent2.expr
 

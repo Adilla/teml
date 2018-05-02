@@ -1,15 +1,36 @@
 A = array(double, [13, 13])
 u = array(double, [13, 13, 13])
 D = array(double, [13, 13, 13])
+Dt = transpose(D, [[1, 3]])
 
 At = vtranspose(A, [[1, 2]])
 
-
 tmp1 = contract(At, u, [[2, 1]])
+tmp2 = contract(At, tmp1, [[2, 2]])
+tmp2t = vtranspose(tmp2, [[1, 2]])
 
-l = build(tmp1)
+tmp3 = contract(At, tmp2t, [[2, 3]])
+tmp3t = vtranspose(tmp3, [[1, 3]])
+
+tmp4 = entrywise_mul(Dt, tmp3t)
+tmp4t = vtranspose(tmp4, [[1, 3]])
+
+tmp5 = contract(A, tmp4t, [[2, 1]])
+tmp5t = vtranspose(tmp5, [[2, 3]]) 
+
+tmp6 = contract(A, tmp5t, [[2, 2]])
+v = contract(A, tmp6, [[2, 3]])
+
+ld = build(Dt)
+l1 = build(tmp1)
+l2 = build(tmp2)
+l3 = build(tmp3)
+l4 = build(tmp4)
+l5 = build(tmp5)
+l6 = build(tmp6)
+lv = build(v)
+
+
+
 init(A, 1)
-alloc(A)
-
-
-codegen([l])
+codegen([ld, l1, l2, l3, l4, l5, l6, lv])

@@ -1,5 +1,5 @@
-C := { S[i2, i1, i4, i3]: 0 <= i2 < 13 and 0 <= i1 < 13 and 0 <= i4 < 13 and 0 <= i3 < 13 };
-W := { S[i2, i1, i4, i3] -> tmp1[i1, i2, i3]} * C;
+C := { S[i1, i4, i2, i3]: 0 <= i1 < 13 and 0 <= i4 < 13 and 0 <= i2 < 13 and 0 <= i3 < 13 };
+W := { S[i1, i4, i2, i3] -> v[i1, i2, i3]} * C;
 R := ran W;
 D := dom W;
 L := lexmax R;

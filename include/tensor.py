@@ -78,7 +78,7 @@ class Tensor():
     inittype = None
     allocpolicy = None
     allocattribute = None
-    vtranspose_sub = None
+    vtranspose_ranks = None
     def __init__(self, name, dtype, shape, expr, parent, construct):
         self.name = name
         self.dtype = dtype
