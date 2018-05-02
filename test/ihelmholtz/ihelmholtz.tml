@@ -1,0 +1,15 @@
+A = array(double, [13, 13])
+u = array(double, [13, 13, 13])
+D = array(double, [13, 13, 13])
+
+At = vtranspose(A, [[1, 2]])
+
+
+tmp1 = contract(At, u, [[2, 1]])
+
+l = build(tmp1)
+init(A, 1)
+alloc(A)
+
+
+codegen([l])

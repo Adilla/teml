@@ -78,7 +78,7 @@ class Tensor():
     inittype = None
     allocpolicy = None
     allocattribute = None
-
+    vtranspose_sub = None
     def __init__(self, name, dtype, shape, expr, parent, construct):
         self.name = name
         self.dtype = dtype
@@ -175,6 +175,7 @@ class Tensor():
             del res[-1]
 
             # processing resulting shape
+        
             rrange = res[1].replace(self.name, "").\
                      replace("{ ", "").\
                      replace(" }", "").\

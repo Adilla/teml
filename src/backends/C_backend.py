@@ -27,7 +27,6 @@ def prettyprint_C_iterator(iterator):
 
 def prettyprint_C_subscript(subs):
     string = subs.tensor.name
-
     for acc in subs.access:
         string += "[" + str(acc) + "]"
 
@@ -39,7 +38,7 @@ def prettyprint_C_statement(stmt, flag):
     if flag == True:
         ## Flag to know when to print lhv and =
         string += prettyprint_C_subscript(stmt.store)
-  
+    
         if stmt.reduced == True:
             if stmt.op == "add":
                 string += " += "
@@ -54,21 +53,21 @@ def prettyprint_C_statement(stmt, flag):
 
     if stmt.left.__class__.__name__ == "Expression":
         string += prettyprint_C_statement(stmt.left, False)
-    else:
+    elif stmt.left.__class__.__name__ == "Subscript":
         string += prettyprint_C_subscript(stmt.left)
-
+        
     if stmt.op == "add":
         string += " + "
     elif stmt.op == "sub":
         string += " - "
     elif stmt.op == "mul":
         string += " * "
-    else:
+    elif stmt.op == "div":
         string += " / "
         
     if stmt.right.__class__.__name__ == "Expression":
         string += prettyprint_C_statement(stmt.right, False)
-    else:
+    elif stmt.right.__class__.__name__ == "Subscript":
         string += prettyprint_C_subscript(stmt.right)
 
     return string

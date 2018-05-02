@@ -194,7 +194,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
     #     R_ARRAYS.append(array)
         
 
-    if asstype == "transpose":
+    if asstype == "transpose" or\
+       asstype == "vtranspose":
         parent = params[0].dumps()
         ranks = params[1].find("list").value
 
@@ -218,17 +219,23 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
         for i in range(1, len(parent.shape)+1):
             sub.append("i"+str(i))
 
-        insub = Subscript(parent, swap_rec(sub, nranks, 0, len(nranks)))
+
+        toswap = deepcopy(sub)
+        insub = Subscript(parent, swap_rec(toswap, nranks, 0, len(nranks)))
         expr = Expression(None, insub, None, None)
+        if asstype == "vtranspose":
+            expr = None
         
         tensor = Tensor(name, parent.dtype, tshape, expr, parent, asstype)
+        tensor.vtranspose_sub = insub
+        if asstype == "transpose":
+            outsub = Subscript(tensor, sub)
+            
+            tensor.expr.update_store(outsub)
 
-        outsub = Subscript(tensor, sub)
-        
-        tensor.expr.update_store(outsub)
-
-        R_ARRAYS.append(tensor)
-
+            R_ARRAYS.append(tensor)
+        else:
+            V_ARRAYS.append(tensor)
 
     if asstype == "entrywise_add" or\
        asstype == "entrywise_sub" or\
@@ -451,6 +458,25 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             if array.name == parent2:
                 parent2 = array
 
+        # flag1 = False
+        # flag2 = False
+        # for array in R_ARRAYS:
+        #     if array.name == parent1:
+        #         parent1 = array
+        #         flag1 = True
+        #     if array.name == parent2:
+        #         parent2 = array
+        #         flag2 = True
+
+        # if flag1 == False:
+        #     for array in V_ARRAYS:
+        #         if array.name == parent1:
+        #             parent1 = array.parent
+        # if flag2 == False:
+        #     for array in V_ARRAYS:
+        #         if array.name == parent2:
+        #             parent2 = array.parent
+                    
         dtype = parent1.dtype
                 
         axes1 = []
@@ -510,23 +536,46 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             sub1[int(axes1[inc1])-1] = red
             sub2[int(axes2[inc1])-1] = red
             inc1 += 1
-                
+
+
 
         expr = None
-        if parent1 in R_ARRAYS and parent2 in R_ARRAYS:
-            s1 = Subscript(parent1, sub1)
-            s2 = Subscript(parent2, sub2)
-            expr = Expression("mul", s1, s2, None)
-        if parent1 in R_ARRAYS and parent2 in V_ARRAYS:
-            s1 = Subscript(parent1, sub1)
-            expr = Expression("mul", s1, parent2.expr, None)
-        if parent1 in V_ARRAYS and parent2 in R_ARRAYS:
-            s2 = Subscript(parent2, sub2)
-            expr = Expression("mul", parent1.expr, s2, None)
-        if parent1 in V_ARRAYS and parent2 in V_ARRAYS:
-            expr = Expression("mul", parent1.expr, parent2.expr, None)
-        
 
+        leftop = None
+        rightop = None
+
+        if parent1 in R_ARRAYS:
+            leftop = Subscript(parent1, sub1)
+        if parent1 in V_ARRAYS:
+            if parent1.construct == "vtranspose":
+                leftop = parent1.vtranspose_sub
+            else:
+                leftop = parent1.expr
+
+        if parent2 in R_ARRAYS:
+            rightop = Subscript(parent2, sub2)
+        if parent2 in V_ARRAYS:
+            if parent2.construct == "vtranspose":
+                rightop = parent2.vtranspose_sub
+            else:
+                rightop = parent2.expr
+
+        expr = Expression("mul", leftop, rightop, None)
+         
+        # if parent1 in R_ARRAYS and parent2 in R_ARRAYS:
+        #     s1 = Subscript(parent1, sub1)
+        #     s2 = Subscript(parent2, sub2)
+        #     expr = Expression("mul", s1, s2, None)
+        # if parent1 in R_ARRAYS and parent2 in V_ARRAYS:
+        #     s1 = Subscript(parent1, sub1)
+        
+        #     expr = Expression("mul", s1, parent2.expr, None)
+        # if parent1 in V_ARRAYS and parent2 in R_ARRAYS:
+        #     s2 = Subscript(parent2, sub2)
+        #     expr = Expression("mul", parent1.expr, s2, None)
+        # if parent1 in V_ARRAYS and parent2 in V_ARRAYS:
+        #     expr = Expression("mul", parent1.expr, parent2.expr, None)
+        
         expr.is_reduced(True)
         tensor = Tensor(name, dtype, shape, expr, None, asstype)
 
