@@ -75,6 +75,7 @@ class Tensor():
     loopdomain = None
     loop = None
     initvalue = None
+    inittype = None
     allocpolicy = None
     allocattribute = None
 
@@ -97,6 +98,11 @@ class Tensor():
             print (self.dtype, self.name, self.shape, self.expr.debug_print(),\
                    self.parent, self.construct)
 
+    def set_init_value(self, val):
+        self.initvalue = val
+
+    def set_init_type(self, type):
+        self.inittype = type
 
     def set_alloc_policy(self, policy):
         self.allocpolicy = policy

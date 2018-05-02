@@ -19,11 +19,26 @@ def add_tensor_param(tensor):
 def initialization(tensor):
     nest = ""
     out = tensor.name
+    cond = None
+
+    ## For matrices only
+    if tensor.inittype == "identity":
+        cond = "if (i1 == i2)\n"
+
+    if tensor.inittype == "shift_lower":
+        cond = "if (i2 == (i1 + 1))\n"
+
+    if tensor.inittype == "shift_upper":
+        cond = "if (i2 == (i1 - 1))\n"
+        
+    
     for i in range(0, len(tensor.shape)):
         r = str(i+1)
         nest += "for (i" + r + " = 0; i"+ r + " < " + tensor.shape[i] + "; i" + r + "+= 1) {\n"
         out += "[i" + r + "]"
-    nest += out + " = " + tensor.initval + ";\n"
+    if cond != None:
+        nest += cond
+    nest += out + " = " + tensor.initvalue + ";\n"
     for sh in tensor.shape:
         nest += "}\n"
 

@@ -39,9 +39,15 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
 
         tensor = Tensor(name, parent.dtype, ['1'], None, parent, asstype)
         R_ARRAYS.append(tensor)
-        
 
-    if asstype == "array":
+        
+    if asstype == "array" or\
+       asstype == "zeros" or\
+       asstype == "ones" or\
+       asstype == "identity" or\
+       asstype == "shift_lower" or\
+       asstype == "shift_upper":
+        
         """ A = array(dtype, [N, .., N]) """
         
         dtype = params[0].dumps()
@@ -53,7 +59,15 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             shape.append(data.dumps())
         
         tensor = Tensor(name, dtype, shape, None, None, asstype)
-      
+
+        if asstype != "array" and asstype != "zeros":
+            tensor.set_init_value("1")
+            tensor.set_init_type(asstype)
+        elif asstype == "zeros":
+            tensor.set_init_value("0")
+            tensor.set_init_type(asstype)
+
+        
         R_ARRAYS.append(tensor)
 
     if asstype == "add" or \
@@ -886,11 +900,13 @@ def process_atomtrailersnode(prog, element, ITERATORS, SCHEDULER, STATEMENTS, V_
         tensor = params[0].dumps()  
         for t in R_ARRAYS:
             if t.name == tensor:
-                t.initval = params[1].dumps()
+                t.set_init_value(params[1].dumps())
+                prog.tensors.append(t)
+            if t.name != tensor and t.initvalue != None and\
+               t not in prog.tensors:
                 prog.tensors.append(t)
 
-
-    
+                
     if name == "alloc" or \
        name == "alloc_align" or \
        name == "alloc_interleaved" or \
