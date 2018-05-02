@@ -12,8 +12,9 @@ init(C, 1)
 init(D, 1)
 init(A, 0)
 
-alloc(A, interleaved)
-alloc(B, interleaved)
-alloc(C, onnode, 0)
-alloc(D, onnode, 1)
+alloc(A)
+alloc_align(B, 64)
+alloc_interleaved(C)
+alloc_onnode(D, 0)
+
 codegen([l])

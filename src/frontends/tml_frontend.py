@@ -891,19 +891,26 @@ def process_atomtrailersnode(prog, element, ITERATORS, SCHEDULER, STATEMENTS, V_
 
 
     
-    if name == "alloc":
+    if name == "alloc" or \
+       name == "alloc_align" or \
+       name == "alloc_interleaved" or \
+       name == "alloc_onnode":
         tensor = params[0].dumps()
 
-        policy = params[1].dumps()
+        attr = None
+        if name == "alloc_onnode" or name == "alloc_align":
+            attr = params[1].dumps()
 
-        node = None
-        if policy == "onnode":
-            node = params[2].dumps()
+        policy = None
+        if name != "alloc":
+            policy = name.replace("alloc_", "")
             
         for t in R_ARRAYS:
             if t.name == tensor:
-                t.set_numa_policy(policy)
-                t.set_numa_alloc_node(node)
+                t.set_alloc_policy(policy)
+                t.set_alloc_attribute(attr)
+
+                
     if name == "__align":
         for arr in params:
             for array in R_ARRAYS:

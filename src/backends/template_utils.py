@@ -37,22 +37,27 @@ def allocation(tensor):
 
     allocpolicy = "malloc"
         
-    if tensor.numapolicy == "interleaved":
+    if tensor.allocpolicy == "interleaved":
         allocpolicy = "numa_alloc_interleaved"
-    elif tensor.numapolicy == "onnode":
+    elif tensor.allocpolicy == "onnode":
         allocpolicy = "numa_alloc_onnode"
+    elif tensor.allocpolicy == "align":
+        allocpolicy = "_mm_malloc"
         
     alloc += " = " + allocpolicy + "(sizeof * " + tensor.name
-    if tensor.numapolicy == "onnode":
-        alloc += ", " + tensor.allocnode
+    if tensor.allocpolicy == "onnode":
+        alloc += ", " + tensor.allocattribute
     alloc += ");\n"
 
     return alloc
 
 def free(tensor):
     free = None
-    if tensor.numapolicy != None:
+
+    if tensor.allocpolicy == "interleaved" or tensor.allocpolicy == "onnode":
         free = "numa_free(" + tensor.name + ", sizeof * " + tensor.name + ");\n"
+    elif tensor.allocpolicy == "align":
+        free = "_mm_free(" + tensor.name + ");\n"
     else:
         free = "free(" + tensor.name + ");\n"
 
@@ -112,17 +117,19 @@ def template(name, prog, path):
         for tensor in init:
             source.write(allocation(tensor))
 
-        
+
+        source.write("\n")
         call = name + "(" + init[0].name
         for tensor in init[1:]:
             call += ", " + tensor.name
             
         call += ");\n"
         source.write(call)
-        
+        source.write("\n")
         for tensor in init:
             source.write(free(tensor))
-            
+
+        source.write("\n")
         source.write("return 0;\n}")
 
         
