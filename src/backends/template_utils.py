@@ -1,6 +1,6 @@
 import subprocess
 
-includes = ["stdio", "stdlib", "unistd", "sys/time", "omp", "libnuma"]
+includes = ["stdio", "stdlib", "unistd", "sys/time", "omp"]
 rtclock = "double rtclock() {\n struct timezone Tzp;\n struct timeval Tp;\n int stat;\n stat = gettimeofday(&Tp, &Tzp);"
 rtclock += "if (stat != 0) printf(\"Error return from gettimeofday: %d\", stat);\n"
 rtclock += "return(Tp.tv_sec + Tp.tv_usec*1.0e-7);\n}"
@@ -160,7 +160,7 @@ def variant(filename, init, code, prog, name):
         source.write("begin = rtclock();\n")
         source.write(code)
         source.write("end = rtclock();\n")
-
+        source.write("printf(\"Time: %0.6lfs\\n\", end - begin);\n")
         source.write("}\n\n");
 
 

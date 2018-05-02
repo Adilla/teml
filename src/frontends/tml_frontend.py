@@ -292,7 +292,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             if parent1.construct == "vtranspose":
                 toswap = deepcopy(sub1)
                 nranks = parent1.vtranspose_ranks
-                leftop = Subscript(parent1, swap_rec(toswap, nranks, 0, len(nranks)))
+                leftop = Subscript(parent1.parent, swap_rec(toswap, nranks, 0, len(nranks)))
             else:
                 leftop = parent1.expr
 
@@ -302,7 +302,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             if parent2.construct == "vtranspose":
                 toswap = deepcopy(sub2)
                 nranks = parent2.vtranspose_ranks
-                rightop = Subscript(parent2, swap_rec(toswap, nranks, 0, len(nranks)))
+                rightop = Subscript(parent2.parent, swap_rec(toswap, nranks, 0, len(nranks)))
             else:
                 rightop = parent2.expr
 
@@ -578,7 +578,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             if parent1.construct == "vtranspose":
                 toswap = deepcopy(sub1)
                 nranks = parent1.vtranspose_ranks
-                leftop = Subscript(parent1, swap_rec(toswap, nranks, 0, len(nranks)))
+                leftop = Subscript(parent1.parent, swap_rec(toswap, nranks, 0, len(nranks)))
             else:
                 leftop = parent1.expr
 
@@ -588,7 +588,7 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
             if parent2.construct == "vtranspose":
                 toswap = deepcopy(sub2)
                 nranks = parent2.vtranspose_ranks
-                rightop = Subscript(parent2, swap_rec(toswap, nranks, 0, len(nranks)))
+                rightop = Subscript(parent2.parent, swap_rec(toswap, nranks, 0, len(nranks)))
             else:
                 rightop = parent2.expr
 
