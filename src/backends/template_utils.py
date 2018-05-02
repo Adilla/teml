@@ -16,10 +16,29 @@ def add_tensor_param(tensor):
 
     return param
 
+def hilbert_initialization(tensor):
+    nest = ""
+    out = tensor.name
+    cond = None
+
+    for i in range(0, len(tensor.shape)):
+        r = str(i+1)
+        nest += "for (i" + r + " = 0; i"+ r + " < " + tensor.shape[i] + "; i" + r + "+= 1) {\n"
+        out += "[i" + r + "]"
+    if cond != None:
+        nest += cond
+    nest += out + " = " + tensor.initvalue + " / (i1 + i2 - 1);\n"
+    for sh in tensor.shape:
+        nest += "}\n"
+
+    return nest
+    
+
 def initialization(tensor):
     nest = ""
     out = tensor.name
     cond = None
+
 
     ## For matrices only
     if tensor.inittype == "identity":
@@ -116,7 +135,10 @@ def template(name, prog, path):
         source.write(iterators)
 
         for tensor in init:
-            source.write(initialization(tensor))
+            if tensor.inittype == "hilbert":
+                source.write(hilbert_initialization(tensor))
+            else:
+                source.write(initialization(tensor))
 
         source.write("\n")
         source.write("double begin, end;\n")

@@ -18,8 +18,8 @@ void sddmm(
     double B[const restrict 4096][4096], double Z[const restrict 4096][4096],
     double Z1[const restrict 4096][4096], double Z2[const restrict 4096][4096],
     double Z3[const restrict 4096][4096], double Z4[const restrict 4096][4096],
-    double C[const restrict 4096][4096], double D[const restrict 4096][4096],
-    double A[const restrict 4096][4096]) {
+    double H[const restrict 4096][4096], double C[const restrict 4096][4096],
+    double D[const restrict 4096][4096], double A[const restrict 4096][4096]) {
 
   int i1, i2;
 
@@ -58,6 +58,11 @@ void sddmm(
   }
   for (i1 = 0; i1 < 4096; i1 += 1) {
     for (i2 = 0; i2 < 4096; i2 += 1) {
+      H[i1][i2] = 1 / (i1 + i2 - 1);
+    }
+  }
+  for (i1 = 0; i1 < 4096; i1 += 1) {
+    for (i2 = 0; i2 < 4096; i2 += 1) {
       C[i1][i2] = 1;
     }
   }
@@ -91,11 +96,12 @@ int main(int *argc, char **argv) {
   double(*Z2)[4096][4096] = malloc(sizeof *Z2);
   double(*Z3)[4096][4096] = malloc(sizeof *Z3);
   double(*Z4)[4096][4096] = malloc(sizeof *Z4);
+  double(*H)[4096][4096] = malloc(sizeof *H);
   double(*C)[4096][4096] = numa_alloc_interleaved(sizeof *C);
   double(*D)[4096][4096] = numa_alloc_onnode(sizeof *D, 0);
   double(*A)[4096][4096] = malloc(sizeof *A);
 
-  sddmm(B, Z, Z1, Z2, Z3, Z4, C, D, A);
+  sddmm(B, Z, Z1, Z2, Z3, Z4, H, C, D, A);
 
   _mm_free(B);
   free(Z);
@@ -103,6 +109,7 @@ int main(int *argc, char **argv) {
   free(Z2);
   free(Z3);
   free(Z4);
+  free(H);
   numa_free(C, sizeof *C);
   numa_free(D, sizeof *D);
   free(A);

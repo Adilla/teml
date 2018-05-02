@@ -8,6 +8,8 @@ Z2 = identity(double, [4096, 4096])
 Z3 = shift_lower(double, [4096, 4096])
 Z4 = shift_upper(double, [4096, 4096])
 
+H = hilbert(double, [4096, 4096])
+
 tmp = vcontract(C, D, [[2, 1]])
 A = entrywise_mul(B, tmp)
 

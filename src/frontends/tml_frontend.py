@@ -46,7 +46,8 @@ def process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS):
        asstype == "ones" or\
        asstype == "identity" or\
        asstype == "shift_lower" or\
-       asstype == "shift_upper":
+       asstype == "shift_upper" or\
+       asstype == "hilbert":
         
         """ A = array(dtype, [N, .., N]) """
         
