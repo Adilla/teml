@@ -962,8 +962,7 @@ def process_atomtrailersnode(prog, element, ITERATORS, SCHEDULER, STATEMENTS, V_
                     if res[1] > max:
                         max = res[1]
 
-                        
-        prog.code = string
+        prog.code.append(string)
         if max > prog.maxiter:
             prog.maxiter = max
 
@@ -1047,7 +1046,7 @@ def process_FST(fst):
     mem_placement_constructs = ["map_onnode", "map_interleaved"]
 
 
-    prog = Program([], None)
+    prog = Program([], [])
     for element in fst:
         if isinstance(element, redbaron.AssignmentNode):
             process_assignmentnode(element, R_ARRAYS, V_ARRAYS, ITERATORS, LOOPS)

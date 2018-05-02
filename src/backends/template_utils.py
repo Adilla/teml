@@ -99,11 +99,26 @@ def free(tensor):
 
 def template(name, prog, path):
     init = prog.tensors
-    code = prog.code
+    codes = prog.code
+
+    print codes
+    for i in range(0, len(codes)):
+        code = codes[i]
+        filename = "tml." + name + "_" + str(i + 1)
+
+        variant(filename, init, code, prog, name)
+                    
+        bscript = "clang-format tml." + name + "_" + str(i+1) + "> " + path + "tml." + name + "_" + str(i + 1) + ".c"
+
+        with open("cbscript.sh", "w") as src:
+            src.write(bscript)
+
+        subprocess.call(["zsh", "cbscript.sh"])
+        subprocess.call(["rm", "cbscript.sh"])
+        subprocess.call(["rm", filename])
 
 
-    filename = "tml." + name 
-
+def variant(filename, init, code, prog, name):
     with open(filename, "w") as source:
         for include in includes:
             inc = "#include <" + include + ".h>\n"
@@ -170,12 +185,3 @@ def template(name, prog, path):
         source.write("return 0;\n}")
 
         
-            
-    bscript = "clang-format tml." + name + "> " + path + "tml." + name + ".c"
-
-    with open("cbscript.sh", "w") as src:
-        src.write(bscript)
-
-    subprocess.call(["zsh", "cbscript.sh"])
-    subprocess.call(["rm", "cbscript.sh"])
-    subprocess.call(["rm", filename])

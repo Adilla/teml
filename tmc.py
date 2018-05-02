@@ -36,6 +36,7 @@ def main():
     prog = process_FST(fst)
 
 
+
     template(name, prog, path)
     #print prog.debug_print()
 
