@@ -1,3 +1,4 @@
+#include <libnuma.h>
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,13 +56,13 @@ void sddmm(double B[const restrict 4096][4096],
 
 int main(int *argc, char **argv) {
   double(*B)[4096][4096] = numa_alloc_interleaved(sizeof *B);
-  double(*C)[4096][4096] = numa_alloc_onnode(sizeof *C);
-  double(*D)[4096][4096] = numa_alloc_onnode(sizeof *D);
+  double(*C)[4096][4096] = numa_alloc_onnode(sizeof *C, 0);
+  double(*D)[4096][4096] = numa_alloc_onnode(sizeof *D, 1);
   double(*A)[4096][4096] = numa_alloc_interleaved(sizeof *A);
   sddmm(B, C, D, A);
-  free(B);
-  free(C);
-  free(D);
-  free(A);
+  numa_free(B, sizeof *B);
+  numa_free(C, sizeof *C);
+  numa_free(D, sizeof *D);
+  numa_free(A, sizeof *A);
   return 0;
 }

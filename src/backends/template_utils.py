@@ -1,6 +1,6 @@
 import subprocess
 
-includes = ["stdio", "stdlib", "unistd", "sys/time", "omp"]
+includes = ["stdio", "stdlib", "unistd", "sys/time", "omp", "libnuma"]
 rtclock = "double rtclock() {\n struct timezone Tzp;\n struct timeval Tp;\n int stat;\n stat = gettimeofday(&Tp, &Tzp);"
 rtclock += "if (stat != 0) printf(\"Error return from gettimeofday: %d\", stat);\n"
 rtclock += "return(Tp.tv_sec + Tp.tv_usec*1.0e-7);\n}"
@@ -43,14 +43,18 @@ def allocation(tensor):
         allocpolicy = "numa_alloc_onnode"
         
     alloc += " = " + allocpolicy + "(sizeof * " + tensor.name
-    if tensor.numapolicy == "numa_alloc_onnode":
+    if tensor.numapolicy == "onnode":
         alloc += ", " + tensor.allocnode
     alloc += ");\n"
 
     return alloc
 
 def free(tensor):
-    free = "free(" + tensor.name + ");\n"
+    free = None
+    if tensor.numapolicy != None:
+        free = "numa_free(" + tensor.name + ", sizeof * " + tensor.name + ");\n"
+    else:
+        free = "free(" + tensor.name + ");\n"
 
     return free
 
