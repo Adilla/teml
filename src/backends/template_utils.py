@@ -140,9 +140,17 @@ def variant(filename, init, code, prog, name):
 
         source.write(funcname)
 
+
         iterators = "int "
-        for i in range(1, prog.maxiter):
+
+        ### Temporary hack: I am assuming a maximum number of iterators.
+        ### I still need to fix more nicely this issue.
+        for i in range(1, 9):
             iterators += "i" + str(i) + ", "
+        
+        # iterators = "int "
+        # for i in range(1, prog.maxiter):
+        #     iterators += "i" + str(i) + ", "
 
         iterators += "i" + str(i+1)
 
