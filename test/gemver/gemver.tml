@@ -1,0 +1,9 @@
+A = array(double, [5, 5])
+B = array(double, [7, 7])
+
+
+C = select(A, B)
+
+alloc(A, 0)
+alloc(B, 1)
+

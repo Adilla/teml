@@ -33,6 +33,9 @@ def main():
     name = source.split("/")[-1].replace(".tml","")
     path = source.replace(name + ".tml", "")
     fst = parse_tml(source)
+
+    # print fst
+    # print fst.help()
     prog = process_FST(fst)
 
 

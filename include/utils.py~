@@ -1,7 +1,0 @@
-
-def swap(list, e1, e2):
-    e1_ = list.index(e1)
-    e2_ = list.index(e2)
-    list[e1_] = e2
-    list[e2_] = e1
-    return list

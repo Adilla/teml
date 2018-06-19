@@ -1,4 +1,4 @@
-# Ivie
+# TeML
 Declarative intermediate language for program optimizations
 
 
@@ -26,16 +26,11 @@ Github repository: https://github.com/eliben/pycparser
 pip install pycparser
 ```
 
-## 2 - How to generate code with Ivie
+## 2 - How to generate code with TeML
 
-#### Generate C code from Ivie source
+#### Generate C code from TeML source
 
 ```
-python ivic.py FILE_NAME.ivie
+python tmc.py FILE_NAME.tml
 ```     
 
-#### Generate Ivie code from C source
-
-```
-python civi.py FILE_NAME.c
-```
